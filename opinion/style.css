@@ -1,0 +1,14 @@
+.btn {
+  background-color: black;  /* Background color */
+  color: white;            /* Text color */
+  padding: 20px 30px;      /* Increase padding for bigger size */
+  font-size: 18px;          /* Adjust font size if needed */
+  cursor: pointer;         /* Indicates clickable element */
+  border: none;            /* Remove border */
+}
+
+/* Hover effect for the button */
+.btn:hover {
+  background-color: #ddd;  /* Change background color on hover */
+  color: black;            /* Change text color on hover */
+}
