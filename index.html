@@ -1,24 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Find writings and projects by Mayke De Freitas Santos">
+    <meta name="keywords" content="Mayke De Freitas Santos, writings, projects, blog">
+    <title>maykef.info</title>
     <style>
-        h1 {text-align: center;}
-        p {text-align: center;}
-        div {text-align: center;}
-        nav a{
-            margin-right: 30px; /* Adjust the value to increase or decrease space */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 100px; /* Offset for fixed navbar */
+        }
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0px 4px 2px -2px gray;
+            text-align: center;
+        }
+        h1 { text-align: center; }
+        p { text-align: center; }
+        nav a {
+            color: #333;
+            text-decoration: none;
+            margin-right: 30px; /* Adjust spacing between links */
+        }
+        nav div h2 {
+            font-family: monospace;
+            margin: 0;
+        }
+        section {
+            padding: 20px;
+        }
+        footer {
+            margin-top: 500px;
+            text-align: center;
+        }
+        footer a {
+            margin-right: 15px;
+            color: #333;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            nav div { font-size: 14px; }
+            nav a { display: block; padding: 10px 0; }
         }
     </style>
-    <title>maykef.info</title>
 </head>
 <body>
 
 <nav>
     <div>
-        <h2><TT>Mayke De Freitas Santos' Website<TT></h2>
-        <tt style="font-size:16px;margin: center;">Here you can find most of, if not all, my writings</tt>
+        <h2>Mayke De Freitas Santos' Website</h2>
+        <tt style="font-size:16px;">Here you can find most of, if not all, my writings</tt>
     </div>
-    <div style="margin-top: 100px; text-align: center;">
+    <div style="margin-top: 20px;">
         <a href="academic_articles.html">Academic Articles</a>
         <a href="/">Book Chapters</a>
         <a href="opinion.html">Opinion</a>
@@ -26,11 +64,11 @@
     </div>
 </nav>
 
-<footer style="margin-top: 500px; text-align: center;">
+<footer>
     <ul>
-        <a href="mailto:maykef@gmail.com">Email</a></li>
-        <a href="https://github.com/maykef">Github</a></li>
-        <a href="https://hackaday.io/maykef">Hackaday</a></li>
+        <a href="mailto:maykef@gmail.com">Email</a>
+        <a href="https://github.com/maykef">GitHub</a>
+        <a href="https://hackaday.io/maykef">Hackaday</a>
     </ul>
 </footer>
 
