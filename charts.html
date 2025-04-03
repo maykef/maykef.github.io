@@ -1,98 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <title>Microscope Visualizations</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Visual Data Explorer for Microscopy Projects">
-    <meta name="keywords" content="Mayke De Freitas Santos, microscopy, visualization, data, graphs">
-    <title>Microscope Charts | maykef.info</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding-top: 100px;
+            padding-top: 80px;
+            background: #f9f9f9;
         }
-        nav {
+        header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: #fff;
-            padding: 10px;
-            box-shadow: 0px 4px 2px -2px gray;
+            background: white;
+            box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+            padding: 15px;
             text-align: center;
             z-index: 1000;
         }
-        nav a {
-            color: #333;
-            text-decoration: none;
-            margin-right: 30px;
-        }
-        nav div h2 {
-            font-family: monospace;
+        h1 {
             margin: 0;
-        }
-        h1, label {
-            text-align: center;
-            display: block;
+            font-size: 20px;
         }
         select {
+            margin-top: 10px;
+            padding: 8px 12px;
             font-size: 16px;
-            padding: 6px;
-            margin: 20px auto;
-            display: block;
         }
         iframe {
             display: block;
             margin: 0 auto;
-            width: 90%;
+            width: 95%;
             height: 80vh;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-        footer {
-            text-align: center;
-            margin-top: 50px;
-        }
-        footer a {
-            margin-right: 15px;
-            color: #333;
-            text-decoration: none;
+            border: none;
+            border-radius: 6px;
         }
     </style>
 </head>
 <body>
 
-<nav>
-    <div>
-        <h2>Mayke De Freitas Santos' Website</h2>
-        <tt style="font-size:16px;">Interactive Graphs and Data Visualizations</tt>
-    </div>
-    <div style="margin-top: 20px;">
-        <a href="academic_articles.html">Academic Articles</a>
-        <a href="/">Book Chapters</a>
-        <a href="opinion.html">Opinion</a>
-        <a href="projects.html">Projects</a>
-        <a href="charts.html"><strong>Charts</strong></a>
-    </div>
-</nav>
-
-<section>
+<header>
     <h1>Microscope Data Visualizations</h1>
-    <label for="graphSelect">Choose a visualization:</label>
     <select id="graphSelect" onchange="switchGraph(this.value)">
         <option value="microscope_sankey.html">Microscope Sankey Diagram</option>
         <option value="violin_saving_percentiles.html">Savings Percentiles (Violin Plot)</option>
     </select>
+</header>
 
-    <iframe id="graphFrame" src="microscope_sankey.html" title="Interactive Graph Viewer"></iframe>
-</section>
-
-<footer>
-    <ul>
-        <a href="mailto:maykef@gmail.com">Email</a>
-        <a href="https://github.com/maykef">GitHub</a>
-        <a href="https://hackaday.io/maykef">Hackaday</a>
-    </ul>
-</footer>
+<iframe id="graphFrame" src="microscope_sankey.html" title="Interactive Graph"></iframe>
 
 <script>
     function switchGraph(filename) {
