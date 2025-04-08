@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Microscopy Survey</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.1.1/wordcloud2.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+    h2 { text-align: center; }
+    textarea {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #wordcloud {
+      margin-top: 2rem;
+      width: 100%;
+      height: 400px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h2>What microscopy techniques do you see will dominate the landscape in the following 5 years?</h2>
+
+  <textarea id="answer" rows="3" placeholder="Type your answer..."></textarea><br/>
+  <button onclick="submitAnswer()">Submit</button>
+
+  <div id="wordcloud"></div>
+
+  <script>
+    const SHEET_POST_URL = "YOUR_GOOGLE_SCRIPT_WEB_APP_URL"; // Replace with your actual URL
+
+    async function submitAnswer() {
+      const answer = document.getElementById('answer').value.trim();
+      if (!answer) return alert("Please enter a response!");
+
+      await fetch(SHEET_POST_URL, {
+        method: 'POST',
+        body: JSON.stringify({ answer }),
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      document.getElementById('answer').value = '';
+      alert("Thank you for your input!");
+      fetchData(); // update cloud
+    }
+
+    async function fetchData() {
+      const response = await fetch(SHEET_POST_URL); // Google Apps Script GET
+      const data = await response.json();
+
+      const words = data
+        .flatMap(d => d.split(/[ ,;/]+/))
+        .map(w => w.toLowerCase().trim())
+        .filter(w => w.length > 1 && !["and", "the", "of", "in", "a", "to", "with"].includes(w));
+
+      const freq = {};
+      words.forEach(word => freq[word] = (freq[word] || 0) + 1);
+      const wordArray = Object.entries(freq).map(([text, weight]) => [text, weight]);
+
+      WordCloud(document.getElementById('wordcloud'), {
+        list: wordArray,
+        gridSize: 10,
+        weightFactor: 10,
+        rotateRatio: 0.5,
+        backgroundColor: "#fff"
+      });
+    }
+
+    fetchData();
+    setInterval(fetchData, 30000); // refresh every 30s
+  </script>
+</body>
+</html>
