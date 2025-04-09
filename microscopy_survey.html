@@ -156,15 +156,14 @@
 
       const words = data
         .flatMap(text => text.split(/[ ,;/\n.()\[\]{}]+/))
-        .map(word => word.trim().toLowerCase())
-        .filter(word => word.length > 0 && !stopWords.has(word));
+        .map(word => word.toLowerCase().trim())
+        .filter(word => !stopWords.has(word));
 
       const freq = {};
       words.forEach(word => freq[word] = (freq[word] || 0) + 1);
 
-      const wordArray = Object.entries(freq)
-        .map(([text, weight]) => [text.toUpperCase(), weight])
-        .sort((a, b) => b[1] - a[1]);
+      const wordArray = Object.entries(freq).map(([text, weight]) => [text.toUpperCase(), weight]);
+      wordArray.sort((a, b) => b[1] - a[1]);
 
       const cloudElement = document.getElementById('wordcloud');
       cloudElement.innerHTML = '';
@@ -174,14 +173,14 @@
       WordCloud(cloudElement, {
         list: wordArray,
         gridSize: 6,
-        weightFactor: size => Math.sqrt(size) * 14,
+        weightFactor: size => Math.pow(size, 2) * 4,
         rotateRatio: 0.7,
         rotationSteps: 8,
         fontFamily: 'Impact, Arial Black, sans-serif',
         color: () => colorPalette[Math.floor(Math.random() * colorPalette.length)],
         drawOutOfBound: false,
         shrinkToFit: true,
-        minSize: 14,
+        minSize: 40,
         backgroundColor: '#fff',
         shuffle: true,
         clearCanvas: true
