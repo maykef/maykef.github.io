@@ -157,7 +157,7 @@
       const words = data
         .flatMap(text => text.split(/[ ,;/\n.()\[\]{}]+/))
         .map(word => word.toLowerCase().trim())
-        .filter(word => word.length > 2 && !stopWords.has(word));
+        .filter(word => !stopWords.has(word));
 
       const freq = {};
       words.forEach(word => freq[word] = (freq[word] || 0) + 1);
