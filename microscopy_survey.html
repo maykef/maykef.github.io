@@ -103,6 +103,17 @@
     // Replace with your actual deployed Google Apps Script Web App URL
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXxPhK7EYxHSI3gqK-aCFFKb594y_sF4ZAsba6LAfxdqoz-4TnHA8lDOXaKy0u8RkNtw/exec";
     
+    // Demo mode for testing - set to true to use demo data when there are no responses
+    const DEMO_MODE = true;
+    
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Ensure we always have a word cloud, even before data is loaded
+      if (DEMO_MODE) {
+        showDemoCloud();
+      }
+    });
+    
     // Handle form submission
     document.getElementById('surveyForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -192,7 +203,32 @@
           const callbackName = 'jsonpCallback_' + Math.round(Math.random() * 1000000);
           window[callbackName] = function(data) {
             // Process data once received
-            processData(data);
+            console.log("Raw data received:", data);
+            
+            // Check if we have any data
+            if (!data || data.length === 0) {
+              console.log("No data received or empty array");
+              
+              // If no data, generate some example microscopy terms for testing
+              // DEBUGGING: Add test data to make sure the cloud works
+              const testData = [
+                "TEM", "SEM", "CRYO-EM", "Fluorescence", "Light Sheet",
+                "Confocal", "Super-resolution", "STED", "STORM", "Phase contrast",
+                "Electron microscopy", "CLEM", "FIB-SEM"
+              ];
+              
+              // Add test terms with frequency 1 for testing
+              const testWords = {};
+              testData.forEach(word => {
+                testWords[word] = 1; // Set frequency to 1 to test single-word visibility
+              });
+              
+              // Process the test data
+              processDataWithFrequencies(testWords);
+            } else {
+              processData(data);
+            }
+            
             // Clean up
             delete window[callbackName];
             document.body.removeChild(script);
@@ -207,6 +243,15 @@
             document.getElementById('loading').style.display = 'none';
             delete window[callbackName];
             document.body.removeChild(script);
+            
+            // If error loading, use test data
+            console.log("Error loading data, using test data instead");
+            const testWords = {
+              "TEM": 1, "SEM": 1, "CRYO-EM": 1, "FLUORESCENCE": 1,
+              "CONFOCAL": 1, "ELECTRON": 1, "LIGHT": 1
+            };
+            processDataWithFrequencies(testWords);
+            
             reject(new Error('Failed to load data'));
           };
           document.body.appendChild(script);
@@ -217,11 +262,35 @@
       }
     }
     
+    // Process pre-counted frequencies (for test data)
+    function processDataWithFrequencies(freqData) {
+      // Update response count based on unique terms
+      const uniqueTerms = Object.keys(freqData).length;
+      document.getElementById('responseCount').textContent = `Test Mode: ${uniqueTerms} microscopy terms`;
+      
+      // Convert to wordcloud format
+      const wordArray = Object.entries(freqData).map(([text, weight]) => {
+        return [text.toUpperCase(), weight]; // Transform to uppercase
+      });
+      
+      console.log('Test word array:', wordArray);
+      
+      // Generate the word cloud
+      generateWordCloud(wordArray);
+    }
+    
     // Process data and generate word cloud
     function processData(data) {
       if (!data || !Array.isArray(data) || data.length === 0) {
         console.log('No data available yet');
         document.getElementById('responseCount').textContent = 'Total responses: 0';
+        
+        // If no real data, show test data
+        const testWords = {
+          "TEM": 1, "SEM": 2, "CRYO-EM": 1, "FLUORESCENCE": 3,
+          "CONFOCAL": 1, "ELECTRON": 2, "LIGHT": 1
+        };
+        processDataWithFrequencies(testWords);
         return;
       }
       
@@ -254,57 +323,124 @@
       const freq = {};
       words.forEach(word => freq[word] = (freq[word] || 0) + 1);
       
-      // Convert to format needed by WordCloud
-      const wordArray = Object.entries(freq).map(([text, weight]) => [text, weight]);
+      // Log the raw frequencies to understand what's happening
+      console.log('Raw word frequencies:', freq);
+      
+      // IMPORTANT: Convert words to UPPERCASE for display
+      const wordArray = Object.entries(freq).map(([text, weight]) => {
+        return [text.toUpperCase(), weight]; // Transform to uppercase for display
+      });
       
       // Sort by weight (frequency) for debugging
       wordArray.sort((a, b) => b[1] - a[1]);
-      console.log('Word frequencies:', wordArray);
+      console.log('Final word list for cloud:', wordArray);
       
-      // Generate word cloud
+      // Generate the word cloud
+      generateWordCloud(wordArray);
+    }
+    
+    // Generate the word cloud with given word array
+    function generateWordCloud(wordArray) {
       const cloudElement = document.getElementById('wordcloud');
+      
       if (wordArray.length > 0) {
         // Clear previous cloud
         cloudElement.innerHTML = '';
         
-        WordCloud(cloudElement, {
+        // Define vibrant color palette
+        const colorPalette = [
+          '#FF5252', // Red
+          '#FF4081', // Pink
+          '#E040FB', // Purple
+          '#7C4DFF', // Deep Purple
+          '#536DFE', // Indigo
+          '#448AFF', // Blue
+          '#40C4FF', // Light Blue
+          '#18FFFF', // Cyan
+          '#64FFDA', // Teal
+          '#69F0AE', // Green
+          '#B2FF59', // Light Green
+          '#EEFF41', // Lime
+          '#FFD740', // Amber
+          '#FFAB40', // Orange
+          '#FF6E40'  // Deep Orange
+        ];
+        
+        // WordCloud configuration
+        const options = {
           list: wordArray,
-          gridSize: 10,  // REDUCED for tighter packing (was 18)
+          gridSize: 6,  // Even smaller for more density
           weightFactor: function(size) {
-            // DRASTICALLY increased minimum size
-            return Math.max(35, Math.pow(size, 0.5) * 28);
+            // Make all words highly visible regardless of frequency
+            // For single-occurrence words (weight=1), use large size
+            return size === 1 ? 50 : Math.max(40, size * 12);
           },
-          minSize: 35,  // INCREASED minimum size
-          fontFamily: 'Arial, sans-serif',
-          fontWeight: 'bold',
-          color: function(word, weight) {
-            // MUCH higher contrast with bright colors for single words
-            if (weight === 1) {
-              return '#d32f2f'; // Bright red for singles
-            }
-            return weight > 5 ? '#1a237e' :  // Very dark blue for very common
-                   weight > 3 ? '#303f9f' :  // Dark blue
-                   weight > 1 ? '#3949ab' :  // Medium blue
-                               '#d32f2f';    // Red for singles (fallback)
+          rotateRatio: 0.7,  // High rotation for more varied orientations
+          rotationSteps: 8,  // More rotation variation
+          fontFamily: 'Impact, Arial Black, sans-serif', // More striking font
+          color: function(word, weight, fontSize, distance, theta) {
+            // Use the vibrant color palette
+            return colorPalette[Math.floor(Math.random() * colorPalette.length)];
           },
-          rotateRatio: 0,  // NO rotation - all horizontal for better readability
           drawOutOfBound: false,
+          shrinkToFit: true,
+          minSize: 40,  // Ensure minimum font size
           backgroundColor: '#fff',
-          // ADDED: a list of important microscopy terms to always include prominently 
-          // even if they have low frequency
-          weightFunction: function(word, weight, fontSize) {
-            // Boost specific microscopy terms
-            const importantTerms = ['tem', 'sem', 'cryo', 'electron', 'light', 'fluorescence', 
-                                  'confocal', 'super-resolution', 'storm', 'sted', 'scanning'];
-            if (importantTerms.includes(word.toLowerCase())) {
-              return Math.max(fontSize, 40); // Minimum size for important terms
-            }
-            return fontSize;
-          }
-        });
+          shuffle: true, // Randomize positions for more variety
+          clearCanvas: true
+        };
+        
+        // Create word cloud with options
+        WordCloud(cloudElement, options);
       } else {
         cloudElement.innerHTML = '<p style="text-align:center;padding-top:180px;color:#666;">Waiting for responses...</p>';
       }
+    }
+    
+    // Show a demo word cloud with common microscopy terms
+    function showDemoCloud() {
+      // Common microscopy terms with frequencies to create an interesting cloud
+      const demoTerms = {
+        "TEM": 5, 
+        "SEM": 4, 
+        "CRYO-EM": 3, 
+        "FLUORESCENCE": 6,
+        "CONFOCAL": 3, 
+        "ELECTRON": 7, 
+        "LIGHT": 5,
+        "SUPER-RESOLUTION": 4,
+        "STORM": 2,
+        "STED": 3,
+        "MICROSCOPY": 8,
+        "IMAGING": 6,
+        "TOMOGRAPHY": 3,
+        "SCANNING": 4,
+        "OPTICAL": 3,
+        "RESOLUTION": 5,
+        "SAMPLE": 4,
+        "SPECIMEN": 3,
+        "PHASE": 2,
+        "CONTRAST": 4,
+        "TRANSMISSION": 3,
+        "FOCUSED": 2,
+        "ION": 2,
+        "BEAM": 3,
+        "CORRELATIVE": 2,
+        "CLEM": 1,
+        "FESEM": 1,
+        "FRET": 1,
+        "FLIM": 1,
+        "PALM": 1,
+        "FIB": 1,
+        "AFM": 1,
+        "SPM": 1,
+        "RAMAN": 1,
+        "INFRARED": 1,
+        "EXCITATION": 2
+      };
+      
+      // Process the demo terms data
+      processDataWithFrequencies(demoTerms);
     }
     
     // Initial data load
