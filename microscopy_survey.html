@@ -14,72 +14,29 @@
       margin-right: auto;
       background-color: #f8f9fa;
     }
-    h2 { 
-      text-align: center; 
-      color: #333;
-      margin-bottom: 1.5rem;
-      font-size: 1.6rem;
-    }
+    h2 { text-align: center; color: #333; margin-bottom: 1.5rem; font-size: 1.6rem; }
     textarea {
-      width: 100%;
-      padding: 0.8rem;
-      font-size: 1rem;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+      width: 100%; padding: 0.8rem; font-size: 1rem; border: 1px solid #ddd; border-radius: 4px;
       box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
     }
     button {
-      margin-top: 1rem;
-      padding: 0.7rem 1.3rem;
-      font-size: 1rem;
-      cursor: pointer;
-      background-color: #4285f4;
-      color: white;
-      border: none;
-      border-radius: 4px;
+      margin-top: 1rem; padding: 0.7rem 1.3rem; font-size: 1rem; cursor: pointer;
+      background-color: #4285f4; color: white; border: none; border-radius: 4px;
       transition: background-color 0.2s;
     }
-    button:hover {
-      background-color: #3367d6;
-    }
-    button:disabled {
-      background-color: #99b8f2;
-      cursor: not-allowed;
-    }
+    button:hover { background-color: #3367d6; }
+    button:disabled { background-color: #99b8f2; cursor: not-allowed; }
     #wordcloud {
-      margin-top: 2rem;
-      width: 100%;
-      height: 500px;  /* Increased height for better visualization */
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background-color: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-top: 2rem; width: 100%; height: 500px;
+      border: 1px solid #ccc; border-radius: 4px;
+      background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    #loading {
-      text-align: center;
-      margin-top: 2rem;
-      color: #666;
-      display: none;
-    }
-    .success-message {
-      color: green;
-      text-align: center;
-      margin-top: 1rem;
-      display: none;
-    }
-    .word-count-info {
-      text-align: center;
-      margin-top: 1rem;
-      color: #666;
-      font-size: 0.9rem;
-    }
-    /* Added for improved UI */
+    #loading { text-align: center; margin-top: 2rem; color: #666; display: none; }
+    .success-message { color: green; text-align: center; margin-top: 1rem; display: none; }
+    .word-count-info { text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem; }
     .container {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      margin-bottom: 2rem;
+      background-color: white; padding: 2rem; border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 2rem;
     }
   </style>
 </head>
@@ -92,49 +49,39 @@
     </form>
     <p id="successMessage" class="success-message">Thank you for your input!</p>
   </div>
-  
+
   <div class="container">
     <div id="loading">Loading responses...</div>
     <div id="wordcloud"></div>
     <div id="responseCount" class="word-count-info">Total responses: 0</div>
   </div>
-  
+
   <script>
-    // Replace with your actual deployed Google Apps Script Web App URL
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXxPhK7EYxHSI3gqK-aCFFKb594y_sF4ZAsba6LAfxdqoz-4TnHA8lDOXaKy0u8RkNtw/exec";
-    
-    // Handle form submission
+
     document.getElementById('surveyForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const answerField = document.getElementById('answer');
       const answer = answerField.value.trim();
-      
-      if (!answer) {
-        alert("Please enter a response!");
-        return;
-      }
-      
-      // Disable form during submission
+      if (!answer) return alert("Please enter a response!");
+
       const submitButton = this.querySelector('button');
       submitButton.disabled = true;
       submitButton.textContent = 'Submitting...';
-      
-      // Create a hidden form and submit it directly - most reliable method for Google Apps Script
+
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = SCRIPT_URL;
       form.target = 'hidden-iframe';
       form.style.display = 'none';
-      
+
       const answerInput = document.createElement('input');
       answerInput.type = 'text';
       answerInput.name = 'answer';
       answerInput.value = answer;
-      
       form.appendChild(answerInput);
       document.body.appendChild(form);
-      
-      // Create hidden iframe to prevent page navigation
+
       let iframe = document.getElementById('hidden-iframe');
       if (!iframe) {
         iframe = document.createElement('iframe');
@@ -143,69 +90,37 @@
         iframe.style.display = 'none';
         document.body.appendChild(iframe);
       }
-      
-      // Submit the form
+
       form.submit();
-      
-      // Clean up the form after submission
-      setTimeout(() => {
-        document.body.removeChild(form);
-      }, 1000);
-      
-      // Simulate a successful response since we can't actually get the response from the iframe
-      const fakePromise = new Promise((resolve) => {
-        setTimeout(resolve, 1000);
-      });
-      
-      fakePromise.then(() => {
-        // Clear the form and show success message
+      setTimeout(() => document.body.removeChild(form), 1000);
+
+      new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
         answerField.value = '';
         document.getElementById('successMessage').style.display = 'block';
-        setTimeout(() => {
-          document.getElementById('successMessage').style.display = 'none';
-        }, 3000);
-        
-        // Re-enable form
+        setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000);
         submitButton.disabled = false;
         submitButton.textContent = 'Submit';
-        
-        // Update word cloud
         fetchData();
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('There was an error submitting your response. Please try again.');
-        submitButton.disabled = false;
-        submitButton.textContent = 'Submit';
       });
     });
-    
-    // Fetch data for the word cloud
+
     async function fetchData() {
       try {
         document.getElementById('loading').style.display = 'block';
-        
-        // Use JSONP approach by creating a script element
-        // This is more reliable for getting data from Google Apps Script
         return new Promise((resolve, reject) => {
-          // Create a unique callback name
           const callbackName = 'jsonpCallback_' + Math.round(Math.random() * 1000000);
           window[callbackName] = function(data) {
-            // Process data once received
-            console.log("Raw data received:", data);
+            console.log("DATA RECEIVED FROM SHEET:", data);
             processData(data);
-            
-            // Clean up
             delete window[callbackName];
             document.body.removeChild(script);
             document.getElementById('loading').style.display = 'none';
             resolve();
           };
-          
-          // Create script element for JSONP
+
           const script = document.createElement('script');
-          script.src = `${SCRIPT_URL}?callback=${callbackName}`;
-          script.onerror = function() {
+          script.src = `${SCRIPT_URL}?callback=${callbackName}&_=${Date.now()}`;
+          script.onerror = () => {
             document.getElementById('loading').style.display = 'none';
             delete window[callbackName];
             document.body.removeChild(script);
@@ -219,118 +134,61 @@
         document.getElementById('loading').style.display = 'none';
       }
     }
-    
-    // Process data and generate word cloud
+
     function processData(data) {
-      if (!data || !Array.isArray(data) || data.length === 0) {
-        console.log('No data available yet');
+      if (!Array.isArray(data) || data.length === 0) {
         document.getElementById('responseCount').textContent = 'Total responses: 0';
         document.getElementById('wordcloud').innerHTML = '<p style="text-align:center;padding-top:180px;color:#666;">Waiting for responses...</p>';
         return;
       }
-      
-      // Update response count
+
       document.getElementById('responseCount').textContent = `Total responses: ${data.length}`;
-      
-      // Common words to filter out (expanded stopwords list)
+
       const stopWords = new Set([
-        "and", "the", "of", "in", "a", "to", "with", "for", "on", "as", "by", 
+        "and", "the", "of", "in", "a", "to", "with", "for", "on", "as", "by",
         "this", "that", "an", "at", "from", "is", "are", "be", "will", "or",
         "i", "we", "our", "it", "its", "they", "them", "their", "there", "these",
-        "those", "am", "is", "are", "was", "were", "be", "been", "being",
-        "have", "has", "had", "do", "does", "did", "but", "if", "then", "else", "when",
-        "up", "down", "out", "over", "under", "again", "further", "then", "once",
+        "those", "am", "was", "were", "been", "being", "have", "has", "had",
+        "do", "does", "did", "but", "if", "then", "else", "when",
+        "up", "down", "out", "over", "under", "again", "further", "once",
         "can", "could", "may", "might", "must", "should", "would"
       ]);
-      
-      // Process all answers into words
+
       const words = data
-        .flatMap(entry => {
-          // Assuming each entry is a string with the answer
-          const text = typeof entry === 'object' ? entry.answer || '' : entry;
-          // Split by multiple delimiters and clean up
-          return text.split(/[ ,;/\n.()\[\]{}]+/);
-        })
+        .flatMap(text => text.split(/[ ,;/\n.()\[\]{}]+/))
         .map(word => word.toLowerCase().trim())
         .filter(word => word.length > 2 && !stopWords.has(word));
-      
-      // Count frequency of each word
+
       const freq = {};
       words.forEach(word => freq[word] = (freq[word] || 0) + 1);
-      
-      // Log the raw frequencies to understand what's happening
-      console.log('Raw word frequencies:', freq);
-      
-      // IMPORTANT: Convert words to UPPERCASE for display
-      const wordArray = Object.entries(freq).map(([text, weight]) => {
-        return [text.toUpperCase(), weight]; // Transform to uppercase for display
-      });
-      
-      // Sort by weight (frequency) for debugging
+
+      const wordArray = Object.entries(freq).map(([text, weight]) => [text.toUpperCase(), weight]);
       wordArray.sort((a, b) => b[1] - a[1]);
-      console.log('Final word list for cloud:', wordArray);
-      
-      // Generate word cloud
+
       const cloudElement = document.getElementById('wordcloud');
-      if (wordArray.length > 0) {
-        // Clear previous cloud
-        cloudElement.innerHTML = '';
-        
-        // Define vibrant color palette
-        const colorPalette = [
-          '#FF5252', // Red
-          '#FF4081', // Pink
-          '#E040FB', // Purple
-          '#7C4DFF', // Deep Purple
-          '#536DFE', // Indigo
-          '#448AFF', // Blue
-          '#40C4FF', // Light Blue
-          '#18FFFF', // Cyan
-          '#64FFDA', // Teal
-          '#69F0AE', // Green
-          '#B2FF59', // Light Green
-          '#EEFF41', // Lime
-          '#FFD740', // Amber
-          '#FFAB40', // Orange
-          '#FF6E40'  // Deep Orange
-        ];
-        
-        // WordCloud configuration
-        const options = {
-          list: wordArray,
-          gridSize: 6,  // Even smaller for more density
-          weightFactor: function(size) {
-            // Make all words highly visible regardless of frequency
-            // For single-occurrence words (weight=1), use large size
-            return size === 1 ? 50 : Math.max(40, size * 12);
-          },
-          rotateRatio: 0.7,  // High rotation for more varied orientations
-          rotationSteps: 8,  // More rotation variation
-          fontFamily: 'Impact, Arial Black, sans-serif', // More striking font
-          color: function(word, weight, fontSize, distance, theta) {
-            // Use the vibrant color palette
-            return colorPalette[Math.floor(Math.random() * colorPalette.length)];
-          },
-          drawOutOfBound: false,
-          shrinkToFit: true,
-          minSize: 40,  // Ensure minimum font size
-          backgroundColor: '#fff',
-          shuffle: true, // Randomize positions for more variety
-          clearCanvas: true
-        };
-        
-        // Create word cloud with options
-        WordCloud(cloudElement, options);
-      } else {
-        cloudElement.innerHTML = '<p style="text-align:center;padding-top:180px;color:#666;">Waiting for responses...</p>';
-      }
+      cloudElement.innerHTML = '';
+
+      const colorPalette = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#69F0AE', '#B2FF59', '#EEFF41', '#FFD740', '#FFAB40', '#FF6E40'];
+
+      WordCloud(cloudElement, {
+        list: wordArray,
+        gridSize: 6,
+        weightFactor: size => Math.pow(size, 2) * 4,
+        rotateRatio: 0.7,
+        rotationSteps: 8,
+        fontFamily: 'Impact, Arial Black, sans-serif',
+        color: () => colorPalette[Math.floor(Math.random() * colorPalette.length)],
+        drawOutOfBound: false,
+        shrinkToFit: true,
+        minSize: 40,
+        backgroundColor: '#fff',
+        shuffle: true,
+        clearCanvas: true
+      });
     }
-    
-    // Initial data load
+
     fetchData();
-    
-    // Refresh periodically (every 2 minutes)
-    setInterval(fetchData, 15000);
+    setInterval(fetchData, 120000);
   </script>
 </body>
 </html>
