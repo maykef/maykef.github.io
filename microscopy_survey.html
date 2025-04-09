@@ -12,37 +12,47 @@
       max-width: 800px;
       margin-left: auto;
       margin-right: auto;
+      background-color: #f8f9fa;
     }
     h2 { 
       text-align: center; 
       color: #333;
+      margin-bottom: 1.5rem;
     }
     textarea {
       width: 100%;
-      padding: 0.5rem;
+      padding: 0.8rem;
       font-size: 1rem;
       border: 1px solid #ddd;
       border-radius: 4px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
     }
     button {
       margin-top: 1rem;
-      padding: 0.5rem 1rem;
+      padding: 0.7rem 1.3rem;
       font-size: 1rem;
       cursor: pointer;
       background-color: #4285f4;
       color: white;
       border: none;
       border-radius: 4px;
+      transition: background-color 0.2s;
     }
     button:hover {
       background-color: #3367d6;
     }
+    button:disabled {
+      background-color: #99b8f2;
+      cursor: not-allowed;
+    }
     #wordcloud {
       margin-top: 2rem;
       width: 100%;
-      height: 400px;
+      height: 450px;  /* Increased height for better visualization */
       border: 1px solid #ccc;
       border-radius: 4px;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     #loading {
       text-align: center;
@@ -56,6 +66,12 @@
       margin-top: 1rem;
       display: none;
     }
+    .word-count-info {
+      text-align: center;
+      margin-top: 1rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
@@ -67,10 +83,11 @@
   <p id="successMessage" class="success-message">Thank you for your input!</p>
   <div id="loading">Loading responses...</div>
   <div id="wordcloud"></div>
+  <div id="responseCount" class="word-count-info">Total responses: 0</div>
   
   <script>
     // Replace with your actual deployed Google Apps Script Web App URL
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXxPhK7EYxHSI3gqK-aCFFKb594y_sF4ZAsba6LAfxdqoz-4TnHA8lDOXaKy0u8RkNtw/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID_HERE/exec";
     
     // Handle form submission
     document.getElementById('surveyForm').addEventListener('submit', function(e) {
@@ -92,13 +109,44 @@
       const formData = new FormData();
       formData.append('answer', answer);
       
-      // Submit using fetch with no-cors mode to handle CORS restrictions
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: formData,
-        mode: 'no-cors'
+      // Create a hidden form and submit it directly - most reliable method for Google Apps Script
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = SCRIPT_URL;
+      form.target = 'hidden-iframe';
+      form.style.display = 'none';
+      
+      const answerInput = document.createElement('input');
+      answerInput.type = 'text';
+      answerInput.name = 'answer';
+      answerInput.value = answer;
+      
+      form.appendChild(answerInput);
+      document.body.appendChild(form);
+      
+      // Create hidden iframe to prevent page navigation
+      let iframe = document.getElementById('hidden-iframe');
+      if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.name = 'hidden-iframe';
+        iframe.id = 'hidden-iframe';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+      }
+      
+      // Submit the form
+      form.submit();
+      
+      // Clean up the form after submission
+      setTimeout(() => {
+        document.body.removeChild(form);
+      }, 1000);
+      
+      // Simulate a successful response since we can't actually get the response from the iframe
+      const fakePromise = new Promise((resolve) => {
+        setTimeout(resolve, 1000);
       })
-      .then(() => {
+      fakePromise.then(() => {
         // Clear the form and show success message
         answerField.value = '';
         document.getElementById('successMessage').style.display = 'block';
@@ -197,18 +245,25 @@
         
         WordCloud(cloudElement, {
           list: wordArray,
-          gridSize: 16,
+          gridSize: 18,  // Increased from 16 to give more space between words
           weightFactor: function(size) {
-            return Math.pow(size, 1.3) * 5; // Dynamic scaling based on word frequency
+            // Ensure even single-occurrence words are visible
+            // Minimum size of 18, with better scaling for higher counts
+            return Math.max(18, Math.pow(size, 0.9) * 15);
           },
+          minSize: 18,  // Ensure no word is smaller than this
           fontFamily: 'Arial, sans-serif',
+          fontWeight: 'bold',  // Make all words bold for better visibility
           color: function(word, weight) {
-            return weight > 5 ? '#3367d6' : 
-                   weight > 3 ? '#4285f4' : 
-                   weight > 1 ? '#5c9ee7' : '#8ab4f8';
+            // Stronger color contrast
+            return weight > 5 ? '#2251b3' :  // Dark blue for very common words
+                   weight > 3 ? '#3367d6' :  // Medium blue
+                   weight > 1 ? '#4285f4' :  // Light blue
+                               '#5c9ee7';    // Very light blue for single occurrences
           },
-          rotateRatio: 0.5,
-          rotationSteps: 2,
+          rotateRatio: 0.3,  // Reduce rotation for better readability (was 0.5)
+          rotationSteps: 2,  // Keep it at 2 for minimal variation in rotation angles
+          drawOutOfBound: false,  // Ensure words stay within boundaries
           backgroundColor: '#fff'
         });
       } else {
