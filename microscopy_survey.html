@@ -220,23 +220,6 @@
       }
     }
     
-    // Process pre-counted frequencies (for test data)
-    function processDataWithFrequencies(freqData) {
-      // Update response count based on unique terms
-      const uniqueTerms = Object.keys(freqData).length;
-      document.getElementById('responseCount').textContent = `Test Mode: ${uniqueTerms} microscopy terms`;
-      
-      // Convert to wordcloud format
-      const wordArray = Object.entries(freqData).map(([text, weight]) => {
-        return [text.toUpperCase(), weight]; // Transform to uppercase
-      });
-      
-      console.log('Test word array:', wordArray);
-      
-      // Generate the word cloud
-      generateWordCloud(wordArray);
-    }
-    
     // Process data and generate word cloud
     function processData(data) {
       if (!data || !Array.isArray(data) || data.length === 0) {
@@ -287,14 +270,8 @@
       wordArray.sort((a, b) => b[1] - a[1]);
       console.log('Final word list for cloud:', wordArray);
       
-      // Generate the word cloud
-      generateWordCloud(wordArray);
-    }
-    
-    // Generate the word cloud with given word array
-    function generateWordCloud(wordArray) {
+      // Generate word cloud
       const cloudElement = document.getElementById('wordcloud');
-      
       if (wordArray.length > 0) {
         // Clear previous cloud
         cloudElement.innerHTML = '';
