@@ -98,14 +98,20 @@
 
     const words = data
       .flatMap(text => text.split(/[ ,;/\n.()\[\]{}]+/))
-      .map(word => word.trim().toUpperCase())
-      .filter(word => word.length > 0 && !stopWords.has(word.toLowerCase()));
+      .map(word => word.trim().toLowerCase())
+      .filter(word => word && !stopWords.has(word));
+
+    if (words.length === 0) {
+      document.getElementById('wordcloud').innerHTML = '<p style="text-align:center;padding-top:180px;color:#999;">No meaningful words yet.</p>';
+      return;
+    }
 
     const freq = {};
     words.forEach(word => freq[word] = (freq[word] || 0) + 1);
 
-    const wordArray = Object.entries(freq).map(([text, weight]) => [text, weight]);
-    wordArray.sort((a, b) => b[1] - a[1]);
+    const wordArray = Object.entries(freq)
+      .map(([text, weight]) => [text.toUpperCase(), weight])
+      .sort((a, b) => b[1] - a[1]);
 
     const cloudElement = document.getElementById('wordcloud');
     cloudElement.innerHTML = '';
@@ -115,22 +121,21 @@
     WordCloud(cloudElement, {
       list: wordArray,
       gridSize: 6,
-      weightFactor: size => Math.pow(size, 2) * 4,
+      weightFactor: size => Math.sqrt(size) * 14,
       rotateRatio: 0.7,
       rotationSteps: 8,
       fontFamily: 'Impact, Arial Black, sans-serif',
       color: () => colorPalette[Math.floor(Math.random() * colorPalette.length)],
       drawOutOfBound: false,
       shrinkToFit: true,
-      minSize: 40,
+      minSize: 14,
       backgroundColor: '#fff',
       shuffle: true,
       clearCanvas: true
     });
   }
 
-  // Initial fetch after a small delay to ensure DOM is ready
-  setTimeout(() => fetchData(), 500);
-  // Refresh word cloud every 2 minutes
+  // Initial fetch after slight delay
+  setTimeout(fetchData, 500);
   setInterval(fetchData, 120000);
 </script>
