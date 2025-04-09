@@ -1,194 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Microscopy Survey</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.1.1/wordcloud2.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2rem;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      background-color: #f8f9fa;
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXxPhK7EYxHSI3gqK-aCFFKb594y_sF4ZAsba6LAfxdqoz-4TnHA8lDOXaKy0u8RkNtw/exec";
+
+  document.getElementById('surveyForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const answerField = document.getElementById('answer');
+    const answer = answerField.value.trim();
+    if (!answer) return alert("Please enter a response!");
+
+    const submitButton = this.querySelector('button');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Submitting...';
+
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SCRIPT_URL;
+    form.target = 'hidden-iframe';
+    form.style.display = 'none';
+
+    const answerInput = document.createElement('input');
+    answerInput.type = 'text';
+    answerInput.name = 'answer';
+    answerInput.value = answer;
+    form.appendChild(answerInput);
+    document.body.appendChild(form);
+
+    let iframe = document.getElementById('hidden-iframe');
+    if (!iframe) {
+      iframe = document.createElement('iframe');
+      iframe.name = 'hidden-iframe';
+      iframe.id = 'hidden-iframe';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
     }
-    h2 { text-align: center; color: #333; margin-bottom: 1.5rem; font-size: 1.6rem; }
-    textarea {
-      width: 100%; padding: 0.8rem; font-size: 1rem; border: 1px solid #ddd; border-radius: 4px;
-      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-    }
-    button {
-      margin-top: 1rem; padding: 0.7rem 1.3rem; font-size: 1rem; cursor: pointer;
-      background-color: #4285f4; color: white; border: none; border-radius: 4px;
-      transition: background-color 0.2s;
-    }
-    button:hover { background-color: #3367d6; }
-    button:disabled { background-color: #99b8f2; cursor: not-allowed; }
-    #wordcloud {
-      margin-top: 2rem; width: 100%; height: 500px;
-      border: 1px solid #ccc; border-radius: 4px;
-      background-color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    #loading { text-align: center; margin-top: 2rem; color: #666; display: none; }
-    .success-message { color: green; text-align: center; margin-top: 1rem; display: none; }
-    .word-count-info { text-align: center; margin-top: 1rem; color: #666; font-size: 0.9rem; }
-    .container {
-      background-color: white; padding: 2rem; border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 2rem;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2>What microscopy techniques do you see will dominate the landscape in the following 5 years?</h2>
-    <form id="surveyForm">
-      <textarea id="answer" name="answer" rows="3" placeholder="Type your answer..."></textarea><br/>
-      <button type="submit">Submit</button>
-    </form>
-    <p id="successMessage" class="success-message">Thank you for your input!</p>
-  </div>
 
-  <div class="container">
-    <div id="loading">Loading responses...</div>
-    <div id="wordcloud"></div>
-    <div id="responseCount" class="word-count-info">Total responses: 0</div>
-  </div>
+    form.submit();
+    setTimeout(() => document.body.removeChild(form), 1000);
 
-  <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXxPhK7EYxHSI3gqK-aCFFKb594y_sF4ZAsba6LAfxdqoz-4TnHA8lDOXaKy0u8RkNtw/exec";
-
-    document.getElementById('surveyForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const answerField = document.getElementById('answer');
-      const answer = answerField.value.trim();
-      if (!answer) return alert("Please enter a response!");
-
-      const submitButton = this.querySelector('button');
-      submitButton.disabled = true;
-      submitButton.textContent = 'Submitting...';
-
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = SCRIPT_URL;
-      form.target = 'hidden-iframe';
-      form.style.display = 'none';
-
-      const answerInput = document.createElement('input');
-      answerInput.type = 'text';
-      answerInput.name = 'answer';
-      answerInput.value = answer;
-      form.appendChild(answerInput);
-      document.body.appendChild(form);
-
-      let iframe = document.getElementById('hidden-iframe');
-      if (!iframe) {
-        iframe = document.createElement('iframe');
-        iframe.name = 'hidden-iframe';
-        iframe.id = 'hidden-iframe';
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-      }
-
-      form.submit();
-      setTimeout(() => document.body.removeChild(form), 1000);
-
-      new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
-        answerField.value = '';
-        document.getElementById('successMessage').style.display = 'block';
-        setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000);
-        submitButton.disabled = false;
-        submitButton.textContent = 'Submit';
-        fetchData();
-      });
+    new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
+      answerField.value = '';
+      document.getElementById('successMessage').style.display = 'block';
+      setTimeout(() => document.getElementById('successMessage').style.display = 'none', 3000);
+      submitButton.disabled = false;
+      submitButton.textContent = 'Submit';
+      fetchData();
     });
+  });
 
-    async function fetchData() {
-      try {
-        document.getElementById('loading').style.display = 'block';
-        return new Promise((resolve, reject) => {
-          const callbackName = 'jsonpCallback_' + Math.round(Math.random() * 1000000);
-          window[callbackName] = function(data) {
-            console.log("DATA RECEIVED FROM SHEET:", data);
-            processData(data);
-            delete window[callbackName];
-            document.body.removeChild(script);
-            document.getElementById('loading').style.display = 'none';
-            resolve();
-          };
+  async function fetchData() {
+    try {
+      document.getElementById('loading').style.display = 'block';
+      return new Promise((resolve, reject) => {
+        const callbackName = 'jsonpCallback_' + Math.round(Math.random() * 1000000);
+        window[callbackName] = function(data) {
+          console.log("✅ Data received:", data);
+          processData(data);
+          delete window[callbackName];
+          document.body.removeChild(script);
+          document.getElementById('loading').style.display = 'none';
+          resolve();
+        };
 
-          const script = document.createElement('script');
-          script.src = `${SCRIPT_URL}?callback=${callbackName}&_=${Date.now()}`;
-          script.onerror = () => {
-            document.getElementById('loading').style.display = 'none';
-            delete window[callbackName];
-            document.body.removeChild(script);
-            console.error('Failed to load data from Google Apps Script');
-            reject(new Error('Failed to load data'));
-          };
-          document.body.appendChild(script);
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        document.getElementById('loading').style.display = 'none';
-      }
-    }
-
-    function processData(data) {
-      if (!Array.isArray(data) || data.length === 0) {
-        document.getElementById('responseCount').textContent = 'Total responses: 0';
-        document.getElementById('wordcloud').innerHTML = '<p style="text-align:center;padding-top:180px;color:#666;">Waiting for responses...</p>';
-        return;
-      }
-
-      document.getElementById('responseCount').textContent = `Total responses: ${data.length}`;
-
-      const stopWords = new Set([
-        "and", "the", "of", "in", "a", "to", "with", "for", "on", "as", "by",
-        "this", "that", "an", "at", "from", "is", "are", "be", "will", "or",
-        "i", "we", "our", "it", "its", "they", "them", "their", "there", "these",
-        "those", "am", "was", "were", "been", "being", "have", "has", "had",
-        "do", "does", "did", "but", "if", "then", "else", "when",
-        "up", "down", "out", "over", "under", "again", "further", "once",
-        "can", "could", "may", "might", "must", "should", "would"
-      ]);
-
-      const words = data
-        .flatMap(text => text.split(/[ ,;/\n.()\[\]{}]+/))
-        .map(word => word.toLowerCase().trim())
-        .filter(word => !stopWords.has(word));
-
-      const freq = {};
-      words.forEach(word => freq[word] = (freq[word] || 0) + 1);
-
-      const wordArray = Object.entries(freq).map(([text, weight]) => [text.toUpperCase(), weight]);
-      wordArray.sort((a, b) => b[1] - a[1]);
-
-      const cloudElement = document.getElementById('wordcloud');
-      cloudElement.innerHTML = '';
-
-      const colorPalette = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#69F0AE', '#B2FF59', '#EEFF41', '#FFD740', '#FFAB40', '#FF6E40'];
-
-      WordCloud(cloudElement, {
-        list: wordArray,
-        gridSize: 6,
-        weightFactor: size => Math.pow(size, 2) * 4,
-        rotateRatio: 0.7,
-        rotationSteps: 8,
-        fontFamily: 'Impact, Arial Black, sans-serif',
-        color: () => colorPalette[Math.floor(Math.random() * colorPalette.length)],
-        drawOutOfBound: false,
-        shrinkToFit: true,
-        minSize: 40,
-        backgroundColor: '#fff',
-        shuffle: true,
-        clearCanvas: true
+        const script = document.createElement('script');
+        script.src = `${SCRIPT_URL}?callback=${callbackName}&_=${Date.now()}`;
+        script.onerror = () => {
+          document.getElementById('loading').style.display = 'none';
+          delete window[callbackName];
+          document.body.removeChild(script);
+          console.error('❌ Failed to load data from Google Apps Script');
+          reject(new Error('Failed to load data'));
+        };
+        document.body.appendChild(script);
       });
+    } catch (error) {
+      console.error('❌ Error in fetchData():', error);
+      document.getElementById('loading').style.display = 'none';
+    }
+  }
+
+  function processData(data) {
+    if (!Array.isArray(data) || data.length === 0) {
+      document.getElementById('responseCount').textContent = 'Total responses: 0';
+      document.getElementById('wordcloud').innerHTML = '<p style="text-align:center;padding-top:180px;color:#666;">Waiting for responses...</p>';
+      return;
     }
 
-    fetchData();
-    setInterval(fetchData, 120000);
-  </script>
-</body>
-</html>
+    document.getElementById('responseCount').textContent = `Total responses: ${data.length}`;
+
+    const stopWords = new Set([
+      "and", "the", "of", "in", "a", "to", "with", "for", "on", "as", "by",
+      "this", "that", "an", "at", "from", "is", "are", "be", "will", "or",
+      "i", "we", "our", "it", "its", "they", "them", "their", "there", "these",
+      "those", "am", "was", "were", "been", "being", "have", "has", "had",
+      "do", "does", "did", "but", "if", "then", "else", "when",
+      "up", "down", "out", "over", "under", "again", "further", "once",
+      "can", "could", "may", "might", "must", "should", "would"
+    ]);
+
+    const words = data
+      .flatMap(text => text.split(/[ ,;/\n.()\[\]{}]+/))
+      .map(word => word.trim().toUpperCase())
+      .filter(word => word.length > 0 && !stopWords.has(word.toLowerCase()));
+
+    const freq = {};
+    words.forEach(word => freq[word] = (freq[word] || 0) + 1);
+
+    const wordArray = Object.entries(freq).map(([text, weight]) => [text, weight]);
+    wordArray.sort((a, b) => b[1] - a[1]);
+
+    const cloudElement = document.getElementById('wordcloud');
+    cloudElement.innerHTML = '';
+
+    const colorPalette = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#69F0AE', '#B2FF59', '#EEFF41', '#FFD740', '#FFAB40', '#FF6E40'];
+
+    WordCloud(cloudElement, {
+      list: wordArray,
+      gridSize: 6,
+      weightFactor: size => Math.pow(size, 2) * 4,
+      rotateRatio: 0.7,
+      rotationSteps: 8,
+      fontFamily: 'Impact, Arial Black, sans-serif',
+      color: () => colorPalette[Math.floor(Math.random() * colorPalette.length)],
+      drawOutOfBound: false,
+      shrinkToFit: true,
+      minSize: 40,
+      backgroundColor: '#fff',
+      shuffle: true,
+      clearCanvas: true
+    });
+  }
+
+  // Initial fetch after a small delay to ensure DOM is ready
+  setTimeout(() => fetchData(), 500);
+  // Refresh word cloud every 2 minutes
+  setInterval(fetchData, 120000);
+</script>
