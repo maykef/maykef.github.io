@@ -121,10 +121,11 @@
           const script = document.createElement('script');
           script.src = `${SCRIPT_URL}?callback=${callbackName}&_=${Date.now()}`;
           script.onerror = () => {
+            console.error('Failed to load data from Google Apps Script');
             document.getElementById('loading').style.display = 'none';
+            processData(["confocal", "cryo-EM", "super resolution", "cryo-EM"]); // fallback data
             delete window[callbackName];
             document.body.removeChild(script);
-            console.error('Failed to load data from Google Apps Script');
             reject(new Error('Failed to load data'));
           };
           document.body.appendChild(script);
@@ -157,13 +158,15 @@
       const words = data
         .flatMap(text => text.split(/[ ,;/\n.()\[\]{}]+/))
         .map(word => word.toLowerCase().trim())
-        .filter(word => !stopWords.has(word));
+        .filter(word => word && !stopWords.has(word));
 
       const freq = {};
       words.forEach(word => freq[word] = (freq[word] || 0) + 1);
 
       const wordArray = Object.entries(freq).map(([text, weight]) => [text.toUpperCase(), weight]);
       wordArray.sort((a, b) => b[1] - a[1]);
+
+      console.log("WORD ARRAY FOR CLOUD:", wordArray);
 
       const cloudElement = document.getElementById('wordcloud');
       cloudElement.innerHTML = '';
