@@ -147,11 +147,8 @@
 
       const wordCounts = {};
       data.forEach(entry => {
-        const words = entry.split(/\s+/);
-        words.forEach(word => {
-          const w = word.trim().toLowerCase();
-          if (w) wordCounts[w] = (wordCounts[w] || 0) + 1;
-        });
+        const phrase = entry.trim().toLowerCase();
+        if (phrase) wordCounts[phrase] = (wordCounts[phrase] || 0) + 1;
       });
 
       const wordArray = Object.entries(wordCounts).map(([word, count]) => [word, count]);
