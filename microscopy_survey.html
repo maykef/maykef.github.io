@@ -156,14 +156,14 @@
 
       const wordArray = Object.entries(wordCounts).map(([word, count]) => [word, count]);
 
-      WordCloud(document.getElementById('wordcloud'), {
-        list: wordArray,
-        gridSize: 8,
-        weightFactor: 10,
-        fontFamily: 'Arial',
-        color: 'random-dark',
-        backgroundColor: '#fff'
-      });
+     WordCloud(document.getElementById('wordcloud'), {
+  list: wordArray,
+  gridSize: 8,
+  weightFactor: 20,  // ← increased from 10 to 20
+  fontFamily: 'Arial',
+  color: 'random-dark',
+  backgroundColor: '#fff'
+});
     }
 
     fetchData();
