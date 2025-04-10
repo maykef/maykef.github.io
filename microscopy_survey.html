@@ -153,14 +153,17 @@
 
       const wordArray = Object.entries(wordCounts).map(([word, count]) => [word, count]);
 
-     WordCloud(document.getElementById('wordcloud'), {
-  list: wordArray,
-  gridSize: 8,
-  weightFactor: 20,  // ← increased from 10 to 20
-  fontFamily: 'Arial',
-  color: 'random-dark',
-  backgroundColor: '#fff'
-});
+      WordCloud(document.getElementById('wordcloud'), {
+        list: wordArray,
+        gridSize: 8,
+        weightFactor: 20,  // ← increased from 10 to 20
+        fontFamily: 'Arial',
+        color: 'random-dark',
+        backgroundColor: '#fff',
+        rotateRatio: 0,         // <-- ensures phrases don't rotate
+        shuffle: false,         // <-- ensures stable layout
+        drawOutOfBound: false   // <-- prevents words from getting cut off
+      });
     }
 
     fetchData();
