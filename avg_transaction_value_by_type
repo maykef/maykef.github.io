@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Microscope Visualizations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 80px;
+            background: #f9f9f9;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+            padding: 15px;
+            text-align: center;
+            z-index: 1000;
+        }
+        h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+        select {
+            margin-top: 10px;
+            padding: 8px 12px;
+            font-size: 16px;
+        }
+        iframe {
+            display: block;
+            margin: 0 auto;
+            width: 95%;
+            height: 80vh;
+            border: none;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Microscope Data Visualizations</h1>
+    <select id="graphSelect" onchange="switchGraph(this.value)">
+        <option value="microscope_sankey.html">Microscope Sankey Diagram</option>
+        <option value="violin_saving_percentiles.html">Savings Percentiles (Violin Plot)</option>
+        <option value="microscopy_survey.html">Microscopy Survey (Word Cloud)</option>
+        <option value="avg_transaction_value_by_type.html">Average Transaction Value by Type</option> <!-- 🔥 NEW -->
+    </select>
+</header>
+
+<iframe id="graphFrame" src="microscope_sankey.html" title="Interactive Graph"></iframe>
+
+<script>
+    function switchGraph(filename) {
+        document.getElementById('graphFrame').src = filename;
+    }
+</script>
+
+</body>
+</html>
