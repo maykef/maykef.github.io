@@ -10,6 +10,9 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding-top: 100px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         nav {
             position: fixed;
@@ -35,10 +38,13 @@
         }
         section {
             padding: 20px;
+            flex: 1;
         }
         footer {
-            margin-top: 50px;
             text-align: center;
+            padding: 20px;
+            background-color: #f7f7f7;
+            margin-top: auto;
         }
         footer a {
             margin-right: 15px;
@@ -48,11 +54,6 @@
         @media (max-width: 600px) {
             nav div { font-size: 14px; }
             nav a { display: block; padding: 10px 0; }
-        }
-        .graph-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
         }
     </style>
 </head>
@@ -73,16 +74,13 @@
 </nav>
 
 <section class="graph-container">
-    <h1>Microscope Data Visualizations</h1>
-    <p>Interactive charts and data visualizations will be moved to a dedicated section soon.</p>
+    <!-- Content removed as requested -->
 </section>
 
 <footer>
-    <ul>
-        <a href="mailto:maykef@gmail.com">Email</a>
-        <a href="https://github.com/maykef">GitHub</a>
-        <a href="https://hackaday.io/maykef">Hackaday</a>
-    </ul>
+    <a href="mailto:maykef@gmail.com">Email</a>
+    <a href="https://github.com/maykef">GitHub</a>
+    <a href="https://hackaday.io/maykef">Hackaday</a>
 </footer>
 
 </body>
