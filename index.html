@@ -9,7 +9,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding-top: 100px; /* Offset for fixed navbar */
+            padding-top: 100px;
         }
         nav {
             position: fixed;
@@ -54,17 +54,6 @@
             margin: 0 auto;
             padding: 20px;
         }
-        iframe {
-            width: 100%;
-            height: 80vh;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-        select {
-            font-size: 16px;
-            padding: 6px;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
@@ -75,23 +64,17 @@
         <tt style="font-size:16px;">Here you can find most of, if not all, my writings</tt>
     </div>
     <div style="margin-top: 20px;">
-    <a href="academic_articles.html">Academic Articles</a>
-    <a href="/">Book Chapters</a>
-    <a href="opinion.html">Opinion</a>
-    <a href="projects.html">Projects</a>
-    <a href="charts.html"><strong>Charts</strong></a>
-</div>
+        <a href="academic_articles.html">Academic Articles</a>
+        <a href="/">Book Chapters</a>
+        <a href="opinion.html">Opinion</a>
+        <a href="projects.html">Projects</a>
+        <a href="charts.html"><strong>Charts</strong></a>
+    </div>
 </nav>
 
 <section class="graph-container">
     <h1>Microscope Data Visualizations</h1>
-    <label for="graphSelect">Choose a visualization:</label>
-    <select id="graphSelect" onchange="switchGraph(this.value)">
-        <option value="microscope_sankey.html">Microscope Sankey Diagram</option>
-        <option value="violin_saving_percentiles.html">Savings Percentiles (Violin Plot)</option>
-    </select>
-
-    <iframe id="graphFrame" src="microscope_sankey.html" title="Interactive Graph Viewer"></iframe>
+    <p>Interactive charts and data visualizations will be moved to a dedicated section soon.</p>
 </section>
 
 <footer>
@@ -101,12 +84,6 @@
         <a href="https://hackaday.io/maykef">Hackaday</a>
     </ul>
 </footer>
-
-<script>
-    function switchGraph(filename) {
-        document.getElementById('graphFrame').src = filename;
-    }
-</script>
 
 </body>
 </html>
