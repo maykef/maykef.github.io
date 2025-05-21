@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research VM Management UI</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+  <div class="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Request New VM -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Request a New VM</h2>
+      <form class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium">VM Name</label>
+          <input type="text" placeholder="e.g. Lightsheet VM" class="mt-1 block w-full border rounded px-3 py-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium">GPU Allocation</label>
+          <select class="mt-1 block w-full border rounded px-3 py-2">
+            <option>1/4 H100</option>
+            <option>1/2 H100</option>
+            <option>Full H100</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium">RAM</label>
+          <select class="mt-1 block w-full border rounded px-3 py-2">
+            <option>32 GB</option>
+            <option>64 GB</option>
+            <option>128 GB</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit Request</button>
+      </form>
+    </div>
+
+    <!-- Your VMs -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Your VMs</h2>
+      <div class="space-y-4">
+        <div class="border p-4 rounded">
+          <div class="flex justify-between items-center">
+            <span class="font-semibold">Confocal Lab 3</span>
+            <span class="text-green-600 text-sm">Running</span>
+          </div>
+          <p class="text-sm text-gray-600">GPU: 1/4 H100, RAM: 32 GB</p>
+          <div class="mt-2 space-x-2">
+            <button class="bg-gray-200 px-3 py-1 rounded">Start</button>
+            <button class="bg-gray-200 px-3 py-1 rounded">Stop</button>
+            <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+          </div>
+        </div>
+        <div class="border p-4 rounded">
+          <div class="flex justify-between items-center">
+            <span class="font-semibold">TEM Suite</span>
+            <span class="text-gray-500 text-sm">Stopped</span>
+          </div>
+          <p class="text-sm text-gray-600">GPU: 1/2 H100, RAM: 64 GB</p>
+          <div class="mt-2 space-x-2">
+            <button class="bg-gray-200 px-3 py-1 rounded">Start</button>
+            <button class="bg-gray-200 px-3 py-1 rounded">Stop</button>
+            <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
