@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart VM Booking Portal</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-100 font-sans">
   <div class="max-w-7xl mx-auto p-6">
@@ -13,78 +14,133 @@
       <p class="text-sm text-gray-600">Powered by solar during the day. Discounted off-peak hours after 10 PM. Eco-friendly usage encouraged.</p>
     </header>
 
-    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- VM Booking Cards -->
-      <template id="vm-template">
-        <div class="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between">
-          <div>
-            <h2 class="text-xl font-semibold">H100 VM #<span class="vm-id">1</span></h2>
-            <p class="text-sm text-gray-600">Latency: ~1.2 ms<br>Network: 940 Mbps down / 850 Mbps up</p>
+    <div class="mb-6 p-4 bg-white rounded shadow">
+      <h2 class="text-xl font-semibold mb-2">📉 Tip: Cheapest booking times are 10AM–4PM (solar) and after 10PM (off-peak)</h2>
+      <p class="text-sm text-gray-700">Current time: <span id="current-time"></span> — Book now for real-time savings!</p>
+    </div>
 
-            <div class="mt-4">
-              <label class="block text-sm font-medium">Select RAM</label>
-              <select class="w-full mt-1 px-3 py-2 border rounded">
-                <option value="32">32 GB</option>
-                <option value="64">64 GB</option>
-                <option value="128">128 GB</option>
-              </select>
-            </div>
-
-            <div class="mt-4">
-              <label class="block text-sm font-medium">Storage Needed</label>
-              <input type="number" min="10" placeholder="GB" class="w-full mt-1 px-3 py-2 border rounded" />
-            </div>
-
-            <div class="mt-4">
-              <label class="block text-sm font-medium">Usage Duration (hours)</label>
-              <input type="number" min="1" placeholder="e.g. 4" class="w-full mt-1 px-3 py-2 border rounded" />
-            </div>
-
-            <div class="mt-4">
-              <label class="block text-sm font-medium">Preferred Start Time</label>
-              <input type="time" class="w-full mt-1 px-3 py-2 border rounded" />
-            </div>
-          </div>
-
-          <div class="mt-4 text-sm text-green-600 hidden eco-hint">
-            🌞 You’re booking during solar hours! Enjoy lower carbon impact and rates.
-          </div>
-
-          <div class="mt-4 font-bold">
-            Estimated Price: <span class="text-blue-600">£2.10</span>
-          </div>
-
-          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Book Now</button>
-        </div>
-      </template>
-
-      <!-- Instantiate 8 VMs -->
-      <script>
-        const container = document.currentScript.parentElement;
-        const template = container.querySelector("#vm-template");
-        for (let i = 1; i <= 8; i++) {
-          const clone = template.content.cloneNode(true);
-          clone.querySelector(".vm-id").textContent = i;
-
-          // Simulated price logic (basic): cheaper at night or solar
-          const hour = new Date().getHours();
-          const ecoHint = clone.querySelector(".eco-hint");
-          const priceSpan = clone.querySelector(".text-blue-600");
-          let price = 2.5;
-          if (hour >= 10 && hour <= 16) { // Solar
-            price = 1.8;
-            ecoHint.classList.remove("hidden");
-          } else if (hour >= 22 || hour < 6) { // Off-peak
-            price = 2.0;
-            ecoHint.textContent = "🌙 Off-peak hours save energy and cost!";
-            ecoHint.classList.remove("hidden");
-          }
-          priceSpan.textContent = `£${price.toFixed(2)}`;
-
-          container.appendChild(clone);
-        }
-      </script>
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="vm-container">
+      <!-- Dynamic VMs will load here -->
     </section>
   </div>
+
+  <template id="vm-template">
+    <div class="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between">
+      <div>
+        <h2 class="text-xl font-semibold">H100 VM #<span class="vm-id">1</span></h2>
+        <canvas class="latency-gauge w-full max-w-xs mx-auto my-4" height="100"></canvas>
+
+        <div class="mt-4">
+          <label class="block text-sm font-medium">Select RAM</label>
+          <select class="ram w-full mt-1 px-3 py-2 border rounded">
+            <option value="32">32 GB</option>
+            <option value="64">64 GB</option>
+            <option value="128">128 GB</option>
+          </select>
+        </div>
+
+        <div class="mt-4">
+          <label class="block text-sm font-medium">Storage Needed (GB)</label>
+          <input type="number" min="10" class="storage w-full mt-1 px-3 py-2 border rounded" />
+        </div>
+
+        <div class="mt-4">
+          <label class="block text-sm font-medium">Usage Duration (hours)</label>
+          <input type="number" min="1" value="1" class="duration w-full mt-1 px-3 py-2 border rounded" />
+        </div>
+
+        <div class="mt-4">
+          <label class="block text-sm font-medium">Preferred Start Time</label>
+          <input type="time" class="start-time w-full mt-1 px-3 py-2 border rounded" />
+        </div>
+      </div>
+
+      <div class="mt-4 text-sm text-green-600 hidden eco-hint"></div>
+
+      <div class="mt-4 font-bold">
+        Estimated Price: <span class="text-blue-600 price">£0.00</span>
+      </div>
+
+      <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Book Now</button>
+    </div>
+  </template>
+
+  <script>
+    document.getElementById('current-time').textContent = new Date().toLocaleTimeString();
+    const container = document.getElementById("vm-container");
+    const template = document.getElementById("vm-template");
+
+    function drawGauge(canvas, latency) {
+      const ctx = canvas.getContext("2d");
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Latency', ''],
+          datasets: [{
+            data: [latency, 100 - latency],
+            backgroundColor: [latency < 10 ? '#22c55e' : latency < 25 ? '#facc15' : '#ef4444', '#e5e7eb'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          rotation: -90,
+          circumference: 180,
+          cutout: '80%',
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false },
+            title: {
+              display: true,
+              text: `${latency.toFixed(1)} ms latency`
+            }
+          }
+        }
+      });
+    }
+
+    for (let i = 1; i <= 8; i++) {
+      const clone = template.content.cloneNode(true);
+      const vmIdSpan = clone.querySelector(".vm-id");
+      const latencyGauge = clone.querySelector(".latency-gauge");
+      const priceSpan = clone.querySelector(".price");
+      const ecoHint = clone.querySelector(".eco-hint");
+      const ramSelect = clone.querySelector(".ram");
+      const storageInput = clone.querySelector(".storage");
+      const durationInput = clone.querySelector(".duration");
+      const startTimeInput = clone.querySelector(".start-time");
+
+      vmIdSpan.textContent = i;
+      const latency = (Math.random() * 10 + 1).toFixed(1);
+      drawGauge(latencyGauge, latency);
+
+      function calculatePrice() {
+        const hour = parseInt(startTimeInput.value?.split(":"), 10) || new Date().getHours();
+        let baseRate = 2.5;
+        if (hour >= 10 && hour <= 16) {
+          baseRate = 1.8;
+          ecoHint.textContent = "🌞 Solar hours! Cleaner and cheaper compute.";
+          ecoHint.classList.remove("hidden");
+        } else if (hour >= 22 || hour < 6) {
+          baseRate = 2.0;
+          ecoHint.textContent = "🌙 Off-peak rate active. Good choice for the environment.";
+          ecoHint.classList.remove("hidden");
+        } else {
+          ecoHint.classList.add("hidden");
+        }
+        const ramFactor = parseInt(ramSelect.value) / 32;
+        const storageFactor = (parseInt(storageInput.value) || 0) / 50;
+        const duration = parseInt(durationInput.value) || 1;
+        const price = (baseRate * ramFactor + storageFactor * 0.5) * duration;
+        priceSpan.textContent = `£${price.toFixed(2)}`;
+      }
+
+      [ramSelect, storageInput, durationInput, startTimeInput].forEach(input => {
+        input.addEventListener("input", calculatePrice);
+      });
+
+      calculatePrice();
+      container.appendChild(clone);
+    }
+  </script>
 </body>
 </html>
