@@ -3,69 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Research VM Management UI</title>
+  <title>Smart VM Booking Portal</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-50 font-sans">
-  <div class="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- Request New VM -->
-    <div class="bg-white shadow-md rounded-lg p-6">
-      <h2 class="text-2xl font-bold mb-4">Request a New VM</h2>
-      <form class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium">VM Name</label>
-          <input type="text" placeholder="e.g. Lightsheet VM" class="mt-1 block w-full border rounded px-3 py-2" />
-        </div>
-        <div>
-          <label class="block text-sm font-medium">GPU Allocation</label>
-          <select class="mt-1 block w-full border rounded px-3 py-2">
-            <option>1/4 H100</option>
-            <option>1/2 H100</option>
-            <option>Full H100</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium">RAM</label>
-          <select class="mt-1 block w-full border rounded px-3 py-2">
-            <option>32 GB</option>
-            <option>64 GB</option>
-            <option>128 GB</option>
-          </select>
-        </div>
-        <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit Request</button>
-      </form>
-    </div>
+<body class="bg-gray-100 font-sans">
+  <div class="max-w-7xl mx-auto p-6">
+    <header class="mb-6">
+      <h1 class="text-3xl font-bold">Smart VM Booking Portal</h1>
+      <p class="text-sm text-gray-600">Powered by solar during the day. Discounted off-peak hours after 10 PM. Eco-friendly usage encouraged.</p>
+    </header>
 
-    <!-- Your VMs -->
-    <div class="bg-white shadow-md rounded-lg p-6">
-      <h2 class="text-2xl font-bold mb-4">Your VMs</h2>
-      <div class="space-y-4">
-        <div class="border p-4 rounded">
-          <div class="flex justify-between items-center">
-            <span class="font-semibold">Confocal Lab 3</span>
-            <span class="text-green-600 text-sm">Running</span>
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- VM Booking Cards -->
+      <template id="vm-template">
+        <div class="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between">
+          <div>
+            <h2 class="text-xl font-semibold">H100 VM #<span class="vm-id">1</span></h2>
+            <p class="text-sm text-gray-600">Latency: ~1.2 ms<br>Network: 940 Mbps down / 850 Mbps up</p>
+
+            <div class="mt-4">
+              <label class="block text-sm font-medium">Select RAM</label>
+              <select class="w-full mt-1 px-3 py-2 border rounded">
+                <option value="32">32 GB</option>
+                <option value="64">64 GB</option>
+                <option value="128">128 GB</option>
+              </select>
+            </div>
+
+            <div class="mt-4">
+              <label class="block text-sm font-medium">Storage Needed</label>
+              <input type="number" min="10" placeholder="GB" class="w-full mt-1 px-3 py-2 border rounded" />
+            </div>
+
+            <div class="mt-4">
+              <label class="block text-sm font-medium">Usage Duration (hours)</label>
+              <input type="number" min="1" placeholder="e.g. 4" class="w-full mt-1 px-3 py-2 border rounded" />
+            </div>
+
+            <div class="mt-4">
+              <label class="block text-sm font-medium">Preferred Start Time</label>
+              <input type="time" class="w-full mt-1 px-3 py-2 border rounded" />
+            </div>
           </div>
-          <p class="text-sm text-gray-600">GPU: 1/4 H100, RAM: 32 GB</p>
-          <div class="mt-2 space-x-2">
-            <button class="bg-gray-200 px-3 py-1 rounded">Start</button>
-            <button class="bg-gray-200 px-3 py-1 rounded">Stop</button>
-            <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+
+          <div class="mt-4 text-sm text-green-600 hidden eco-hint">
+            🌞 You’re booking during solar hours! Enjoy lower carbon impact and rates.
           </div>
+
+          <div class="mt-4 font-bold">
+            Estimated Price: <span class="text-blue-600">£2.10</span>
+          </div>
+
+          <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Book Now</button>
         </div>
-        <div class="border p-4 rounded">
-          <div class="flex justify-between items-center">
-            <span class="font-semibold">TEM Suite</span>
-            <span class="text-gray-500 text-sm">Stopped</span>
-          </div>
-          <p class="text-sm text-gray-600">GPU: 1/2 H100, RAM: 64 GB</p>
-          <div class="mt-2 space-x-2">
-            <button class="bg-gray-200 px-3 py-1 rounded">Start</button>
-            <button class="bg-gray-200 px-3 py-1 rounded">Stop</button>
-            <button class="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-          </div>
-        </div>
-      </div>
-    </div>
+      </template>
+
+      <!-- Instantiate 8 VMs -->
+      <script>
+        const container = document.currentScript.parentElement;
+        const template = container.querySelector("#vm-template");
+        for (let i = 1; i <= 8; i++) {
+          const clone = template.content.cloneNode(true);
+          clone.querySelector(".vm-id").textContent = i;
+
+          // Simulated price logic (basic): cheaper at night or solar
+          const hour = new Date().getHours();
+          const ecoHint = clone.querySelector(".eco-hint");
+          const priceSpan = clone.querySelector(".text-blue-600");
+          let price = 2.5;
+          if (hour >= 10 && hour <= 16) { // Solar
+            price = 1.8;
+            ecoHint.classList.remove("hidden");
+          } else if (hour >= 22 || hour < 6) { // Off-peak
+            price = 2.0;
+            ecoHint.textContent = "🌙 Off-peak hours save energy and cost!";
+            ecoHint.classList.remove("hidden");
+          }
+          priceSpan.textContent = `£${price.toFixed(2)}`;
+
+          container.appendChild(clone);
+        }
+      </script>
+    </section>
   </div>
 </body>
 </html>
