@@ -4,57 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mayke De Freitas Santos</title>
-    <meta name="description" content="Systems Researcher & Developer. Specialized in high-performance hardware architecture.">
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://maykef.info/">
-    <meta property="og:title" content="Mayke De Freitas Santos - High Performance Computing">
-    <meta property="og:description" content="A showcase of enterprise-grade workstation architecture and systems development.">
+    
+    <meta property="og:title" content="Mayke De Freitas Santos - Systems & Infrastructure">
     <meta property="og:image" content="https://maykef.info/img/IMG_7428.JPG">
-
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://maykef.info/">
-    <meta property="twitter:title" content="Mayke De Freitas Santos">
-    <meta property="twitter:description" content="A showcase of enterprise-grade workstation architecture and systems development.">
-    <meta property="twitter:image" content="https://maykef.info/img/IMG_7428.JPG">
+    <meta property="og:type" content="website">
 
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; background: #fff; }
-        h1 { font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -1px; color: #000; }
-        .bio { color: #666; margin-bottom: 2rem; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 2rem; }
+        body { font-family: -apple-system, sans-serif; line-height: 1.6; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        nav { margin-bottom: 40px; }
+        nav a { margin-right: 15px; text-decoration: none; color: #0066cc; font-weight: bold; }
         
-        .project-card { margin-bottom: 4rem; }
-        .project-card h2 { margin-top: 0; font-size: 1.8rem; color: #000; }
-        .project-description { font-size: 1.1rem; color: #444; margin-bottom: 2rem; max-width: 700px; }
+        .project-header { margin-bottom: 20px; }
+        .tag { background: #eee; padding: 3px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 5px; }
 
-        .gallery-container { display: flex; flex-direction: column; gap: 15px; margin: 30px 0; }
-        .gallery-main img { width: 100%; border-radius: 12px; border: 1px solid #eee; display: block; height: auto; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .gallery-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid #eee; transition: transform 0.2s; }
-        .gallery-grid img:hover { transform: scale(1.02); }
+        /* Gallery CSS */
+        .gallery-container { margin: 20px 0; }
+        .main-frame { width: 100%; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 15px; display: block; height: auto; transition: opacity 0.3s; }
+        .thumbnail-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; }
+        .thumbnail { width: 120px; height: 80px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; opacity: 0.7; transition: 0.2s; }
+        .thumbnail:hover { opacity: 1; }
+        .thumbnail.active { border-color: #0066cc; opacity: 1; }
 
-        .specs-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
-        .specs-table th, .specs-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid #eee; }
-        .specs-table th { background: #f8f8f8; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; color: #888; letter-spacing: 1px; }
-        .specs-table td:first-child { font-weight: bold; width: 20%; color: #000; }
-        .specs-table td:nth-child(2) { width: 35%; }
-        .specs-table td:last-child { color: #666; font-size: 0.9rem; }
-
-        .tag { background: #f0f0f0; color: #444; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-right: 8px; border: 1px solid #ddd; }
-        nav a { color: #000; text-decoration: none; margin-right: 20px; font-weight: 600; border-bottom: 2px solid transparent; padding-bottom: 4px; }
-        nav a:hover { border-bottom: 2px solid #000; }
-        
-        @media (max-width: 600px) {
-            .gallery-grid { grid-template-columns: 1fr 1fr; }
-            .specs-table td:last-child { display: none; }
-        }
+        /* Specs Table */
+        .specs-table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 0.9rem; }
+        .specs-table th, .specs-table td { text-align: left; padding: 12px; border-bottom: 1px solid #eee; }
+        .specs-table th { background: #f9f9f9; color: #666; text-transform: uppercase; font-size: 0.75rem; }
+        .specs-table td:first-child { font-weight: bold; width: 25%; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Mayke De Freitas Santos</h1>
-        <p class="bio">Systems Researcher & Developer. Specialized in high-performance hardware architecture and large-scale data infrastructure.</p>
+        <p>Systems Researcher & Developer specializing in high-performance hardware and infrastructure.</p>
         <nav>
             <a href="https://github.com/maykef">GitHub</a>
             <a href="mailto:contact@maykef.info">Email</a>
@@ -63,75 +45,60 @@
 
     <main>
         <section class="project-card">
-            <div style="margin-bottom: 15px;">
-                <span class="tag">Hardware</span><span class="tag">Workstation</span><span class="tag">HPC</span>
+            <div class="project-header">
+                <span class="tag">HARDWARE</span><span class="tag">HPC</span>
+                <h2>Single-Tower High-Performance Rig</h2>
             </div>
-            <h2>Single-Tower High-Performance Rig</h2>
-            [cite_start]<p class="project-description">An enterprise-grade workstation built for heavy computational workloads, featuring 48 PCIe 5.0 lanes and massive ZFS storage scalability[cite: 2]. Optimized for local AI development and high-throughput data processing.</p>
 
             <div class="gallery-container">
-                <div class="gallery-main">
-                    <img src="img/IMG_7428.JPG" alt="Workstation full interior view">
-                </div>
+                <img id="mainDisplay" src="img/IMG_7428.JPG" class="main-frame" alt="Workstation Main View">
                 
-                <div class="gallery-grid">
-                    <img src="img/IMG_7429.JPG" alt="NVIDIA RTX PRO 6000 detail">
-                    <img src="img/IMG_7430.JPG" alt="Silverstone XE360 detail">
-                    <img src="img/IMG_7531.JPG" alt="Interior Detail 1">
-                    <img src="img/IMG_7532.JPG" alt="Interior Detail 2">
-                    <img src="img/IMG_7533.JPG" alt="Hardware Detail 3">
-                    <img src="img/IMG_7534.JPG" alt="Chassis Detail 4">
-                    <img src="img/IMG_7538.JPG" alt="Assembly Detail 5">
+                <div class="thumbnail-row">
+                    <img src="img/IMG_7428.JPG" class="thumbnail active" onclick="updateGallery(this)" alt="Interior View">
+                    <img src="img/IMG_7429.JPG" class="thumbnail" onclick="updateGallery(this)" alt="GPU Detail">
+                    <img src="img/IMG_7430.JPG" class="thumbnail" onclick="updateGallery(this)" alt="Cooling Detail">
+                    <img src="img/IMG_7531.JPG" class="thumbnail" onclick="updateGallery(this)" alt="Detail 1">
+                    <img src="img/IMG_7532.JPG" class="thumbnail" onclick="updateGallery(this)" alt="Detail 2">
+                    <img src="img/IMG_7533.JPG" class="thumbnail" onclick="updateGallery(this)" alt="Detail 3">
                 </div>
             </div>
+
+            <p>An enterprise-grade workstation build focused on massive computational throughput and storage expandability.</p>
 
             <table class="specs-table">
                 <thead>
-                    <tr>
-                        <th>Sub-system</th>
-                        <th>Component</th>
-                        <th>Design Rationale</th>
-                    </tr>
+                    <tr><th>Sub-system</th><th>Component</th><th>Rationale</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>CPU</td>
-                        [cite_start]<td>AMD Threadripper 7970X [cite: 2]</td>
-                        <td>48 PCIe 5.0 lanes, 32 cores. [cite_start]Cooled with a Silverstone XE360[cite: 2].</td>
-                    </tr>
-                    <tr>
-                        <td>GPU</td>
-                        [cite_start]<td>NVIDIA RTX PRO 6000 96GB Blackwell [cite: 2]</td>
-                        [cite_start]<td>96GB VRAM for massive compute workloads[cite: 2].</td>
-                    </tr>
-                    <tr>
-                        <td>RAM</td>
-                        [cite_start]<td>128 GB (4 × 32 GB) DDR5-4800 ECC RDIMM [cite: 2]</td>
-                        [cite_start]<td>ECC support; expandable to 1TB[cite: 2].</td>
-                    </tr>
-                    <tr>
-                        <td>Storage</td>
-                        [cite_start]<td>Seagate IronWolf Pro 24TB x 4 [cite: 2]</td>
-                        [cite_start]<td>96TB ZFS pool for object-store drives[cite: 2].</td>
-                    </tr>
-                    <tr>
-                        <td>Motherboard</td>
-                        [cite_start]<td>ASUS Pro WS TRX50-SAGE [cite: 2]</td>
-                        [cite_start]<td>Workstation-class with IPMI and quad M.2[cite: 2].</td>
-                    </tr>
-                    <tr>
-                        <td>PSU</td>
-                        [cite_start]<td>Corsair AX1600i [cite: 2]</td>
-                        [cite_start]<td>High-capacity digital power supply[cite: 2].</td>
-                    </tr>
+                    <tr><td>CPU</td><td>AMD Threadripper 7970X</td><td>32 cores, 48 PCIe 5.0 lanes.</td></tr>
+                    <tr><td>GPU</td><td>NVIDIA RTX PRO 6000 96GB</td><td>Blackwell architecture for heavy compute.</td></tr>
+                    <tr><td>RAM</td><td>128 GB DDR5-4800 ECC</td><td>Expandable to 1TB.</td></tr>
+                    <tr><td>Storage</td><td>96TB ZFS Pool</td><td>4x Seagate IronWolf Pro 24TB drives.</td></tr>
+                    <tr><td>Motherboard</td><td>ASUS Pro WS TRX50-SAGE</td><td>IPMI and quad M.2 support.</td></tr>
+                    <tr><td>PSU</td><td>Corsair AX1600i</td><td>Digital power delivery.</td></tr>
                 </tbody>
             </table>
         </section>
     </main>
 
-    <footer style="text-align: left; opacity: 0.5; margin-top: 5rem; font-size: 0.8rem; padding-bottom: 2rem;">
-        &copy; 2026 Mayke De Freitas Santos
-    </footer>
+    <script>
+        function updateGallery(element) {
+            // Update the main image source
+            const mainImg = document.getElementById('mainDisplay');
+            mainImg.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                mainImg.src = element.src;
+                mainImg.style.opacity = '1';
+            }, 150);
+
+            // Update active thumbnail styling
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+    </script>
 
 </body>
 </html>
