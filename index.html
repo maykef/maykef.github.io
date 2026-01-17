@@ -1,24 +1,56 @@
-<section id="projects">
-  <h2>Featured Projects</h2>
-  
-  <div class="project-card">
-    <h3><a href="LINK_TO_PROJECT">Project Name</a></h3>
-    <p>A brief 1-2 sentence description of what this is and why it matters.</p>
-    <small>Stack: Python, React, PostgreSQL</small>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mayke De Freitas Santos</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 650px; margin: 40px auto; padding: 0 10px; color: #333; }
+        h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .bio { color: #666; margin-bottom: 2rem; }
+        section { margin-bottom: 3rem; }
+        .project-card { border-left: 2px solid #eee; padding-left: 1rem; margin-bottom: 1.5rem; }
+        .project-card h3 { margin: 0; font-size: 1.1rem; }
+        .project-card p { margin: 5px 0; font-size: 0.95rem; }
+        .tags { font-family: monospace; font-size: 0.8rem; color: #888; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
 
-  <div class="project-card">
-    <h3><a href="LINK_TO_PROJECT">Another Project</a></h3>
-    <p>Explain the problem you solved here.</p>
-    <small>Stack: C++, Embedded, Hackaday</small>
-  </div>
-</section>
+    <header>
+        <h1>Mayke De Freitas Santos</h1>
+        <p class="bio">Developer & Researcher. Focused on [Your Current Focus, e.g., Systems Architecture or Data Visualization].</p>
+        <nav>
+            <a href="https://github.com/maykef">GitHub</a> | 
+            <a href="mailto:your-email@example.com">Email</a>
+        </nav>
+    </header>
 
-<section id="writing" style="margin-top: 50px; opacity: 0.8;">
-  <hr>
-  <h4>Other Writings & Archive</h4>
-  <ul>
-    <li><a href="/writing">Academic Articles</a></li>
-    <li><a href="/opinion">Opinion Pieces</a></li>
-  </ul>
-</section>
+    <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #eee;">
+
+    <section>
+        <h2>Featured Projects</h2>
+
+        <div class="project-card">
+            <h3>VM Graphical Interface</h3>
+            <p>A custom interface for managing virtual environments and system resources.</p>
+            <span class="tags">C++ / Python / System Design</span>
+        </div>
+
+        <div class="project-card">
+            <h3>Microscopy Data Viz</h3>
+            <p>Interactive Sankey diagrams used to analyze and visualize microscopy trends.</p>
+            <span class="tags">D3.js / Data Analysis</span>
+        </div>
+
+        <div class="project-card">
+            <h3>[New Project Title]</h3>
+            <p>Describe the specific problem you solved or the tool you built here.</p>
+            <span class="tags">Tech Stack Used</span>
+        </div>
+    </section>
+
+</body>
+</html>
