@@ -10,54 +10,68 @@
     <meta property="og:type" content="website">
 
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; background: #fff; }
-        header { border-bottom: 1px solid #eee; padding-bottom: 2rem; margin-bottom: 2rem; }
-        h1 { font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -1px; color: #000; }
-        nav a { color: #000; text-decoration: none; margin-right: 20px; font-weight: 600; border-bottom: 2px solid transparent; padding-bottom: 4px; }
-        nav a:hover { border-bottom: 2px solid #000; }
+        :root { --accent: #0066cc; --bg: #ffffff; --card-bg: #fcfcfc; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; background: var(--bg); }
         
-        section { margin-bottom: 5rem; }
-        h2 { margin-top: 0; font-size: 1.8rem; color: #000; }
-        .project-description { font-size: 1.1rem; color: #444; margin-bottom: 1.5rem; }
+        /* Header & Bio */
+        header { border-bottom: 1px solid #eee; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+        h1 { font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -1px; color: #000; }
+        .contact-nav { margin-bottom: 20px; }
+        .contact-nav a { color: #000; text-decoration: none; margin-right: 20px; font-weight: 600; border-bottom: 2px solid transparent; }
+        .contact-nav a:hover { border-bottom: 2px solid #000; }
+
+        /* Project Tabs */
+        .tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .tab-btn { background: none; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 600; color: #888; cursor: pointer; border-radius: 6px; transition: 0.2s; }
+        .tab-btn:hover { color: #000; background: #f5f5f5; }
+        .tab-btn.active { color: var(--accent); background: #eef6ff; }
+
+        /* Project Content Visibility */
+        .project-content { display: none; animation: fadeIn 0.3s ease; }
+        .project-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Project Components */
         .tag { background: #f0f0f0; color: #444; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-right: 8px; border: 1px solid #ddd; }
-
-        /* Interactive Gallery */
-        .gallery-container { margin: 30px 0; }
+        h2 { font-size: 1.8rem; margin: 15px 0; color: #000; }
+        
+        /* Gallery */
         .main-frame-wrapper { width: 100%; background: #f9f9f9; border-radius: 12px; border: 1px solid #eee; overflow: hidden; margin-bottom: 15px; }
-        .main-frame { width: 100%; display: block; height: auto; transition: opacity 0.2s ease-in-out; }
-        .thumbnail-row { display: flex; gap: 12px; }
-        .thumbnail { width: 120px; height: 80px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.2s; }
-        .thumbnail:hover { opacity: 1; }
-        .thumbnail.active { border-color: #000; opacity: 1; }
+        .main-frame { width: 100%; display: block; height: auto; transition: opacity 0.2s; }
+        .thumbnail-row { display: flex; gap: 12px; margin-bottom: 20px; }
+        .thumbnail { width: 100px; height: 70px; object-fit: cover; border-radius: 6px; cursor: pointer; opacity: 0.6; border: 2px solid transparent; }
+        .thumbnail.active { opacity: 1; border-color: var(--accent); }
 
-        /* Specs & Tech Table */
+        /* Tables */
         .specs-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
         .specs-table th, .specs-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
         .specs-table th { background: #f8f8f8; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; color: #888; }
         .specs-table td:first-child { font-weight: bold; width: 25%; color: #000; }
-        .specs-table td:last-child { color: #666; font-size: 0.85rem; }
-
-        .code-block { background: #1a1a1a; color: #ccc; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; overflow-x: auto; }
+        
+        .code-block { background: #1a1a1a; color: #ccc; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 20px 0; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Mayke De Freitas Santos</h1>
-        <p>Systems Researcher & Developer. Specialized in high-performance hardware architecture and Vision-AI infrastructure.</p>
-        <nav>
+        <p>Systems Researcher & Developer. Focused on HPC hardware and Vision-AI infrastructure.</p>
+        <div class="contact-nav">
             <a href="https://github.com/maykef">GitHub</a>
             <a href="mailto:contact@maykef.info">Email</a>
-        </nav>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showProject('workstation', this)">Workstation Rig</button>
+            <button class="tab-btn" onclick="showProject('colpali', this)">ColPali Research Engine</button>
+        </div>
     </header>
 
     <main>
-        <section id="workstation">
-            <div style="margin-bottom: 15px;">
-                <span class="tag">Hardware</span><span class="tag">Workstation</span><span class="tag">HPC</span>
-            </div>
+        <div id="workstation" class="project-content active">
+            <span class="tag">Hardware</span><span class="tag">HPC</span>
             <h2>Single-Tower High-Performance Rig</h2>
-            <p class="project-description">A custom-built research node engineered for local AI development and heavy computational throughput.</p>
+            <p>A workstation engineered for high-throughput AI development, optimized for the NVIDIA Blackwell architecture.</p>
 
             <div class="gallery-container">
                 <div class="main-frame-wrapper">
@@ -71,50 +85,52 @@
             </div>
 
             <table class="specs-table">
-                <thead>
-                    <tr><th>Sub-system</th><th>Component</th><th>Rationale</th></tr>
-                </thead>
+                <thead><tr><th>Sub-system</th><th>Component</th><th>Rationale</th></tr></thead>
                 <tbody>
-                    <tr><td>CPU</td><td>AMD Threadripper 7970X</td><td>32 cores, 48 PCIe 5.0 lanes; Silverstone XE360 cooling.</td></tr>
-                    <tr><td>GPU</td><td>NVIDIA RTX PRO 6000 96GB</td><td>Blackwell architecture for enterprise-grade compute.</td></tr>
-                    <tr><td>RAM</td><td>128 GB DDR5-4800 ECC</td><td>4 × 32 GB RDIMM; Expandable up to 1TB.</td></tr>
-                    <tr><td>NVMe OS</td><td>Crucial P2 1TB</td><td>Dedicated storage for OS and system binaries.</td></tr>
-                    <tr><td>NVMe Scratch</td><td>Samsung 9100 Pro 8TB</td><td>High-speed scratch storage for dataset processing.</td></tr>
-                    <tr><td>Bulk Storage</td><td>96TB ZFS Pool</td><td>4x Seagate IronWolf Pro 24TB object-store drives.</td></tr>
-                    <tr><td>Motherboard</td><td>ASUS Pro WS TRX50-SAGE</td><td>IPMI management, quad M.2, and ECC support.</td></tr>
+                    <tr><td>CPU</td><td>AMD Threadripper 7970X</td><td>32 cores, 48 PCIe 5.0 lanes.</td></tr>
+                    <tr><td>GPU</td><td>NVIDIA RTX PRO 6000 96GB</td><td>Blackwell architecture for large-scale compute.</td></tr>
+                    <tr><td>RAM</td><td>128 GB DDR5-4800 ECC</td><td>RDIMM; Expandable up to 1TB.</td></tr>
+                    <tr><td>NVMe OS</td><td>Crucial P2 1TB</td><td>Dedicated OS drive.</td></tr>
+                    <tr><td>NVMe Scratch</td><td>Samsung 9100 Pro 8TB</td><td>8TB scratch storage for active datasets.</td></tr>
+                    <tr><td>Bulk Storage</td><td>96TB ZFS Pool</td><td>4x Seagate IronWolf Pro 24TB drives.</td></tr>
+                    <tr><td>Motherboard</td><td>ASUS Pro WS TRX50-SAGE</td><td>IPMI and ECC support.</td></tr>
                 </tbody>
             </table>
-        </section>
+        </div>
 
-        <section id="colpali">
-            <div style="margin-bottom: 15px;">
-                <span class="tag">Software</span><span class="tag">Vision-RAG</span><span class="tag">CUDA 12.6</span>
-            </div>
+        <div id="colpali" class="project-content">
+            <span class="tag">Software</span><span class="tag">Vision-RAG</span>
             <h2>ColPali Research Engine</h2>
-            <p class="project-description">A containerized Vision-RAG pipeline optimized for the NVIDIA Blackwell architecture. It bypasses traditional OCR to perform Late Interaction over document images directly.</p>
+            <p>A containerized Vision-RAG pipeline that bypasses traditional OCR to perform visual document retrieval directly on document images.</p>
             
-            <p>This engine performs visual similarity searches across indexed PDF libraries, specifically targeting complex tables, charts, and diagrams that standard text-based RAG systems often miss.</p>
-
             <div class="code-block">
                 # Blackwell-Optimized Deployment<br>
-                docker run --gpus all -it colpali-research-node
+                ./manage_env.sh
             </div>
 
             <table class="specs-table">
-                <thead>
-                    <tr><th>Stack Component</th><th>Technology</th><th>Implementation</th></tr>
-                </thead>
+                <thead><tr><th>Stack</th><th>Technology</th><th>Implementation</th></tr></thead>
                 <tbody>
-                    <tr><td>Base Environment</td><td>CUDA 12.6.2 Devel</td><td>Ubuntu 22.04 with PyTorch Nightly for sm_120 support.</td></tr>
-                    <tr><td>Indexing</td><td>ColPali v1.2</td><td>200 DPI multi-vector embedding generation.</td></tr>
-                    <tr><td>Reader Model</td><td>Qwen2-VL-7B</td><td>Grounding-enforced visual reasoning and citation.</td></tr>
-                    <tr><td>Optimization</td><td>Flash Attention</td><td>No-build isolation for faster attention mechanisms on Ada/Blackwell.</td></tr>
+                    <tr><td>Environment</td><td>CUDA 12.6.2</td><td>PyTorch Nightly for sm_120 support.</td></tr>
+                    <tr><td>Retriever</td><td>ColPali v1.2</td><td>200 DPI multi-vector indexing.</td></tr>
+                    <tr><td>Reader</td><td>Qwen2-VL-7B</td><td>Visual reasoning with grounding enforcement.</td></tr>
+                    <tr><td>Storage</td><td>NVMe Volume Mount</td><td>Direct access to 8TB scratch NVMe.</td></tr>
                 </tbody>
             </table>
-        </section>
+        </div>
     </main>
 
     <script>
+        // Tab Switching Logic
+        function showProject(projectId, btn) {
+            document.querySelectorAll('.project-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(projectId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // Gallery Swap Logic
         function updateGallery(element) {
             const mainImg = document.getElementById('mainDisplay');
             mainImg.style.opacity = '0';
@@ -127,7 +143,7 @@
         }
     </script>
 
-    <footer style="text-align: left; opacity: 0.5; margin-top: 5rem; font-size: 0.8rem; padding-bottom: 2rem;">
+    <footer style="margin-top: 5rem; opacity: 0.4; font-size: 0.8rem;">
         &copy; 2026 Mayke De Freitas Santos
     </footer>
 
