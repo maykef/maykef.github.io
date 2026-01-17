@@ -1,88 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Find writings and projects by Mayke De Freitas Santos">
-    <meta name="keywords" content="Mayke De Freitas Santos, writings, projects, blog">
-    <title>maykef.info</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding-top: 100px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: #fff;
-            padding: 10px;
-            box-shadow: 0px 4px 2px -2px gray;
-            text-align: center;
-            z-index: 1000;
-        }
-        h1, p {
-            text-align: center;
-        }
-        nav a {
-            color: #333;
-            text-decoration: none;
-            margin-right: 30px;
-        }
-        nav div h2 {
-            font-family: monospace;
-            margin: 0;
-        }
-        section {
-            padding: 20px;
-            flex: 1;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #f7f7f7;
-            margin-top: auto;
-        }
-        footer a {
-            margin-right: 15px;
-            color: #333;
-            text-decoration: none;
-        }
-        @media (max-width: 600px) {
-            nav div { font-size: 14px; }
-            nav a { display: block; padding: 10px 0; }
-        }
-    </style>
-</head>
-<body>
+<section id="projects">
+  <h2>Featured Projects</h2>
+  
+  <div class="project-card">
+    <h3><a href="LINK_TO_PROJECT">Project Name</a></h3>
+    <p>A brief 1-2 sentence description of what this is and why it matters.</p>
+    <small>Stack: Python, React, PostgreSQL</small>
+  </div>
 
-<nav>
-    <div>
-        <h2>Mayke De Freitas Santos' Website</h2>
-        <tt style="font-size:16px;">Here you can find most of, if not all, my writings</tt>
-    </div>
-    <div style="margin-top: 20px;">
-        <a href="academic_articles.html">Academic Articles</a>
-        <a href="/">Book Chapters</a>
-        <a href="opinion.html">Opinion</a>
-        <a href="projects.html">Projects</a>
-        <a href="charts.html">Charts</a>
-        <a href="vm_gui.html">VM GUI</a> <!-- New tab added -->
-    </div>
-</nav>
-
-<section class="graph-container">
-    <!-- Content removed as requested -->
+  <div class="project-card">
+    <h3><a href="LINK_TO_PROJECT">Another Project</a></h3>
+    <p>Explain the problem you solved here.</p>
+    <small>Stack: C++, Embedded, Hackaday</small>
+  </div>
 </section>
 
-<footer>
-    <a href="mailto:maykef@gmail.com">Email</a>
-    <a href="https://github.com/maykef">GitHub</a>
-    <a href="https://hackaday.io/maykef">Hackaday</a>
-</footer>
-
-</body>
-</html>
+<section id="writing" style="margin-top: 50px; opacity: 0.8;">
+  <hr>
+  <h4>Other Writings & Archive</h4>
+  <ul>
+    <li><a href="/writing">Academic Articles</a></li>
+    <li><a href="/opinion">Opinion Pieces</a></li>
+  </ul>
+</section>
