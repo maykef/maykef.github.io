@@ -6,7 +6,7 @@
     <title>Mayke De Freitas Santos</title>
     
     <meta property="og:title" content="Mayke De Freitas Santos - Systems & Infrastructure">
-    <meta property="og:image" content="https://maykef.info/img/IMG_7428.JPG">
+    <meta property="og:image" content="https://maykef.info/img/IMG_7531.JPG">
     <meta property="og:type" content="website">
 
     <style>
@@ -22,10 +22,10 @@
         /* Interactive Gallery */
         .gallery-container { margin: 30px 0; }
         .main-frame-wrapper { width: 100%; background: #f9f9f9; border-radius: 12px; border: 1px solid #eee; overflow: hidden; margin-bottom: 15px; }
-        .main-frame { width: 100%; display: block; height: auto; transition: opacity 0.2s ease-in-out; }
+        .main-frame { width: 100%; display: block; height: auto; transition: opacity 0.2s ease-in-out; cursor: zoom-in; }
         
         .thumbnail-row { display: flex; gap: 12px; }
-        .thumbnail { width: 100px; height: 70px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.2s; }
+        .thumbnail { width: 120px; height: 80px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.2s; }
         .thumbnail:hover { opacity: 1; }
         .thumbnail.active { border-color: #000; opacity: 1; }
 
@@ -53,17 +53,17 @@
                 <span class="tag">Hardware</span><span class="tag">Workstation</span><span class="tag">HPC</span>
             </div>
             <h2>Single-Tower High-Performance Rig</h2>
-            <p>An enterprise-grade workstation built for heavy computational workloads, featuring 48 PCIe 5.0 lanes and massive storage scalability.</p>
+            <p>An enterprise-grade workstation built for heavy computational workloads[cite: 1]. It features 48 PCIe 5.0 lanes and massive storage scalability.</p>
 
             <div class="gallery-container">
                 <div class="main-frame-wrapper">
-                    <img id="mainDisplay" src="img/IMG_7428.JPG" class="main-frame" alt="Workstation Main View">
+                    <img id="mainDisplay" src="img/IMG_7531.JPG" class="main-frame" alt="Workstation View">
                 </div>
                 
                 <div class="thumbnail-row">
-                    <img src="img/IMG_7428.JPG" class="thumbnail active" onclick="updateGallery(this)" alt="Interior Overview">
-                    <img src="img/IMG_7429.JPG" class="thumbnail" onclick="updateGallery(this)" alt="GPU Detail">
-                    <img src="img/IMG_7430.JPG" alt="Cooling Detail" class="thumbnail" onclick="updateGallery(this)">
+                    <img src="img/IMG_7531.JPG" class="thumbnail active" onclick="updateGallery(this)" alt="Interior Overview">
+                    <img src="img/IMG_7533.JPG" class="thumbnail" onclick="updateGallery(this)" alt="GPU Detail">
+                    <img src="img/IMG_7536.JPG" class="thumbnail" onclick="updateGallery(this)" alt="Cooling Detail">
                 </div>
             </div>
 
@@ -73,11 +73,11 @@
                 </thead>
                 <tbody>
                     <tr><td>CPU</td><td>AMD Threadripper 7970X</td><td>32 cores, 48 PCIe 5.0 lanes; Silverstone XE360 cooling.</td></tr>
-                    <tr><td>GPU</td><td>NVIDIA RTX PRO 6000 96GB</td><td>Blackwell architecture for enterprise compute.</td></tr>
-                    <tr><td>RAM</td><td>128 GB DDR5-4800 ECC</td><td>Expandable to 1TB.</td></tr>
+                    <tr><td>GPU</td><td>NVIDIA RTX PRO 6000 96GB</td><td>Enterprise-grade Blackwell architecture.</td></tr>
+                    <tr><td>RAM</td><td>128 GB DDR5-4800 ECC</td><td>4 × 32 GB; Expandable to up to 1TB.</td></tr>
                     <tr><td>Storage</td><td>96TB ZFS Pool</td><td>4x Seagate IronWolf Pro 24TB drives.</td></tr>
-                    <tr><td>Motherboard</td><td>ASUS Pro WS TRX50-SAGE</td><td>IPMI, quad M.2, and ECC support.</td></tr>
-                    <tr><td>PSU</td><td>Corsair AX1600i</td><td>Digital power delivery.</td></tr>
+                    <tr><td>Motherboard</td><td>ASUS Pro WS TRX50-SAGE</td><td>Workstation-class with IPMI, quad M.2, and ECC support.</td></tr>
+                    <tr><td>PSU</td><td>Corsair AX1600i</td><td>1600W digital power delivery.</td></tr>
                 </tbody>
             </table>
         </section>
@@ -86,18 +86,22 @@
     <script>
         function updateGallery(element) {
             const mainImg = document.getElementById('mainDisplay');
-            mainImg.style.opacity = '0'; // Fade out
+            mainImg.style.opacity = '0'; // Start fade out
             
             setTimeout(() => {
-                mainImg.src = element.src;
-                mainImg.style.opacity = '1'; // Fade in
-            }, 200);
+                mainImg.src = element.src; // Swap image
+                mainImg.style.opacity = '1'; // Fade back in
+            }, 150);
 
-            // Update active state
+            // Update active state on thumbnails
             document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
         }
     </script>
+
+    <footer style="text-align: left; opacity: 0.5; margin-top: 5rem; font-size: 0.8rem; padding-bottom: 2rem;">
+        &copy; 2026 Mayke De Freitas Santos
+    </footer>
 
 </body>
 </html>
