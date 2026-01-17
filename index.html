@@ -5,52 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mayke De Freitas Santos</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 650px; margin: 40px auto; padding: 0 10px; color: #333; }
-        h1 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .bio { color: #666; margin-bottom: 2rem; }
-        section { margin-bottom: 3rem; }
-        .project-card { border-left: 2px solid #eee; padding-left: 1rem; margin-bottom: 1.5rem; }
-        .project-card h3 { margin: 0; font-size: 1.1rem; }
-        .project-card p { margin: 5px 0; font-size: 0.95rem; }
-        .tags { font-family: monospace; font-size: 0.8rem; color: #888; }
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 750px; margin: 40px auto; padding: 0 20px; color: #333; background: #fff; }
+        h1 { font-size: 1.8rem; margin-bottom: 0.5rem; letter-spacing: -0.5px; }
+        .bio { color: #666; margin-bottom: 2rem; font-size: 1.1rem; }
+        .project-card { border: 1px solid #eee; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; background: #fafafa; }
+        .project-card h2 { margin-top: 0; font-size: 1.4rem; color: #000; }
+        .specs-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; }
+        .specs-table td { padding: 8px 0; border-bottom: 1px solid #eee; }
+        .specs-table td:first-child { font-weight: bold; width: 30%; color: #555; }
+        .tag { background: #000; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-family: monospace; margin-right: 5px; }
+        nav a { color: #0066cc; text-decoration: none; margin-right: 15px; font-weight: 500; }
+        nav a:hover { text-decoration: underline; }
+        .img-placeholder { background: #ddd; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 8px; color: #666; font-style: italic; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Mayke De Freitas Santos</h1>
-        <p class="bio">Developer & Researcher. Focused on [Your Current Focus, e.g., Systems Architecture or Data Visualization].</p>
+        <p class="bio">Systems Researcher & Developer focused on high-performance infrastructure.</p>
         <nav>
-            <a href="https://github.com/maykef">GitHub</a> | 
+            <a href="https://github.com/maykef">GitHub</a>
             <a href="mailto:your-email@example.com">Email</a>
         </nav>
     </header>
 
-    <hr style="margin: 2rem 0; border: 0; border-top: 1px solid #eee;">
-
-    <section>
-        <h2>Featured Projects</h2>
-
+    <main style="margin-top: 3rem;">
         <div class="project-card">
-            <h3>VM Graphical Interface</h3>
-            <p>A custom interface for managing virtual environments and system resources.</p>
-            <span class="tags">C++ / Python / System Design</span>
+            <span class="tag">HARDWARE</span>
+            <span class="tag">HPC</span>
+            <h2>7970X Single-Tower Rig</h2>
+            <p>A workstation-class build designed for heavy computational workloads, featuring 48 PCIe 5.0 lanes and massive memory expandability.</p>
+            
+            <table class="specs-table">
+                <tr><td>CPU</td><td>AMD Threadripper 7970X (32 Cores)</td></tr>
+                <tr><td>GPU</td><td>NVIDIA RTX PRO 6000 96GB</td></tr>
+                <tr><td>Memory</td><td>128 GB DDR5-4800 ECC RDIMM</td></tr>
+                <tr><td>Storage</td><td>ZFS Pool (4x 24TB Seagate IronWolf Pro)</td></tr>
+                <tr><td>Motherboard</td><td>ASUS Pro WS TRX50-SAGE (IPMI Support)</td></tr>
+            </table>
+
+            <p><em>Internal layout optimized with Fractal Design Define 7 XL and Corsair AX1600i power delivery.</em></p>
         </div>
 
-        <div class="project-card">
-            <h3>Microscopy Data Viz</h3>
-            <p>Interactive Sankey diagrams used to analyze and visualize microscopy trends.</p>
-            <span class="tags">D3.js / Data Analysis</span>
-        </div>
-
-        <div class="project-card">
-            <h3>[New Project Title]</h3>
-            <p>Describe the specific problem you solved or the tool you built here.</p>
-            <span class="tags">Tech Stack Used</span>
-        </div>
-    </section>
+        <section id="footer-links" style="text-align: center; opacity: 0.5; margin-top: 5rem; font-size: 0.8rem;">
+            &copy; 2026 Mayke De Freitas Santos | <a href="https://maykef.info" style="color: inherit;">maykef.info</a>
+        </section>
+    </main>
 
 </body>
 </html>
