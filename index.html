@@ -4,24 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mayke De Freitas Santos</title>
+    <meta name="description" content="Systems Researcher & Developer. Specialized in high-performance hardware architecture.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://maykef.info/">
+    <meta property="og:title" content="Mayke De Freitas Santos - High Performance Computing">
+    <meta property="og:description" content="A showcase of enterprise-grade workstation architecture and systems development.">
+    <meta property="og:image" content="https://maykef.info/img/IMG_7428.JPG">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://maykef.info/">
+    <meta property="twitter:title" content="Mayke De Freitas Santos">
+    <meta property="twitter:description" content="A showcase of enterprise-grade workstation architecture and systems development.">
+    <meta property="twitter:image" content="https://maykef.info/img/IMG_7428.JPG">
+
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; background: #fff; }
         h1 { font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -1px; color: #000; }
         .bio { color: #666; margin-bottom: 2rem; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 2rem; }
         
-        /* Project Section */
         .project-card { margin-bottom: 4rem; }
         .project-card h2 { margin-top: 0; font-size: 1.8rem; color: #000; }
         .project-description { font-size: 1.1rem; color: #444; margin-bottom: 2rem; max-width: 700px; }
 
-        /* Comprehensive Image Gallery */
         .gallery-container { display: flex; flex-direction: column; gap: 15px; margin: 30px 0; }
-        .gallery-main img { width: 100%; border-radius: 12px; border: 1px solid #eee; display: block; }
+        .gallery-main img { width: 100%; border-radius: 12px; border: 1px solid #eee; display: block; height: auto; }
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .gallery-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid #eee; cursor: pointer; transition: transform 0.2s; }
+        .gallery-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 1px solid #eee; transition: transform 0.2s; }
         .gallery-grid img:hover { transform: scale(1.02); }
 
-        /* Tech Specs Table */
         .specs-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
         .specs-table th, .specs-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid #eee; }
         .specs-table th { background: #f8f8f8; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; color: #888; letter-spacing: 1px; }
@@ -35,7 +46,7 @@
         
         @media (max-width: 600px) {
             .gallery-grid { grid-template-columns: 1fr 1fr; }
-            .specs-table td:last-child { display: none; } /* Hide rationale on mobile for space */
+            .specs-table td:last-child { display: none; }
         }
     </style>
 </head>
@@ -56,21 +67,21 @@
                 <span class="tag">Hardware</span><span class="tag">Workstation</span><span class="tag">HPC</span>
             </div>
             <h2>Single-Tower High-Performance Rig</h2>
-            <p class="project-description">An enterprise-grade workstation built for heavy computational workloads, featuring 48 PCIe 5.0 lanes and massive ZFS storage scalability. Optimized for local AI development and high-throughput data processing.</p>
+            [cite_start]<p class="project-description">An enterprise-grade workstation built for heavy computational workloads, featuring 48 PCIe 5.0 lanes and massive ZFS storage scalability[cite: 2]. Optimized for local AI development and high-throughput data processing.</p>
 
             <div class="gallery-container">
                 <div class="gallery-main">
-                    <img src="img/IMG_7428.jpg" alt="Workstation full interior view">
+                    <img src="img/IMG_7428.JPG" alt="Workstation full interior view">
                 </div>
-            
+                
                 <div class="gallery-grid">
-                    <img src="img/IMG_7429.jpg" alt="GPU and Motherboard detail">
-                    <img src="img/IMG_7430.jpg" alt="Cooling system detail">
-                    <img src="img/IMG_7531.jpg" alt="Interior Detail 1">
-                    <img src="img/IMG_7532.jpg" alt="Interior Detail 2">
-                    <img src="img/IMG_7533.jpg" alt="Hardware Detail 3">
-                    <img src="img/IMG_7534.jpg" alt="Chassis Detail 4">
-                    <img src="img/IMG_7538.jpg" alt="Assembly Detail 5">
+                    <img src="img/IMG_7429.JPG" alt="NVIDIA RTX PRO 6000 detail">
+                    <img src="img/IMG_7430.JPG" alt="Silverstone XE360 detail">
+                    <img src="img/IMG_7531.JPG" alt="Interior Detail 1">
+                    <img src="img/IMG_7532.JPG" alt="Interior Detail 2">
+                    <img src="img/IMG_7533.JPG" alt="Hardware Detail 3">
+                    <img src="img/IMG_7534.JPG" alt="Chassis Detail 4">
+                    <img src="img/IMG_7538.JPG" alt="Assembly Detail 5">
                 </div>
             </div>
 
@@ -85,33 +96,33 @@
                 <tbody>
                     <tr>
                         <td>CPU</td>
-                        <td>AMD Threadripper 7970X</td>
-                        <td>32 cores with 48 PCIe 5.0 lanes for high-bandwidth I/O.</td>
+                        [cite_start]<td>AMD Threadripper 7970X [cite: 2]</td>
+                        <td>48 PCIe 5.0 lanes, 32 cores. [cite_start]Cooled with a Silverstone XE360[cite: 2].</td>
                     </tr>
                     <tr>
                         <td>GPU</td>
-                        <td>NVIDIA RTX PRO 6000 96GB</td>
-                        <td>96GB VRAM for large-scale model training and compute.</td>
+                        [cite_start]<td>NVIDIA RTX PRO 6000 96GB Blackwell [cite: 2]</td>
+                        [cite_start]<td>96GB VRAM for massive compute workloads[cite: 2].</td>
                     </tr>
                     <tr>
                         <td>RAM</td>
-                        <td>128 GB DDR5-4800 ECC</td>
-                        <td>ECC RDIMM support for data integrity; expandable to 1TB.</td>
+                        [cite_start]<td>128 GB (4 × 32 GB) DDR5-4800 ECC RDIMM [cite: 2]</td>
+                        [cite_start]<td>ECC support; expandable to 1TB[cite: 2].</td>
                     </tr>
                     <tr>
                         <td>Storage</td>
-                        <td>96TB Object-Store Pool</td>
-                        <td>ZFS pool using 4x Seagate IronWolf Pro 24TB drives.</td>
+                        [cite_start]<td>Seagate IronWolf Pro 24TB x 4 [cite: 2]</td>
+                        [cite_start]<td>96TB ZFS pool for object-store drives[cite: 2].</td>
                     </tr>
                     <tr>
                         <td>Motherboard</td>
-                        <td>ASUS Pro WS TRX50-SAGE</td>
-                        <td>Workstation-class with IPMI and quad M.2 support.</td>
+                        [cite_start]<td>ASUS Pro WS TRX50-SAGE [cite: 2]</td>
+                        [cite_start]<td>Workstation-class with IPMI and quad M.2[cite: 2].</td>
                     </tr>
                     <tr>
                         <td>PSU</td>
-                        <td>Corsair AX1600i</td>
-                        <td>Stable power delivery for high-TDP components.</td>
+                        [cite_start]<td>Corsair AX1600i [cite: 2]</td>
+                        [cite_start]<td>High-capacity digital power supply[cite: 2].</td>
                     </tr>
                 </tbody>
             </table>
@@ -119,7 +130,7 @@
     </main>
 
     <footer style="text-align: left; opacity: 0.5; margin-top: 5rem; font-size: 0.8rem; padding-bottom: 2rem;">
-        &copy; 2026 Mayke De Freitas Santos &bull; Built with focus on the Small Web
+        &copy; 2026 Mayke De Freitas Santos
     </footer>
 
 </body>
