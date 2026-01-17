@@ -22,7 +22,7 @@
         /* Interactive Gallery */
         .gallery-container { margin: 30px 0; }
         .main-frame-wrapper { width: 100%; background: #f9f9f9; border-radius: 12px; border: 1px solid #eee; overflow: hidden; margin-bottom: 15px; }
-        .main-frame { width: 100%; display: block; height: auto; transition: opacity 0.2s ease-in-out; cursor: zoom-in; }
+        .main-frame { width: 100%; display: block; height: auto; transition: opacity 0.2s ease-in-out; }
         
         .thumbnail-row { display: flex; gap: 12px; }
         .thumbnail { width: 120px; height: 80px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.2s; }
@@ -34,13 +34,14 @@
         .specs-table th, .specs-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid #eee; }
         .specs-table th { background: #f8f8f8; font-weight: 600; text-transform: uppercase; font-size: 0.75rem; color: #888; }
         .specs-table td:first-child { font-weight: bold; width: 25%; color: #000; }
+        .specs-table td:last-child { color: #666; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Mayke De Freitas Santos</h1>
-        <p>Systems Researcher & Developer. Specialized in high-performance hardware architecture.</p>
+        <p>Systems Researcher & Developer. Specialized in high-performance hardware architecture and infrastructure.</p>
         <nav>
             <a href="https://github.com/maykef">GitHub</a>
             <a href="mailto:contact@maykef.info">Email</a>
@@ -53,7 +54,7 @@
                 <span class="tag">Hardware</span><span class="tag">Workstation</span><span class="tag">HPC</span>
             </div>
             <h2>Single-Tower High-Performance Rig</h2>
-            <p>An enterprise-grade workstation built for heavy computational workloads. It features 48 PCIe 5.0 lanes and massive storage scalability.</p>
+            <p>An enterprise-grade workstation built for heavy computational workloads, featuring 48 PCIe 5.0 lanes and tiered storage for maximum throughput.</p>
 
             <div class="gallery-container">
                 <div class="main-frame-wrapper">
@@ -73,9 +74,11 @@
                 </thead>
                 <tbody>
                     <tr><td>CPU</td><td>AMD Threadripper 7970X</td><td>32 cores, 48 PCIe 5.0 lanes; Silverstone XE360 cooling.</td></tr>
-                    <tr><td>GPU</td><td>NVIDIA RTX PRO 6000 96GB</td><td>Enterprise-grade Blackwell architecture.</td></tr>
-                    <tr><td>RAM</td><td>128 GB DDR5-4800 ECC</td><td>4 × 32 GB; Expandable to up to 1TB.</td></tr>
-                    <tr><td>Storage</td><td>96TB ZFS Pool</td><td>4x Seagate IronWolf Pro 24TB drives.</td></tr>
+                    <tr><td>GPU</td><td>NVIDIA RTX PRO 6000 96GB</td><td>Enterprise-grade Blackwell architecture for heavy compute.</td></tr>
+                    <tr><td>RAM</td><td>128 GB DDR5-4800 ECC</td><td>4 × 32 GB RDIMM; Expandable to up to 1TB.</td></tr>
+                    <tr><td>NVMe OS</td><td>Crucial P2 1TB</td><td>Dedicated 1TB NVMe for the Operating System.</td></tr>
+                    <tr><td>NVMe Scratch</td><td>Samsung 9100 Pro 8TB</td><td>8TB high-speed scratch storage; expandable to 24TB.</td></tr>
+                    <tr><td>Bulk Storage</td><td>96TB ZFS Pool</td><td>4x Seagate IronWolf Pro 24TB object-store drives.</td></tr>
                     <tr><td>Motherboard</td><td>ASUS Pro WS TRX50-SAGE</td><td>Workstation-class with IPMI, quad M.2, and ECC support.</td></tr>
                     <tr><td>PSU</td><td>Corsair AX1600i</td><td>1600W digital power delivery.</td></tr>
                 </tbody>
@@ -86,14 +89,13 @@
     <script>
         function updateGallery(element) {
             const mainImg = document.getElementById('mainDisplay');
-            mainImg.style.opacity = '0'; // Start fade out
+            mainImg.style.opacity = '0';
             
             setTimeout(() => {
-                mainImg.src = element.src; // Swap image
-                mainImg.style.opacity = '1'; // Fade back in
+                mainImg.src = element.src;
+                mainImg.style.opacity = '1';
             }, 150);
 
-            // Update active state on thumbnails
             document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
         }
