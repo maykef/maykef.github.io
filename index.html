@@ -71,7 +71,13 @@
         <div id="workstation" class="project-content active">
             <span class="tag">Hardware</span><span class="tag">HPC</span>
             <h2>Single-Tower High-Performance Rig</h2>
-            <p>A workstation engineered for high-throughput AI development, optimized for the NVIDIA Blackwell architecture.</p>
+            <p>A workstation engineered for high-throughput AI development, optimized for the NVIDIA Blackwell architecture.
+            While most people dump their savings into depreciating metal boxes that sit in traffic, I'd rather invest in compute that actually does something interesting. This machine runs 70B+ parameter models locally, processes terabyte-scale microscopy datasets, and will eventually scale to three GPUs and 1TB of RAM—all for less than a decent used car.
+            The core philosophy here is modularity without compromise. The Threadripper 7970X gives me 48 PCIe 5.0 lanes, meaning I can run three flagship GPUs at full x16 bandwidth without needing to mortgage my house for a dual-socket Xeon-W or EPYC platform. The ASUS Pro WS TRX50-SAGE has IPMI and ECC support, so this isn't just a gaming rig with delusions of grandeur—it's production-grade infrastructure.
+            This started as a microscopy research platform. I needed something that could crunch through days of high-resolution imaging data while simultaneously running LLM inference for automated experimental workflows. Turns out, the Venn diagram of "can process microscopy data" and "can run massive language models" is just "absurdly powerful computer."
+            ECC memory isn't negotiable. When you're running multi-day experiments or training on scientific data, a single bit flip can corrupt everything. The 128GB DDR5 ECC setup expands to 1TB because why set artificial limits?
+            The 96TB ZFS pool means I can stop worrying about cloud storage costs and actually work with real datasets locally. Checksumming, snapshots, data integrity—all the things you want when your data represents months of work.
+            The RTX 6000 Ada (96GB VRAM) is cutting-edge enough to stay relevant as models get bigger, and when I need more, I'll just add two more GPUs. 288GB total VRAM in a single tower. No racks, no datacenter, no monthly AWS bills making me cry.</p>
 
             <div class="gallery-container">
                 <div class="main-frame-wrapper">
