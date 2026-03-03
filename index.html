@@ -21,7 +21,7 @@
         .contact-nav a:hover { border-bottom: 2px solid #000; }
 
         /* Project Tabs */
-        .tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; flex-wrap: wrap; }
         .tab-btn { background: none; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 600; color: #888; cursor: pointer; border-radius: 6px; transition: 0.2s; }
         .tab-btn:hover { color: #000; background: #f5f5f5; }
         .tab-btn.active { color: var(--accent); background: #eef6ff; }
@@ -49,25 +49,93 @@
         .specs-table td:first-child { font-weight: bold; width: 25%; color: #000; }
         
         .code-block { background: #1a1a1a; color: #ccc; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 20px 0; }
+
+        /* ── CV TAB STYLES ─────────────────────────────────────────── */
+        .cv-wrapper { max-width: 820px; }
+
+        .cv-header { margin-bottom: 2rem; }
+        .cv-header h2 { font-size: 2rem; margin: 0 0 0.2rem 0; color: #000; letter-spacing: -0.5px; }
+        .cv-header .cv-subtitle { font-size: 0.95rem; color: #666; margin: 0 0 1.2rem 0; }
+        .cv-download-btn {
+            display: inline-block;
+            padding: 8px 18px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: background 0.15s;
+        }
+        .cv-download-btn:hover { background: var(--accent); }
+
+        .cv-section { margin-bottom: 2rem; }
+        .cv-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .cv-rule { border: none; border-top: 1px solid #eee; margin: 0 0 1rem 0; }
+
+        /* Profile */
+        .cv-profile { font-size: 0.95rem; color: #444; line-height: 1.7; margin: 0; }
+
+        /* Achievement box */
+        .cv-achievements { background: #f5f9ff; border-radius: 8px; padding: 1rem 1rem 0.5rem 1rem; border: 1px solid #dce8f7; }
+        .cv-achievements ul { margin: 0; padding-left: 1.2rem; }
+        .cv-achievements li { font-size: 0.9rem; color: #333; margin-bottom: 0.5rem; line-height: 1.6; }
+
+        /* Experience */
+        .cv-role { margin-bottom: 1.4rem; }
+        .cv-role-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px; margin-bottom: 0.2rem; }
+        .cv-role-title { font-weight: 700; font-size: 0.95rem; color: #000; }
+        .cv-role-org { font-size: 0.9rem; color: #555; }
+        .cv-role-dates { font-size: 0.82rem; color: #888; font-style: italic; white-space: nowrap; }
+        .cv-role-desc { font-size: 0.88rem; color: #555; margin: 0.2rem 0 0.4rem 0; line-height: 1.6; }
+        .cv-role ul { margin: 0.3rem 0 0 0; padding-left: 1.2rem; }
+        .cv-role li { font-size: 0.88rem; color: #444; margin-bottom: 0.3rem; line-height: 1.6; }
+
+        /* Tech capability */
+        .cv-tech ul { margin: 0; padding-left: 1.2rem; }
+        .cv-tech li { font-size: 0.9rem; color: #444; margin-bottom: 0.4rem; line-height: 1.6; }
+
+        /* Education table */
+        .cv-edu-table { width: 100%; border-collapse: collapse; }
+        .cv-edu-table td { padding: 6px 0; font-size: 0.9rem; vertical-align: top; }
+        .cv-edu-table td:first-child { font-weight: 600; color: #000; width: 60%; }
+        .cv-edu-table td:last-child { color: #888; font-size: 0.85rem; text-align: right; }
+        .cv-edu-sub { display: block; font-weight: 400; color: #666; font-size: 0.85rem; }
+
+        @media print {
+            .tabs, .contact-nav, header h1, header p, footer { display: none; }
+            .cv-wrapper { padding: 0; }
+            body { margin: 0; }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Mayke De Freitas Santos</h1>
-        <p>This page shows what I am working on at the moment. </p>
+        <p>This page shows what I am working on at the moment.</p>
         <div class="contact-nav">
             <a href="https://github.com/maykef">GitHub</a>
-            <a href="mailto:contact@gmail.com">Email</a>
+            <a href="mailto:maykef@gmail.com">Email</a>
         </div>
 
         <div class="tabs">
             <button class="tab-btn active" onclick="showProject('workstation', this)">Workstation Rig</button>
             <button class="tab-btn" onclick="showProject('colpali', this)">ColPali Research Engine</button>
+            <button class="tab-btn" onclick="showProject('cv', this)">CV</button>
         </div>
     </header>
 
     <main>
+        <!-- ── WORKSTATION ─────────────────────────────────────────── -->
         <div id="workstation" class="project-content active">
             <span class="tag">Hardware</span><span class="tag">HPC</span>
             <h2>Single-Tower High-Performance Rig</h2>
@@ -83,7 +151,6 @@
             <p>The <strong>96TB ZFS pool</strong> means I can stop worrying about cloud storage costs and actually work with real datasets locally. Checksumming, snapshots, data integrity—all the things you want when your data represents months of work.</p>
             
             <p>The <strong>RTX 6000 Blackwell (96GB VRAM)</strong> is cutting-edge enough to stay relevant as models get bigger, and when I need more, I'll just add two more GPUs. <strong>288GB total VRAM</strong> in a single tower. No racks, no datacenter, no monthly AWS bills making me cry.</p>
-            
 
             <div class="gallery-container">
                 <div class="main-frame-wrapper">
@@ -110,6 +177,7 @@
             </table>
         </div>
 
+        <!-- ── COLPALI ──────────────────────────────────────────────── -->
         <div id="colpali" class="project-content">
             <span class="tag">Software</span><span class="tag">Vision-RAG</span>
             <h2>ColPali Research Engine</h2>
@@ -130,6 +198,179 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- ── CV ─────────────────────────────────────────────────────── -->
+        <div id="cv" class="project-content">
+            <div class="cv-wrapper">
+
+                <div class="cv-header">
+                    <h2>Mayke De Freitas Santos</h2>
+                    <p class="cv-subtitle">Strategic Sourcing &amp; Procurement Consultant &nbsp;·&nbsp; Cambridge, UK &nbsp;·&nbsp; Open to London hybrid<br>
+                    <a href="mailto:maykef@gmail.com">maykef@gmail.com</a> &nbsp;·&nbsp; <a href="https://github.com/maykef">github.com/maykef</a> &nbsp;·&nbsp; <a href="https://maykef.info">maykef.info</a></p>
+                    <a class="cv-download-btn" href="MSantos-CV.docx" download>↓ Download CV</a>
+                </div>
+
+                <!-- Profile -->
+                <div class="cv-section">
+                    <div class="cv-section-title">Profile</div>
+                    <hr class="cv-rule">
+                    <p class="cv-profile">Procurement strategist with deep expertise in complex scientific and technical categories, built through senior roles at the University of Cambridge. Designed and led category strategies across £11M in annual spend, delivered £25M+ in high-value tenders, and built supplier frameworks from greenfield across imaging, optics, and laboratory gases. Unusually, I understand the science behind what I buy: I have hands-on experience with the instruments, the data they generate, and the infrastructure needed to process it. This enables faster market analysis, sharper supplier evaluation, and better outcomes for technically demanding clients.</p>
+                </div>
+
+                <!-- Key Achievements -->
+                <div class="cv-section">
+                    <div class="cv-section-title">Key Achievements</div>
+                    <hr class="cv-rule">
+                    <div class="cv-achievements">
+                        <ul>
+                            <li>Delivered <strong>£220K early savings (2%)</strong> across laboratory equipment categories by aggregating spend and centralising supplier relationships — with a roadmap to a further 5%.</li>
+                            <li>Led <strong>14+ high-value tenders totalling £25M+</strong>, including Wind Tunnel (£3M), Rotating Rig (£3M), Lab Equipment (£750K), and AV Systems (£1.2M) for world-class research facilities.</li>
+                            <li>Designed and administered the <strong>University of Cambridge Laboratory Confocal Microscope Framework</strong> — a pre-agreed supplier structure that reduced procurement burden on research staff across multiple departments.</li>
+                            <li>Built long-term <strong>category strategies for Laboratory Gases (£2M), Optics (£5M), and Imaging (£4M)</strong> from scratch in a greenfield procurement environment.</li>
+                            <li>Negotiated major contracts in complex, technically sensitive categories including lab gases (£3.2M) and specialist rotating equipment (£3M) with zero prior frameworks in place.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="cv-section">
+                    <div class="cv-section-title">Professional Experience</div>
+                    <hr class="cv-rule">
+
+                    <div class="cv-role">
+                        <div class="cv-role-header">
+                            <span class="cv-role-title">Category Manager — Laboratory</span>
+                            <span class="cv-role-dates">Mar 2023 – Present</span>
+                        </div>
+                        <div class="cv-role-org">University of Cambridge</div>
+                        <p class="cv-role-desc">Lead strategic procurement for three specialist categories with £11M combined annual spend, partnering directly with scientists, professors, and research infrastructure teams.</p>
+                        <ul>
+                            <li>Developed long-term category strategies for Imaging (£4M), Optics (£5M), and Laboratory Gases (£2M) — establishing market intelligence, supplier landscapes, and multi-year sourcing plans.</li>
+                            <li>Co-created and administered the Confocal Microscope Framework Agreement, streamlining access for research teams and embedding pre-negotiated commercial terms across the supplier base.</li>
+                            <li>Achieved 2% category-wide cost savings by centralising demand and aggregating supplier relationships; identified pathway to further 5% reduction.</li>
+                            <li>Produced advanced spend analytics and market visualisations using Python (Pandas, Matplotlib, Plotly) — enabling data-driven category decisions beyond standard procurement reporting.</li>
+                            <li>Embedded as a trusted advisor to scientific stakeholders — translating complex technical requirements into commercial strategy and supplier briefs.</li>
+                        </ul>
+                    </div>
+
+                    <div class="cv-role">
+                        <div class="cv-role-header">
+                            <span class="cv-role-title">Project Buyer</span>
+                            <span class="cv-role-dates">Aug 2021 – Mar 2023</span>
+                        </div>
+                        <div class="cv-role-org">University of Cambridge</div>
+                        <p class="cv-role-desc">Led end-to-end procurement for major capital and infrastructure projects across Science, Engineering, Chemistry, and Physics faculties.</p>
+                        <ul>
+                            <li>Managed 14+ tenders valued at £25M+, including the UK National Centre for Propulsion and Power (Whittle Laboratory) and the New Atria Building (Heart &amp; Lung Institute).</li>
+                            <li>Negotiated contracts across technically complex categories: Wind Tunnel (£3M), Rotating Rig (£3M), Lab Gases (£3.2M), Lab Equipment (£750K), AV Systems (£1.2M).</li>
+                            <li>Built relationships with academic and scientific stakeholders to translate research requirements into fit-for-purpose procurement specifications.</li>
+                        </ul>
+                    </div>
+
+                    <div class="cv-role">
+                        <div class="cv-role-header">
+                            <span class="cv-role-title">Procurement Specialist</span>
+                            <span class="cv-role-dates">Feb 2021 – Jul 2021</span>
+                        </div>
+                        <div class="cv-role-org">NHS Collaborative Procurement Hub — East of England</div>
+                        <ul>
+                            <li>Supported procurement across FM, ICT, and clinical categories; contributed to the rollout of three major procurement frameworks.</li>
+                            <li>Led bid evaluation and tendering processes reporting to the Head of Corporate Services.</li>
+                        </ul>
+                    </div>
+
+                    <div class="cv-role">
+                        <div class="cv-role-header">
+                            <span class="cv-role-title">Contracts &amp; Performance Officer</span>
+                            <span class="cv-role-dates">Jan 2020 – Jan 2021</span>
+                        </div>
+                        <div class="cv-role-org">Mayor's Office for Policing and Crime (MOPAC)</div>
+                        <ul>
+                            <li>Managed complex contract administration and supplier performance monitoring for major public sector contracts.</li>
+                            <li>Delivered process improvements saving approximately 300 staff hours through optimised contract and PO procedures.</li>
+                        </ul>
+                    </div>
+
+                    <div class="cv-role">
+                        <div class="cv-role-header">
+                            <span class="cv-role-title">Contracts Assistant (NPPV3)</span>
+                            <span class="cv-role-dates">Mar 2019 – Dec 2019</span>
+                        </div>
+                        <div class="cv-role-org">Bedfordshire Police</div>
+                        <ul>
+                            <li>ICT procurement and contract management for critical police technology systems (£20M annual budget).</li>
+                        </ul>
+                    </div>
+
+                    <div class="cv-role">
+                        <div class="cv-role-header">
+                            <span class="cv-role-title">Procurement Manager</span>
+                            <span class="cv-role-dates">Sep 2017 – Feb 2019</span>
+                        </div>
+                        <div class="cv-role-org">Agrosight</div>
+                        <ul>
+                            <li>Led international procurement for product development; negotiated contracts with UK and Chinese manufacturers.</li>
+                            <li>Achieved £400K+ in cost savings and secured initial contracts with Brazilian customers.</li>
+                        </ul>
+                    </div>
+
+                    <div class="cv-role">
+                        <div class="cv-role-header">
+                            <span class="cv-role-title">Consultant</span>
+                            <span class="cv-role-dates">Jul 2016 – Sep 2016</span>
+                        </div>
+                        <div class="cv-role-org">UNEP-WCMC</div>
+                    </div>
+
+                    <div class="cv-role">
+                        <div class="cv-role-header">
+                            <span class="cv-role-title">Project Manager</span>
+                            <span class="cv-role-dates">Jan 2010 – Jul 2015</span>
+                        </div>
+                        <div class="cv-role-org">Oro Verde — Die Tropenwaldstiftung</div>
+                        <p class="cv-role-desc">Managed international conservation programmes across South America. Led cross-border stakeholder engagement, grant management, and project delivery in complex, low-resource environments.</p>
+                    </div>
+                </div>
+
+                <!-- Technical Capability -->
+                <div class="cv-section cv-tech">
+                    <div class="cv-section-title">Technical Capability</div>
+                    <hr class="cv-rule">
+                    <p style="font-size:0.88rem;color:#555;margin:0 0 0.6rem 0;">Alongside procurement work, I maintain active research and engineering projects in inference efficiency and scientific imaging infrastructure — areas directly relevant to technology and life sciences procurement mandates.</p>
+                    <ul>
+                        <li>Python data analysis (Pandas, Matplotlib, Plotly) — used in production for spend analytics, category reporting, and supplier market modelling.</li>
+                        <li>Scientific imaging infrastructure: designed and built processing pipelines for 200GB+ Zeiss confocal datasets (OME-Zarr, parallel stitching, NVMe-optimised I/O).</li>
+                        <li>LLM inference research: developed <a href="https://github.com/maykef/forge-edge">forge-edge</a>, a Shannon-grounded inference optimisation system achieving 1.18× speedup on 14B parameter models with zero quality degradation.</li>
+                        <li>Operates a local HPC workstation (Threadripper 7970X, RTX PRO 6000 96GB, 96TB ZFS) — practical familiarity with the infrastructure procurement clients in research and deep tech are acquiring.</li>
+                    </ul>
+                </div>
+
+                <!-- Education -->
+                <div class="cv-section">
+                    <div class="cv-section-title">Qualifications &amp; Education</div>
+                    <hr class="cv-rule">
+                    <table class="cv-edu-table">
+                        <tr>
+                            <td>CIPS Level 4 <span class="cv-edu-sub">Chartered Institute of Procurement &amp; Supply</span></td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>Masters in Conservation Leadership <span class="cv-edu-sub">University of Cambridge</span></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>LLM in International Environmental Law <span class="cv-edu-sub">SOAS – University of London</span></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Degree in Law <span class="cv-edu-sub">Universidad Santa María, Venezuela</span></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
     </main>
 
     <script>
@@ -137,7 +378,6 @@
         function showProject(projectId, btn) {
             document.querySelectorAll('.project-content').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
             document.getElementById(projectId).classList.add('active');
             btn.classList.add('active');
         }
@@ -152,6 +392,12 @@
             }, 150);
             document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
             element.classList.add('active');
+        }
+
+        // Open CV tab if URL hash is #cv
+        if (window.location.hash === '#cv') {
+            const btn = document.querySelector('.tab-btn:last-child');
+            showProject('cv', btn);
         }
     </script>
 
