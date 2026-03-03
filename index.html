@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mayke De Freitas Santos</title>
+
+    <meta property="og:title" content="Mayke De Freitas Santos - Systems & Infrastructure">
+    <meta property="og:image" content="https://maykef.info/img/IMG_7531.JPG">
+    <meta property="og:type" content="website">
+
+    <style>
+        :root { --accent: #0066cc; --bg: #ffffff; }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background: var(--bg);
+        }
+
+        /* ── PAGE LAYOUT ───────────────────────────────────────────── */
+        .page {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ── LEFT SIDEBAR ──────────────────────────────────────────── */
+        .sidebar {
+            width: 220px;
+            flex-shrink: 0;
+            padding: 48px 28px 48px 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-photo {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 1rem;
+            border: 3px solid #eee;
+        }
+
+        .sidebar h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #000;
+            margin: 0 0 0.15rem 0;
+            letter-spacing: -0.3px;
+        }
+
+        .sidebar .sidebar-tagline {
+            font-size: 0.8rem;
+            color: #777;
+            margin: 0 0 1.4rem 0;
+            line-height: 1.5;
+        }
+
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-links a {
+            color: #333;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .sidebar-links a:hover { color: var(--accent); }
+
+        .link-icon {
+            width: 15px;
+            height: 15px;
+            opacity: 0.45;
+            flex-shrink: 0;
+        }
+
+        /* ── VERTICAL DIVIDER ──────────────────────────────────────── */
+        .sidebar-divider {
+            width: 1px;
+            background: #eee;
+            flex-shrink: 0;
+            margin: 0 36px;
+        }
+
+        /* ── MAIN CONTENT ──────────────────────────────────────────── */
+        .content {
+            flex: 1;
+            min-width: 0;
+            padding: 48px 0;
+        }
+
+        /* ── TABS ──────────────────────────────────────────────────── */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 28px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 8px 18px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.15s;
+        }
+
+        .tab-btn:hover { color: #000; background: #f5f5f5; }
+        .tab-btn.active { color: var(--accent); background: #eef6ff; }
+
+        /* ── TAB PANELS ────────────────────────────────────────────── */
+        .project-content { display: none; animation: fadeIn 0.25s ease; }
+        .project-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ── SHARED COMPONENTS ─────────────────────────────────────── */
+        .tag { background: #f0f0f0; color: #444; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-right: 8px; border: 1px solid #ddd; }
+        h2 { font-size: 1.7rem; margin: 14px 0; color: #000; }
+
+        .main-frame-wrapper { width: 100%; background: #f9f9f9; border-radius: 12px; border: 1px solid #eee; overflow: hidden; margin-bottom: 15px; }
+        .main-frame { width: 100%; display: block; height: auto; transition: opacity 0.2s; }
+        .thumbnail-row { display: flex; gap: 12px; margin-bottom: 20px; }
+        .thumbnail { width: 100px; height: 70px; object-fit: cover; border-radius: 6px; cursor: pointer; opacity: 0.6; border: 2px solid transparent; }
+        .thumbnail.active { opacity: 1; border-color: var(--accent); }
+
+        .specs-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.92rem; border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
+        .specs-table th, .specs-table td { padding: 11px 14px; text-align: left; border-bottom: 1px solid #eee; }
+        .specs-table th { background: #f8f8f8; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; color: #888; }
+        .specs-table td:first-child { font-weight: bold; width: 22%; color: #000; }
+
+        .code-block { background: #1a1a1a; color: #ccc; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 20px 0; }
+
+        /* ── CV STYLES ─────────────────────────────────────────────── */
+        .cv-section { margin-bottom: 1.8rem; }
+
+        .cv-section-title {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.4rem;
+        }
+
+        .cv-rule { border: none; border-top: 1px solid #eee; margin: 0 0 0.9rem 0; }
+        .cv-profile { font-size: 0.92rem; color: #444; line-height: 1.7; margin: 0 0 0.8rem 0; }
+
+        .cv-achievements { background: #f5f9ff; border-radius: 8px; padding: 0.9rem 1rem 0.5rem 1rem; border: 1px solid #dce8f7; }
+        .cv-achievements ul { margin: 0; padding-left: 1.1rem; }
+        .cv-achievements li { font-size: 0.88rem; color: #333; margin-bottom: 0.45rem; line-height: 1.6; }
+
+        .cv-role { margin-bottom: 1.3rem; }
+        .cv-role-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px; margin-bottom: 0.1rem; }
+        .cv-role-title { font-weight: 700; font-size: 0.92rem; color: #000; }
+        .cv-role-org { font-size: 0.84rem; color: #666; margin-bottom: 0.2rem; }
+        .cv-role-dates { font-size: 0.8rem; color: #999; font-style: italic; white-space: nowrap; }
+        .cv-role-desc { font-size: 0.86rem; color: #555; margin: 0.2rem 0 0.35rem 0; line-height: 1.6; }
+        .cv-role ul { margin: 0.25rem 0 0 0; padding-left: 1.1rem; }
+        .cv-role li { font-size: 0.86rem; color: #444; margin-bottom: 0.28rem; line-height: 1.6; }
+
+        .cv-tech ul { margin: 0.3rem 0 0 0; padding-left: 1.1rem; }
+        .cv-tech li { font-size: 0.88rem; color: #444; margin-bottom: 0.38rem; line-height: 1.6; }
+        .cv-tech p { font-size: 0.86rem; color: #555; margin: 0 0 0.5rem 0; line-height: 1.6; }
+
+        .cv-edu-table { width: 100%; border-collapse: collapse; }
+        .cv-edu-table td { padding: 5px 0; font-size: 0.88rem; vertical-align: top; }
+        .cv-edu-table td:first-child { font-weight: 600; color: #000; width: 70%; }
+        .cv-edu-table td:last-child { color: #999; font-size: 0.82rem; text-align: right; }
+        .cv-edu-sub { display: block; font-weight: 400; color: #777; font-size: 0.82rem; }
+
+        .cv-download-btn {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 7px 16px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: background 0.15s;
+        }
+        .cv-download-btn:hover { background: var(--accent); }
+
+        /* ── RESPONSIVE ────────────────────────────────────────────── */
+        @media (max-width: 680px) {
+            .page { flex-direction: column; padding: 0 16px; }
+            .sidebar {
+                width: 100%; height: auto; position: static;
+                padding: 28px 0 20px 0;
+                display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
+                border-bottom: 1px solid #eee; margin-bottom: 24px;
+            }
+            .sidebar-photo { width: 72px; height: 72px; margin: 0; }
+            .sidebar h1 { font-size: 1rem; }
+            .sidebar-tagline { display: none; }
+            .sidebar-divider { display: none; }
+            .content { padding: 0 0 40px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <!-- ── SIDEBAR ─────────────────────────────────────────────────── -->
+    <aside class="sidebar">
+        <img
+            src="https://avatars.githubusercontent.com/u/19354019?v=4"
+            alt="Mayke De Freitas Santos"
+            class="sidebar-photo"
+        >
+        <h1>Mayke De Freitas Santos</h1>
+        <p class="sidebar-tagline">Inference efficiency &amp; scientific imaging infrastructure.<br>Cambridge, UK.</p>
+
+        <div class="sidebar-links">
+            <a href="https://github.com/maykef">
+                <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.02c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.57C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                GitHub
+            </a>
+            <a href="mailto:maykef@gmail.com">
+                <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+                maykef@gmail.com
+            </a>
+        </div>
+    </aside>
+
+    <!-- ── VERTICAL DIVIDER ──────────────────────────────────────── -->
+    <div class="sidebar-divider"></div>
+
+    <!-- ── MAIN CONTENT ─────────────────────────────────────────── -->
+    <div class="content">
+        <p style="color:#777; font-size:0.88rem; margin: 0 0 1.2rem 0;">This page shows what I am working on at the moment.</p>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showProject('workstation', this)">Workstation Rig</button>
+            <button class="tab-btn" onclick="showProject('colpali', this)">ColPali Research Engine</button>
+            <button class="tab-btn" onclick="showProject('cv', this)">CV</button>
+        </div>
+
+        <!-- WORKSTATION -->
+        <div id="workstation" class="project-content active">
+            <span class="tag">Hardware</span><span class="tag">HPC</span>
+            <h2>Single-Tower High-Performance Rig</h2>
+
+            <p>While most people drop thousands of £GBP on a depreciating Audi Q3 that loses value the moment they drive it off the lot (or worse, they lease it), I'd rather sink that money into something that can actually produce interesting things. This machine currently runs <strong>70B+ parameter models</strong> locally and processes terabyte-scale microscopy datasets. The full build-out to <strong>three GPUs and 1TB of RAM</strong> will generate value every day and stay relevant as I upgrade components.</p>
+
+            <p>The core philosophy here is <strong>modularity without compromise</strong>. The <strong>Threadripper 7970X</strong> gives me 48 PCIe 5.0 lanes, meaning I can run <strong>three flagship GPUs at full x16 bandwidth</strong> without needing £GBP thousands more on a dual-socket EPYC or enterprise Xeon platform. The ASUS Pro WS TRX50-SAGE has IPMI and ECC support, so this isn't just a gaming rig with delusions of grandeur—it's production-grade infrastructure.</p>
+
+            <p>This started as a <strong>microscopy research platform</strong>. I needed something that could crunch through days of high-resolution imaging data while simultaneously running LLM inference for automated experimental workflows. Turns out, the Venn diagram of "can process microscopy data" and "can run massive language models" is just "absurdly powerful computer."</p>
+
+            <p><strong>ECC memory isn't negotiable.</strong> When you're running multi-day experiments or training on scientific data, a single bit flip can corrupt everything. The 128GB DDR5 ECC setup expands to <strong>1TB</strong> because why set artificial limits?</p>
+
+            <p>The <strong>96TB ZFS pool</strong> means I can stop worrying about cloud storage costs and actually work with real datasets locally. Checksumming, snapshots, data integrity—all the things you want when your data represents months of work.</p>
+
+            <p>The <strong>RTX 6000 Blackwell (96GB VRAM)</strong> is cutting-edge enough to stay relevant as models get bigger, and when I need more, I'll just add two more GPUs. <strong>288GB total VRAM</strong> in a single tower. No racks, no datacenter, no monthly AWS bills making me cry.</p>
+
+            <div class="gallery-container">
+                <div class="main-frame-wrapper">
+                    <img id="mainDisplay" src="img/IMG_7531.JPG" class="main-frame" alt="Workstation View">
+                </div>
+                <div class="thumbnail-row">
+                    <img src="img/IMG_7531.JPG" class="thumbnail active" onclick="updateGallery(this)" alt="Interior Overview">
+                    <img src="img/IMG_7533.JPG" class="thumbnail" onclick="updateGallery(this)" alt="GPU Detail">
+                    <img src="img/IMG_7536.JPG" class="thumbnail" onclick="updateGallery(this)" alt="Cooling Detail">
+                </div>
+            </div>
+
+            <table class="specs-table">
+                <thead><tr><th>Sub-system</th><th>Component</th><th>Rationale</th></tr></thead>
+                <tbody>
+                    <tr><td>CPU</td><td>AMD Threadripper 7970X</td><td>32 cores, 48 PCIe 5.0 lanes.</td></tr>
+                    <tr><td>GPU</td><td>NVIDIA RTX PRO 6000 96GB</td><td>Blackwell architecture for large-scale compute.</td></tr>
+                    <tr><td>RAM</td><td>128 GB DDR5-4800 ECC</td><td>RDIMM; Expandable up to 1TB.</td></tr>
+                    <tr><td>NVMe OS</td><td>Crucial P2 1TB</td><td>Dedicated OS drive.</td></tr>
+                    <tr><td>NVMe Scratch</td><td>Samsung 9100 Pro 8TB</td><td>8TB scratch storage for active datasets.</td></tr>
+                    <tr><td>Bulk Storage</td><td>96TB ZFS Pool</td><td>4x Seagate IronWolf Pro 24TB drives.</td></tr>
+                    <tr><td>Motherboard</td><td>ASUS Pro WS TRX50-SAGE</td><td>IPMI and ECC support.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- COLPALI -->
+        <div id="colpali" class="project-content">
+            <span class="tag">Software</span><span class="tag">Vision-RAG</span>
+            <h2>ColPali Research Engine</h2>
+            <p>A containerized Vision-RAG pipeline that bypasses traditional OCR to perform visual document retrieval directly on document images.</p>
+
+            <div class="code-block">
+                # Blackwell-Optimized Deployment<br>
+                ./manage_env.sh
+            </div>
+
+            <table class="specs-table">
+                <thead><tr><th>Stack</th><th>Technology</th><th>Implementation</th></tr></thead>
+                <tbody>
+                    <tr><td>Environment</td><td>CUDA 12.6.2</td><td>PyTorch Nightly for sm_120 support.</td></tr>
+                    <tr><td>Retriever</td><td>ColPali v1.2</td><td>200 DPI multi-vector indexing.</td></tr>
+                    <tr><td>Reader</td><td>Qwen2-VL-7B</td><td>Visual reasoning with grounding enforcement.</td></tr>
+                    <tr><td>Storage</td><td>NVMe Volume Mount</td><td>Direct access to 8TB scratch NVMe.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CV -->
+        <div id="cv" class="project-content">
+
+            <div class="cv-section">
+                <div class="cv-section-title">Profile</div>
+                <hr class="cv-rule">
+                <p class="cv-profile">Procurement strategist with deep expertise in complex scientific and technical categories, built through senior roles at the University of Cambridge. Designed and led category strategies across £11M in annual spend, delivered £25M+ in high-value tenders, and built supplier frameworks from greenfield across imaging, optics, and laboratory gases. Unusually, I understand the science behind what I buy: I have hands-on experience with the instruments, the data they generate, and the infrastructure needed to process it. This enables faster market analysis, sharper supplier evaluation, and better outcomes for technically demanding clients.</p>
+                <a class="cv-download-btn" href="MSantos-CV.docx" download>↓ Download CV</a>
+            </div>
+
+            <div class="cv-section">
+                <div class="cv-section-title">Key Achievements</div>
+                <hr class="cv-rule">
+                <div class="cv-achievements">
+                    <ul>
+                        <li>Delivered <strong>£220K early savings (2%)</strong> across laboratory equipment categories by aggregating spend and centralising supplier relationships — with a roadmap to a further 5%.</li>
+                        <li>Led <strong>14+ high-value tenders totalling £25M+</strong>, including Wind Tunnel (£3M), Rotating Rig (£3M), Lab Equipment (£750K), and AV Systems (£1.2M) for world-class research facilities.</li>
+                        <li>Designed and administered the <strong>University of Cambridge Laboratory Confocal Microscope Framework</strong> — a pre-agreed supplier structure that reduced procurement burden on research staff across multiple departments.</li>
+                        <li>Built long-term <strong>category strategies for Laboratory Gases (£2M), Optics (£5M), and Imaging (£4M)</strong> from scratch in a greenfield procurement environment.</li>
+                        <li>Negotiated major contracts in technically sensitive categories including lab gases (£3.2M) and specialist rotating equipment (£3M) with zero prior frameworks in place.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cv-section">
+                <div class="cv-section-title">Professional Experience</div>
+                <hr class="cv-rule">
+
+                <div class="cv-role">
+                    <div class="cv-role-header">
+                        <span class="cv-role-title">Category Manager — Laboratory</span>
+                        <span class="cv-role-dates">Mar 2023 – Present</span>
+                    </div>
+                    <div class="cv-role-org">University of Cambridge</div>
+                    <p class="cv-role-desc">Lead strategic procurement for three specialist categories with £11M combined annual spend, partnering directly with scientists, professors, and research infrastructure teams.</p>
+                    <ul>
+                        <li>Developed long-term category strategies for Imaging (£4M), Optics (£5M), and Laboratory Gases (£2M) — establishing market intelligence, supplier landscapes, and multi-year sourcing plans.</li>
+                        <li>Co-created and administered the Confocal Microscope Framework Agreement, streamlining access for research teams and embedding pre-negotiated commercial terms across the supplier base.</li>
+                        <li>Achieved 2% category-wide cost savings by centralising demand and aggregating supplier relationships; identified pathway to further 5% reduction.</li>
+                        <li>Produced advanced spend analytics and market visualisations using Python — enabling data-driven category decisions beyond standard procurement reporting.</li>
+                        <li>Embedded as a trusted advisor to scientific stakeholders — translating complex technical requirements into commercial strategy and supplier briefs.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-role">
+                    <div class="cv-role-header">
+                        <span class="cv-role-title">Project Buyer</span>
+                        <span class="cv-role-dates">Aug 2021 – Mar 2023</span>
+                    </div>
+                    <div class="cv-role-org">University of Cambridge</div>
+                    <p class="cv-role-desc">Led end-to-end procurement for major capital and infrastructure projects across Science, Engineering, Chemistry, and Physics faculties.</p>
+                    <ul>
+                        <li>Managed 14+ tenders valued at £25M+, including the UK National Centre for Propulsion and Power (Whittle Laboratory) and the New Atria Building (Heart &amp; Lung Institute).</li>
+                        <li>Negotiated contracts across technically complex categories: Wind Tunnel (£3M), Rotating Rig (£3M), Lab Gases (£3.2M), Lab Equipment (£750K), AV Systems (£1.2M).</li>
+                        <li>Built relationships with academic and scientific stakeholders to translate research requirements into fit-for-purpose procurement specifications.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-role">
+                    <div class="cv-role-header">
+                        <span class="cv-role-title">Procurement Specialist</span>
+                        <span class="cv-role-dates">Feb 2021 – Jul 2021</span>
+                    </div>
+                    <div class="cv-role-org">NHS Collaborative Procurement Hub — East of England</div>
+                    <ul>
+                        <li>Supported procurement across FM, ICT, and clinical categories; contributed to the rollout of three major procurement frameworks.</li>
+                        <li>Led bid evaluation and tendering processes reporting to the Head of Corporate Services.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-role">
+                    <div class="cv-role-header">
+                        <span class="cv-role-title">Contracts &amp; Performance Officer</span>
+                        <span class="cv-role-dates">Jan 2020 – Jan 2021</span>
+                    </div>
+                    <div class="cv-role-org">Mayor's Office for Policing and Crime (MOPAC)</div>
+                    <ul>
+                        <li>Managed complex contract administration and supplier performance monitoring for major public sector contracts.</li>
+                        <li>Delivered process improvements saving approximately 300 staff hours through optimised contract and PO procedures.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-role">
+                    <div class="cv-role-header">
+                        <span class="cv-role-title">Contracts Assistant (NPPV3)</span>
+                        <span class="cv-role-dates">Mar 2019 – Dec 2019</span>
+                    </div>
+                    <div class="cv-role-org">Bedfordshire Police</div>
+                    <ul>
+                        <li>ICT procurement and contract management for critical police technology systems (£20M annual budget).</li>
+                    </ul>
+                </div>
+
+                <div class="cv-role">
+                    <div class="cv-role-header">
+                        <span class="cv-role-title">Procurement Manager</span>
+                        <span class="cv-role-dates">Sep 2017 – Feb 2019</span>
+                    </div>
+                    <div class="cv-role-org">Agrosight</div>
+                    <ul>
+                        <li>Led international procurement for product development; negotiated contracts with UK and Chinese manufacturers.</li>
+                        <li>Achieved £400K+ in cost savings and secured initial contracts with Brazilian customers.</li>
+                    </ul>
+                </div>
+
+                <div class="cv-role">
+                    <div class="cv-role-header">
+                        <span class="cv-role-title">Consultant</span>
+                        <span class="cv-role-dates">Jul 2016 – Sep 2016</span>
+                    </div>
+                    <div class="cv-role-org">UNEP-WCMC</div>
+                </div>
+
+                <div class="cv-role">
+                    <div class="cv-role-header">
+                        <span class="cv-role-title">Project Manager</span>
+                        <span class="cv-role-dates">Jan 2010 – Jul 2015</span>
+                    </div>
+                    <div class="cv-role-org">Oro Verde — Die Tropenwaldstiftung</div>
+                    <p class="cv-role-desc">Managed international conservation programmes across South America. Led cross-border stakeholder engagement, grant management, and project delivery in complex, low-resource environments.</p>
+                </div>
+            </div>
+
+            <div class="cv-section cv-tech">
+                <div class="cv-section-title">Technical Capability</div>
+                <hr class="cv-rule">
+                <p>Alongside procurement work, I maintain active research and engineering projects in inference efficiency and scientific imaging infrastructure — areas directly relevant to technology and life sciences procurement mandates.</p>
+                <ul>
+                    <li>Python data analysis (Pandas, Matplotlib, Plotly) — used in production for spend analytics, category reporting, and supplier market modelling.</li>
+                    <li>Scientific imaging infrastructure: designed and built processing pipelines for 200GB+ Zeiss confocal datasets (OME-Zarr, parallel stitching, NVMe-optimised I/O).</li>
+                    <li>LLM inference research: developed <a href="https://github.com/maykef/forge-edge">forge-edge</a>, a Shannon-grounded inference optimisation system achieving 1.18× speedup on 14B parameter models with zero quality degradation.</li>
+                    <li>Operates a local HPC workstation (Threadripper 7970X, RTX PRO 6000 96GB, 96TB ZFS) — practical familiarity with the infrastructure procurement clients in research and deep tech are acquiring.</li>
+                </ul>
+            </div>
+
+            <div class="cv-section">
+                <div class="cv-section-title">Qualifications &amp; Education</div>
+                <hr class="cv-rule">
+                <table class="cv-edu-table">
+                    <tr>
+                        <td>CIPS Level 4 <span class="cv-edu-sub">Chartered Institute of Procurement &amp; Supply</span></td>
+                        <td>Completed</td>
+                    </tr>
+                    <tr>
+                        <td>Masters in Conservation Leadership <span class="cv-edu-sub">University of Cambridge</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>LLM in International Environmental Law <span class="cv-edu-sub">SOAS – University of London</span></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Degree in Law <span class="cv-edu-sub">Universidad Santa María, Venezuela</span></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div><!-- /cv -->
+
+    </div><!-- /content -->
+</div><!-- /page -->
+
+<footer style="max-width:1100px; margin:0 auto; padding:0 20px 2.5rem; opacity:0.35; font-size:0.78rem;">
+    &copy; 2026 Mayke De Freitas Santos
+</footer>
+
+<script>
+    function showProject(projectId, btn) {
+        document.querySelectorAll('.project-content').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(projectId).classList.add('active');
+        btn.classList.add('active');
+    }
+
+    function updateGallery(element) {
+        const mainImg = document.getElementById('mainDisplay');
+        mainImg.style.opacity = '0';
+        setTimeout(() => { mainImg.src = element.src; mainImg.style.opacity = '1'; }, 150);
+        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+    if (window.location.hash === '#cv') {
+        showProject('cv', document.querySelector('.tab-btn:last-child'));
+    }
+</script>
+
+</body>
+</html>
