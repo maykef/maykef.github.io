@@ -11,55 +11,51 @@
 
     <style>
         :root { --accent: #0066cc; --bg: #ffffff; --card-bg: #fcfcfc; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; background: var(--bg); }
-        
-        /* Header & Bio */
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 960px; margin: 40px auto; padding: 0 20px; color: #333; background: var(--bg); }
+
+        /* ── HEADER: photo left, info right ── */
         header { border-bottom: 1px solid #eee; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
-        h1 { font-size: 2.2rem; margin-bottom: 0.5rem; letter-spacing: -1px; color: #000; }
-        .contact-nav { margin-bottom: 20px; }
+        .header-inner { display: flex; align-items: flex-start; gap: 28px; margin-bottom: 1.2rem; }
+        .header-photo { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 3px solid #eee; }
+        .header-text h1 { font-size: 2rem; margin: 0 0 0.2rem 0; letter-spacing: -1px; color: #000; }
+        .header-text p { margin: 0 0 0.7rem 0; color: #666; font-size: 0.9rem; }
         .contact-nav a { color: #000; text-decoration: none; margin-right: 20px; font-weight: 600; border-bottom: 2px solid transparent; }
         .contact-nav a:hover { border-bottom: 2px solid #000; }
 
-        /* Project Tabs */
+        /* ── TABS ── */
         .tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .tab-btn { background: none; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 600; color: #888; cursor: pointer; border-radius: 6px; transition: 0.2s; }
         .tab-btn:hover { color: #000; background: #f5f5f5; }
         .tab-btn.active { color: var(--accent); background: #eef6ff; }
 
-        /* Project Content Visibility */
+        /* ── TAB PANELS ── */
         .project-content { display: none; animation: fadeIn 0.3s ease; }
         .project-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Project Components */
+        /* ── SHARED COMPONENTS ── */
         .tag { background: #f0f0f0; color: #444; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; margin-right: 8px; border: 1px solid #ddd; }
         h2 { font-size: 1.8rem; margin: 15px 0; color: #000; }
-        
-        /* Gallery */
         .main-frame-wrapper { width: 100%; background: #f9f9f9; border-radius: 12px; border: 1px solid #eee; overflow: hidden; margin-bottom: 15px; }
         .main-frame { width: 100%; display: block; height: auto; transition: opacity 0.2s; }
         .thumbnail-row { display: flex; gap: 12px; margin-bottom: 20px; }
         .thumbnail { width: 100px; height: 70px; object-fit: cover; border-radius: 6px; cursor: pointer; opacity: 0.6; border: 2px solid transparent; }
         .thumbnail.active { opacity: 1; border-color: var(--accent); }
-
-        /* Tables */
         .specs-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; border: 1px solid #eee; border-radius: 12px; overflow: hidden; }
         .specs-table th, .specs-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
         .specs-table th { background: #f8f8f8; font-weight: 600; text-transform: uppercase; font-size: 0.7rem; color: #888; }
         .specs-table td:first-child { font-weight: bold; width: 25%; color: #000; }
-        
         .code-block { background: #1a1a1a; color: #ccc; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 20px 0; }
 
-        /* ── CV TAB STYLES ─────────────────────────────────────────── */
+        /* ── CV STYLES ── */
         .cv-section { margin-bottom: 1.8rem; }
         .cv-section-title { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.4rem; }
         .cv-rule { border: none; border-top: 1px solid #eee; margin: 0 0 0.9rem 0; }
         .cv-profile { font-size: 0.92rem; color: #444; line-height: 1.7; margin: 0 0 0.8rem 0; }
-
         .cv-achievements { background: #f5f9ff; border-radius: 8px; padding: 0.9rem 1rem 0.5rem 1rem; border: 1px solid #dce8f7; }
         .cv-achievements ul { margin: 0; padding-left: 1.1rem; }
         .cv-achievements li { font-size: 0.88rem; color: #333; margin-bottom: 0.45rem; line-height: 1.6; }
-
         .cv-role { margin-bottom: 1.3rem; }
         .cv-role-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 4px; margin-bottom: 0.1rem; }
         .cv-role-title { font-weight: 700; font-size: 0.92rem; color: #000; }
@@ -68,41 +64,36 @@
         .cv-role-desc { font-size: 0.86rem; color: #555; margin: 0.2rem 0 0.35rem 0; line-height: 1.6; }
         .cv-role ul { margin: 0.25rem 0 0 0; padding-left: 1.1rem; }
         .cv-role li { font-size: 0.86rem; color: #444; margin-bottom: 0.28rem; line-height: 1.6; }
-
         .cv-tech ul { margin: 0.3rem 0 0 0; padding-left: 1.1rem; }
         .cv-tech li { font-size: 0.88rem; color: #444; margin-bottom: 0.38rem; line-height: 1.6; }
         .cv-tech p { font-size: 0.86rem; color: #555; margin: 0 0 0.5rem 0; line-height: 1.6; }
-
         .cv-edu-table { width: 100%; border-collapse: collapse; }
         .cv-edu-table td { padding: 5px 0; font-size: 0.88rem; vertical-align: top; }
         .cv-edu-table td:first-child { font-weight: 600; color: #000; width: 70%; }
         .cv-edu-table td:last-child { color: #999; font-size: 0.82rem; text-align: right; }
         .cv-edu-sub { display: block; font-weight: 400; color: #777; font-size: 0.82rem; }
-
-        .cv-download-btn {
-            display: inline-block;
-            margin-top: 0.5rem;
-            padding: 7px 16px;
-            background: #000;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            transition: background 0.15s;
-        }
+        .cv-download-btn { display: inline-block; margin-top: 0.5rem; padding: 7px 16px; background: #000; color: #fff; text-decoration: none; border-radius: 6px; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em; transition: background 0.15s; }
         .cv-download-btn:hover { background: var(--accent); }
+
+        @media (max-width: 600px) {
+            .header-inner { flex-direction: column; }
+            .header-photo { width: 80px; height: 80px; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Mayke De Freitas Santos</h1>
-        <p>This page shows what I am working on at the moment.</p>
-        <div class="contact-nav">
-            <a href="https://github.com/maykef">GitHub</a>
-            <a href="mailto:maykef@gmail.com">Email</a>
+        <div class="header-inner">
+            <img src="https://avatars.githubusercontent.com/u/19354019?v=4" alt="Mayke De Freitas Santos" class="header-photo">
+            <div class="header-text">
+                <h1>Mayke De Freitas Santos</h1>
+                <p>Inference efficiency &amp; scientific imaging infrastructure. Cambridge, UK.</p>
+                <div class="contact-nav">
+                    <a href="https://github.com/maykef">GitHub</a>
+                    <a href="mailto:maykef@gmail.com">Email</a>
+                </div>
+            </div>
         </div>
 
         <div class="tabs">
@@ -117,19 +108,12 @@
         <div id="workstation" class="project-content active">
             <span class="tag">Hardware</span><span class="tag">HPC</span>
             <h2>Single-Tower High-Performance Rig</h2>
-            
             <p>While most people drop thousands of £GBP on a depreciating Audi Q3 that loses value the moment they drive it off the lot (or worse, they lease it), I'd rather sink that money into something that can actually produce interesting things. This machine currently runs <strong>70B+ parameter models</strong> locally and processes terabyte-scale microscopy datasets. The full build-out to <strong>three GPUs and 1TB of RAM</strong> will generate value every day and stay relevant as I upgrade components.</p>
-            
             <p>The core philosophy here is <strong>modularity without compromise</strong>. The <strong>Threadripper 7970X</strong> gives me 48 PCIe 5.0 lanes, meaning I can run <strong>three flagship GPUs at full x16 bandwidth</strong> without needing £GBP thousands more on a dual-socket EPYC or enterprise Xeon platform. The ASUS Pro WS TRX50-SAGE has IPMI and ECC support, so this isn't just a gaming rig with delusions of grandeur—it's production-grade infrastructure.</p>
-            
             <p>This started as a <strong>microscopy research platform</strong>. I needed something that could crunch through days of high-resolution imaging data while simultaneously running LLM inference for automated experimental workflows. Turns out, the Venn diagram of "can process microscopy data" and "can run massive language models" is just "absurdly powerful computer."</p>
-            
             <p><strong>ECC memory isn't negotiable.</strong> When you're running multi-day experiments or training on scientific data, a single bit flip can corrupt everything. The 128GB DDR5 ECC setup expands to <strong>1TB</strong> because why set artificial limits?</p>
-            
             <p>The <strong>96TB ZFS pool</strong> means I can stop worrying about cloud storage costs and actually work with real datasets locally. Checksumming, snapshots, data integrity—all the things you want when your data represents months of work.</p>
-            
             <p>The <strong>RTX 6000 Blackwell (96GB VRAM)</strong> is cutting-edge enough to stay relevant as models get bigger, and when I need more, I'll just add two more GPUs. <strong>288GB total VRAM</strong> in a single tower. No racks, no datacenter, no monthly AWS bills making me cry.</p>
-
             <div class="gallery-container">
                 <div class="main-frame-wrapper">
                     <img id="mainDisplay" src="img/IMG_7531.JPG" class="main-frame" alt="Workstation View">
@@ -140,7 +124,6 @@
                     <img src="img/IMG_7536.JPG" class="thumbnail" onclick="updateGallery(this)" alt="Cooling Detail">
                 </div>
             </div>
-
             <table class="specs-table">
                 <thead><tr><th>Sub-system</th><th>Component</th><th>Rationale</th></tr></thead>
                 <tbody>
@@ -160,12 +143,10 @@
             <span class="tag">Software</span><span class="tag">Vision-RAG</span>
             <h2>ColPali Research Engine</h2>
             <p>A containerized Vision-RAG pipeline that bypasses traditional OCR to perform visual document retrieval directly on document images.</p>
-            
             <div class="code-block">
                 # Blackwell-Optimized Deployment<br>
                 ./manage_env.sh
             </div>
-
             <table class="specs-table">
                 <thead><tr><th>Stack</th><th>Technology</th><th>Implementation</th></tr></thead>
                 <tbody>
@@ -179,7 +160,6 @@
 
         <!-- CV -->
         <div id="cv" class="project-content">
-
             <div class="cv-section">
                 <div class="cv-section-title">Profile</div>
                 <hr class="cv-rule">
@@ -334,7 +314,6 @@
                     </tr>
                 </table>
             </div>
-
         </div><!-- /cv -->
     </main>
 
