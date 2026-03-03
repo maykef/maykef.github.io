@@ -38,6 +38,7 @@
             flex-shrink: 0;
             padding: 48px 28px 48px 0;
             position: sticky;
+            z-index: 0;
             top: 0;
             height: 100vh;
             overflow-y: auto;
@@ -103,6 +104,8 @@
 
         /* ── MAIN CONTENT ──────────────────────────────────────────── */
         .content {
+            position: relative;
+            z-index: 1;
             flex: 1;
             min-width: 0;
             padding: 48px 0;
@@ -110,6 +113,8 @@
 
         /* ── TABS ──────────────────────────────────────────────────── */
         .tabs {
+            position: relative;
+            z-index: 1;
             display: flex;
             gap: 6px;
             margin-bottom: 28px;
@@ -221,7 +226,9 @@
             .sidebar h1 { font-size: 1rem; }
             .sidebar-tagline { display: none; }
             .sidebar-divider { display: none; }
-            .content { padding: 0 0 40px 0; }
+            .content {
+            position: relative;
+            z-index: 1; padding: 0 0 40px 0; }
         }
     </style>
 </head>
