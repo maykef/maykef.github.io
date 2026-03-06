@@ -367,11 +367,11 @@
             <p>The extraction loop writes a checkpoint after every page. If the process is interrupted — OOM, power loss, deliberate pause — re-running the script picks up exactly where it left off. Batch size is reduced automatically on OOM and cautiously ramped back up on recovery. VRAM is monitored via pynvml against a configurable threshold; cleanup runs at page boundaries, not per-block, which is a meaningful throughput win on 72B models.</p>
 
             <div class="main-frame-wrapper" style="background:#0d0d0d;">
-                <img id="pipelineMainDisplay" src="img/pipeline_1.png" class="main-frame" alt="Pipeline running — checkpoint resume and model loading">
+                <img id="pipelineMainDisplay" src="img/img_pipeline_1.png" class="main-frame" alt="Pipeline running — checkpoint resume and model loading">
             </div>
             <div class="thumbnail-row">
-                <img src="img/pipeline_1.png" class="thumbnail active" style="width:120px; height:75px;" onclick="updatePipelineGallery(this)" alt="Checkpoint resume and model loading">
-                <img src="img/pipeline_2.png" class="thumbnail" style="width:120px; height:75px;" onclick="updatePipelineGallery(this)" alt="Live VRAM monitoring and OOM batch reduction">
+                <img src="img/img_pipeline_1.png" class="thumbnail active" style="width:120px; height:75px;" onclick="updatePipelineGallery(this)" alt="Checkpoint resume and model loading">
+                <img src="img/img_pipeline_2.png" class="thumbnail" style="width:120px; height:75px;" onclick="updatePipelineGallery(this)" alt="Live VRAM monitoring and OOM batch reduction">
             </div>
 
             <table class="specs-table">
