@@ -386,16 +386,25 @@
             </table>
 
             <div class="code-block">
-# Build and launch container<br>
+# 1. Build the container<br>
 ./manage_env.sh<br>
 <br>
-# Rasterise PDF to images<br>
+# 2. Verify the container was created<br>
+docker ps -a<br>
+<br>
+# 3. Start the container<br>
+docker start &lt;container_name&gt;<br>
+<br>
+# 4. Enter the container<br>
+docker exec -it &lt;container_name&gt; bash<br>
+<br>
+# 5. Rasterise PDF to images (inside container)<br>
 python pdf_to_images.py document.pdf --dpi 200<br>
 <br>
-# Run extraction (resumes automatically on restart)<br>
+# 6. Run extraction (resumes automatically on restart)<br>
 python text_extraction_sequential.py<br>
 <br>
-# Export to Markdown<br>
+# 7. Export to Markdown<br>
 python json_to_markup.py output.json -o output.md
             </div>
 
