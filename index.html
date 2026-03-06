@@ -599,4 +599,14 @@ python json_to_markup.py output.json -o output.md
         const mainImg = document.getElementById('mainDisplay');
         mainImg.style.opacity = '0';
         setTimeout(() => { mainImg.src = element.src; mainImg.style.opacity = '1'; }, 150);
-        document.querySelectorAll('.thumbnail').forE
+        document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+    if (window.location.hash === '#cv') {
+        showProject('cv', document.querySelector('.tab-btn:last-child'));
+    }
+</script>
+
+</body>
+</html>
