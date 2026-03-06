@@ -155,6 +155,39 @@
 
         .code-block { background: #1a1a1a; color: #ccc; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; overflow-x: auto; margin: 20px 0; }
 
+        /* ── PIPELINE DIAGRAM ──────────────────────────────────────── */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .pipeline-step {
+            background: #f8f8f8;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #333;
+            white-space: nowrap;
+        }
+        .pipeline-arrow {
+            color: #bbb;
+            font-size: 1rem;
+            padding: 0 2px;
+            flex-shrink: 0;
+        }
+        .pipeline-sub {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: #888;
+            display: block;
+            margin-top: 2px;
+        }
+
         /* ── CV STYLES ─────────────────────────────────────────────── */
         .cv-section { margin-bottom: 1.8rem; }
 
@@ -260,7 +293,7 @@
 
         <div class="tabs">
             <button class="tab-btn active" onclick="showProject('workstation', this)">Workstation Rig</button>
-            <button class="tab-btn" onclick="showProject('colpali', this)">ColPali Research Engine</button>
+            <button class="tab-btn" onclick="showProject('extraction', this)">Scientific PDF Extraction</button>
             <button class="tab-btn" onclick="showProject('cv', this)">CV</button>
         </div>
 
@@ -306,24 +339,73 @@
             </table>
         </div>
 
-        <!-- COLPALI -->
-        <div id="colpali" class="project-content">
-            <span class="tag">Software</span><span class="tag">Vision-RAG</span>
-            <h2>ColPali Research Engine</h2>
-            <p>A containerized Vision-RAG pipeline that bypasses traditional OCR to perform visual document retrieval directly on document images.</p>
+        <!-- SCIENTIFIC PDF EXTRACTION -->
+        <div id="extraction" class="project-content">
+            <span class="tag">Software</span><span class="tag">Vision-LLM</span>
+            <h2>Scientific PDF Extraction Pipeline</h2>
 
-            <div class="code-block">
-                # Blackwell-Optimized Deployment<br>
-                ./manage_env.sh
+            <p>A production pipeline for extracting high-fidelity text from scientific books and papers — without OCR. Traditional OCR collapses on the content that matters most: multi-column layouts, inline LaTeX equations, figure captions interleaved with text, and dense technical notation. This pipeline bypasses that entirely by treating each page as an image and using a vision-language model to read it directly.</p>
+
+            <p><a href="https://github.com/maykef/microscopy_indexing_yolo-qwen2-72b" style="color: var(--accent); font-weight: 600;">microscopy_indexing_yolo-qwen2-72b ↗</a></p>
+
+            <div class="pipeline">
+                <div class="pipeline-step">PDF<span class="pipeline-sub">source</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Page images<span class="pipeline-sub">pdf2image · 200 DPI</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Layout detection<span class="pipeline-sub">DocLayout-YOLO</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Transcription<span class="pipeline-sub">Qwen2-VL-72B</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Structured JSON<span class="pipeline-sub">bbox · confidence · tokens</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Markdown<span class="pipeline-sub">reading-order aware</span></div>
+            </div>
+
+            <p>DocLayout-YOLO (YOLOv10, trained on DocLayNet) runs first and classifies every region on the page into six content classes: Text, Title, Section-header, List-item, Caption, and Formula. Each detected region is cropped and passed individually to Qwen2-VL-72B, which transcribes the image directly. Tall blocks are chunked vertically before inference and reassembled afterward. Multi-column reading order is reconstructed from bounding box X-coordinates — left column top-to-bottom, then right column.</p>
+
+            <p>The extraction loop writes a checkpoint after every page. If the process is interrupted — OOM, power loss, deliberate pause — re-running the script picks up exactly where it left off. Batch size is reduced automatically on OOM and cautiously ramped back up on recovery. VRAM is monitored via pynvml against a configurable threshold; cleanup runs at page boundaries, not per-block, which is a meaningful throughput win on 72B models.</p>
+
+            <div class="main-frame-wrapper" style="background:#0d0d0d;">
+                <img id="pipelineMainDisplay" src="img_pipeline_1.png" class="main-frame" alt="Pipeline running — checkpoint resume and model loading">
+            </div>
+            <div class="thumbnail-row">
+                <img src="img_pipeline_1.png" class="thumbnail active" style="width:120px; height:75px;" onclick="updatePipelineGallery(this)" alt="Checkpoint resume and model loading">
+                <img src="img_pipeline_2.png" class="thumbnail" style="width:120px; height:75px;" onclick="updatePipelineGallery(this)" alt="Live VRAM monitoring and OOM batch reduction">
             </div>
 
             <table class="specs-table">
-                <thead><tr><th>Stack</th><th>Technology</th><th>Implementation</th></tr></thead>
+                <thead><tr><th>Metric</th><th>Value</th></tr></thead>
                 <tbody>
-                    <tr><td>Environment</td><td>CUDA 12.6.2</td><td>PyTorch Nightly for sm_120 support.</td></tr>
-                    <tr><td>Retriever</td><td>ColPali v1.2</td><td>200 DPI multi-vector indexing.</td></tr>
-                    <tr><td>Reader</td><td>Qwen2-VL-7B</td><td>Visual reasoning with grounding enforcement.</td></tr>
-                    <tr><td>Storage</td><td>NVMe Volume Mount</td><td>Direct access to 8TB scratch NVMe.</td></tr>
+                    <tr><td>Accuracy</td><td>95%+ on scientific text</td></tr>
+                    <tr><td>Throughput</td><td>~15–25 tokens/sec</td></tr>
+                    <tr><td>Pages/hour</td><td>~30–50 (density-dependent)</td></tr>
+                    <tr><td>VRAM usage</td><td>70–90 GB (8-bit quantisation)</td></tr>
+                    <tr><td>GPU target</td><td>A100 80GB / RTX 6000 96GB</td></tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+# Build and launch container<br>
+./manage_env.sh<br>
+<br>
+# Rasterise PDF to images<br>
+python pdf_to_images.py document.pdf --dpi 200<br>
+<br>
+# Run extraction (resumes automatically on restart)<br>
+python text_extraction_sequential.py<br>
+<br>
+# Export to Markdown<br>
+python json_to_markup.py output.json -o output.md
+            </div>
+
+            <table class="specs-table">
+                <thead><tr><th>Stack</th><th>Technology</th><th>Role</th></tr></thead>
+                <tbody>
+                    <tr><td>Environment</td><td>CUDA 12.6 · Docker</td><td>PyTorch nightly, flash-attn 2.8.3 pinned for Blackwell.</td></tr>
+                    <tr><td>Layout model</td><td>DocLayout-YOLO (YOLOv10)</td><td>Detects and classifies page regions at 1120px imgsz.</td></tr>
+                    <tr><td>Transcription</td><td>Qwen2-VL-72B (8-bit)</td><td>Vision-language transcription per detected crop.</td></tr>
+                    <tr><td>Output</td><td>JSON + Markdown</td><td>Per-block bbox, confidence, token count, reading order.</td></tr>
                 </tbody>
             </table>
         </div>
@@ -501,6 +583,16 @@
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(projectId).classList.add('active');
         btn.classList.add('active');
+    }
+
+    function updatePipelineGallery(element) {
+        const mainImg = document.getElementById('pipelineMainDisplay');
+        mainImg.style.opacity = '0';
+        setTimeout(() => { mainImg.src = element.src; mainImg.style.opacity = '1'; }, 150);
+        document.querySelectorAll('.thumbnail').forEach(t => {
+            if (t.onclick.toString().includes('updatePipelineGallery')) t.classList.remove('active');
+        });
+        element.classList.add('active');
     }
 
     function updateGallery(element) {
