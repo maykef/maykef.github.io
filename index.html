@@ -188,6 +188,32 @@
             margin-top: 2px;
         }
 
+        /* ── COMPONENT GRID (Delphi Deploy) ────────────────────────── */
+        .component-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 1.5rem 0;
+        }
+        .component-card {
+            background: #f8f8f8;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+        .component-card-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 4px;
+            font-family: monospace;
+        }
+        .component-card-desc {
+            font-size: 0.78rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
         /* ── CV STYLES ─────────────────────────────────────────────── */
         .cv-section { margin-bottom: 1.8rem; }
 
@@ -255,6 +281,7 @@
             .sidebar-tagline { display: none; }
             .sidebar-divider { display: none; }
             .content { padding: 0 0 40px 0; }
+            .component-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -294,6 +321,7 @@
         <div class="tabs">
             <button class="tab-btn active" onclick="showProject('workstation', this)">Workstation Rig</button>
             <button class="tab-btn" onclick="showProject('extraction', this)">Scientific PDF Extraction</button>
+            <button class="tab-btn" onclick="showProject('delphi', this)">Delphi Deploy</button>
             <button class="tab-btn" onclick="showProject('cv', this)">CV</button>
         </div>
 
@@ -417,6 +445,93 @@ python json_to_markup.py output.json -o output.md
                     <tr><td>Output</td><td>JSON + Markdown</td><td>Per-block bbox, confidence, token count, reading order.</td></tr>
                 </tbody>
             </table>
+        </div>
+
+        <!-- DELPHI DEPLOY -->
+        <div id="delphi" class="project-content">
+            <span class="tag">Infrastructure</span><span class="tag">LLM</span><span class="tag">Rust</span>
+            <h2>Delphi Deploy</h2>
+
+            <p>A complete, self-contained deployment stack for <strong>Qwen3.5-122B-A22B</strong> (MoE, 22B active parameters) on a single high-VRAM GPU. Built around vLLM with an OpenAI-compatible API, it bundles a CLI coding agent, an interactive chat interface, a Rust-based web GUI with session management, and browser automation — all wired to the local model with zero cloud dependency.</p>
+
+            <p>The stack is named after the Oracle at Delphi. The model persona, <strong>Delphi</strong>, greets every new conversation as the Pythia at the Temple of Loxias — a private oracle running entirely on local hardware.</p>
+
+            <div class="pipeline">
+                <div class="pipeline-step">vLLM server<span class="pipeline-sub">OpenAI-compatible API</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Claw (Rust CLI)<span class="pipeline-sub">coding agent + GUI</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Tailscale<span class="pipeline-sub">remote GUI access</span></div>
+            </div>
+
+            <p><strong>One-command bootstrap.</strong> <code>bootstrap.sh</code> is fully idempotent — it installs the conda environment, downloads ~79GB of model weights from HuggingFace, builds the Rust binary, caps GPU power via systemd, and starts the server. Re-running it at any time skips completed phases. A single config file, <code>delphi.conf</code>, is the source of truth for every runtime parameter; nothing is hardcoded elsewhere, and a drift scanner enforces this.</p>
+
+            <p><strong>Claw</strong> is a modified Rust reimplementation of the Claude Code CLI, adapted to run against the local vLLM endpoint. Modifications add session load/resume from the web GUI, inline turn stats (elapsed time, tok/s), and an external HTML GUI file served at runtime — editable without recompiling.</p>
+
+            <p>The <strong>chat interface</strong> streams responses with live thinking-mode word counts, a context bar that tracks token usage against the 128K window, and automatic context compaction — when older messages push token usage past a threshold, the model summarises them into a dense block, preserving context indefinitely without truncation.</p>
+
+            <div class="main-frame-wrapper" style="background:#0d0d0d;">
+                <img src="img/ScreenRecording2026-04-20at10.38.30-ezgif.com-video-to-gif-converter.gif" class="main-frame" alt="Delphi Deploy — live demo">
+            </div>
+
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="component-card-title">deploy_qwen35_vllm.sh</div>
+                    <div class="component-card-desc">Server lifecycle, chat REPL, coding agent, Claw launcher. Single entry point for all interfaces.</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-title">bootstrap.sh</div>
+                    <div class="component-card-desc">One-command full system rebuild. Idempotent — safe to re-run. Handles 12 phases from GPU check to health validation.</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-title">claw-code/ (Rust)</div>
+                    <div class="component-card-desc">Modified Claude Code-style CLI. Session resume, GUI v2, inline tok/s stats, Playwright browser tooling.</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-title">qwen_agent.py</div>
+                    <div class="component-card-desc">Coding agent with file read/write/edit, grep, bash execution, session persistence, and memory injection.</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-title">gui-v2/gui.html</div>
+                    <div class="component-card-desc">Self-contained web GUI with session history, rename, file drag-and-drop upload, and SSE streaming.</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-title">scripts/</div>
+                    <div class="component-card-desc">Config validation, drift detection (scan for hardcoded values), and live STATUS.md snapshot generation.</div>
+                </div>
+            </div>
+
+            <table class="specs-table">
+                <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+                <tbody>
+                    <tr><td>Model</td><td>Qwen3.5-122B-A22B GPTQ-Int4 (MoE, 22B active)</td></tr>
+                    <tr><td>Context window</td><td>128K tokens (131,072)</td></tr>
+                    <tr><td>KV cache</td><td>fp8 — ~2× capacity vs bf16</td></tr>
+                    <tr><td>GPU target</td><td>RTX PRO 6000 Blackwell 96GB (SM 12.0)</td></tr>
+                    <tr><td>API</td><td>OpenAI-compatible · port 8000</td></tr>
+                    <tr><td>Thinking mode</td><td>Enabled · reasoning tokens shown in chat</td></tr>
+                    <tr><td>Remote access</td><td>Tailscale serve / funnel</td></tr>
+                    <tr><td>Weights size</td><td>~79 GB</td></tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+# One-command setup on a fresh machine<br>
+cp delphi.conf.example delphi.conf<br>
+# Edit delphi.conf — set WORK_DIR, CLAW_DATA_DIR, etc.<br>
+./bootstrap.sh<br>
+<br>
+# Interfaces<br>
+./deploy_qwen35_vllm.sh chat        # streaming chat with thinking mode<br>
+./deploy_qwen35_vllm.sh claw        # Claw REPL (Claude Code-style)<br>
+./deploy_qwen35_vllm.sh agent       # coding agent (file/bash tools)<br>
+./claw-remote_2.sh                  # web GUI exposed over Tailscale<br>
+<br>
+# Ops<br>
+./scripts/check_config.sh           # validate config, paths, services<br>
+./scripts/check_config_drift.sh     # scan for hardcoded values<br>
+./scripts/status_snapshot.sh --update  # refresh STATUS.md
+            </div>
         </div>
 
         <!-- CV -->
