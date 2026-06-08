@@ -322,6 +322,7 @@
             <button class="tab-btn" onclick="showProject('workstation', this)">Workstation Rig</button>
             <button class="tab-btn" onclick="showProject('extraction', this)">Scientific PDF Extraction</button>
             <button class="tab-btn" onclick="showProject('delphi', this)">Delphi Deploy</button>
+            <button class="tab-btn" onclick="showProject('epiproc', this)">Epiproc Atlas</button>
             <button class="tab-btn active" onclick="showProject('cv', this)">CV</button>
         </div>
 
@@ -534,6 +535,87 @@ cp delphi.conf.example delphi.conf<br>
             </div>
         </div>
 
+        <!-- EPIPROC ATLAS -->
+        <div id="epiproc" class="project-content">
+            <span class="tag">Software</span><span class="tag">SaaS</span><span class="tag">Multi-Tenant</span>
+            <h2>Epiproc Atlas — Procurement Intelligence Platform</h2>
+
+            <p>A multi-tenant SaaS platform that turns scientific-supplier invoices into procurement intelligence. It takes the vision-LLM extraction approach from my <strong>Scientific PDF Extraction Pipeline</strong> — pages read as images by a vision model, never OCR — and wraps it in a full production stack that is sector-agnostic and scalable: schema-per-tenant PostgreSQL, server-side sessions, MFA, audit logging, a crash-safe job queue, observability, and a Cyber-Essentials-ready compliance pack. It runs entirely on the single-tower rig — UK data residency, no cloud.</p>
+
+            <div class="pipeline">
+                <div class="pipeline-step">Invoice PDF<span class="pipeline-sub">source</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Layout<span class="pipeline-sub">page-region detection</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Extraction<span class="pipeline-sub">vision-LLM</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Validation<span class="pipeline-sub">cross-foot checks</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">PostgreSQL<span class="pipeline-sub">schema-per-tenant</span></div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step">Dashboard<span class="pipeline-sub">FastAPI · reports</span></div>
+            </div>
+
+            <p>Every database query is scoped to the tenant schema via <code>SET search_path</code>, and a CI test creates two tenants and asserts that one can never read the other's rows. Reports are generated on demand by either a <strong>self-hosted local model</strong> (GPU) or a <strong>cloud API</strong>, dispatched through a Postgres-backed job queue and worker that survives server restarts.</p>
+
+            <div class="gallery-container">
+                <div class="main-frame-wrapper" style="background:#0d0d0d;">
+                    <img id="epiprocMainDisplay" src="img/epiproc_overview.png" class="main-frame" alt="Spend overview — KPIs, monthly spend by category, supplier→category flow">
+                </div>
+                <div class="thumbnail-row">
+                    <img src="img/epiproc_overview.png" class="thumbnail active" onclick="updateEpiprocGallery(this)" alt="Spend overview — KPIs, monthly spend, supplier→category flow">
+                    <img src="img/epiproc_by_supplier.png" class="thumbnail" onclick="updateEpiprocGallery(this)" alt="By supplier — spend, monthly trend, category mix">
+                    <img src="img/epiproc_by_category.png" class="thumbnail" onclick="updateEpiprocGallery(this)" alt="By category — breakdown and top items">
+                    <img src="img/epiproc_by_department.png" class="thumbnail" onclick="updateEpiprocGallery(this)" alt="By department — spend and heatmap">
+                    <img src="img/epiproc_invoices.png" class="thumbnail" onclick="updateEpiprocGallery(this)" alt="Invoice register with department attribution">
+                    <img src="img/epiproc_price_tracker.png" class="thumbnail" onclick="updateEpiprocGallery(this)" alt="Price tracker — unit-price history per SKU">
+                    <img src="img/epiproc_service_intel.png" class="thumbnail" onclick="updateEpiprocGallery(this)" alt="Service-contract intelligence">
+                    <img src="img/epiproc_reagents_intel.png" class="thumbnail" onclick="updateEpiprocGallery(this)" alt="Reagents intelligence — consumable spend">
+                </div>
+            </div>
+
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="component-card-title">Multi-tenancy</div>
+                    <div class="component-card-desc">Schema-per-tenant in shared Postgres. Every query scoped via search_path; a CI test proves zero cross-tenant leakage.</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-title">Security</div>
+                    <div class="component-card-desc">argon2id hashing, server-side sessions with force-logout, CSRF, optional TOTP MFA, rate limiting, full audit log.</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-title">Job queue</div>
+                    <div class="component-card-desc">Postgres-backed queue + worker (SELECT … FOR UPDATE SKIP LOCKED). Report jobs survive restarts; stuck jobs re-queue.</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-title">Dual report backends</div>
+                    <div class="component-card-desc">On-demand AI briefings from a local model (GPU) or a cloud API, selectable per report.</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-title">Observability</div>
+                    <div class="component-card-desc">Prometheus metrics, Grafana dashboard, Alertmanager rules, health probes, and an admin panel to control the local model service.</div>
+                </div>
+                <div class="component-card">
+                    <div class="component-card-title">Onboarding harness</div>
+                    <div class="component-card-desc">Template library + dry-run cross-foot gate brings a new supplier from sample PDFs to audited data in hours, not days.</div>
+                </div>
+            </div>
+
+            <table class="specs-table">
+                <thead><tr><th>Layer</th><th>Technology</th><th>Role</th></tr></thead>
+                <tbody>
+                    <tr><td>API / app</td><td>FastAPI · Jinja2 · Python 3.12</td><td>Server-rendered dashboard, admin panel, REST endpoints.</td></tr>
+                    <tr><td>Data</td><td>PostgreSQL 16 · psycopg3 (pooled) · Prefect</td><td>Schema-per-tenant store; pipeline orchestration.</td></tr>
+                    <tr><td>Models</td><td>Local model · Cloud API</td><td>Extraction and on-demand report generation.</td></tr>
+                    <tr><td>Security</td><td>argon2-cffi · pyotp · slowapi</td><td>Hashing, TOTP MFA, CSRF, rate limiting.</td></tr>
+                    <tr><td>Observability</td><td>Prometheus · Grafana · Alertmanager</td><td>Metrics, dashboards, alerting.</td></tr>
+                    <tr><td>Quality</td><td>pytest · Playwright · ruff · pip-audit · GitHub Actions</td><td>Unit, integration &amp; e2e tests, lint, dependency audit, CI.</td></tr>
+                </tbody>
+            </table>
+
+            <p style="color:#777; font-size:0.85rem;">Screenshots show a fully anonymised demonstration tenant — supplier names, departments, products and figures are fictitious.</p>
+        </div>
+
         <!-- CV -->
         <div id="cv" class="project-content active">
 
@@ -727,12 +809,24 @@ cp delphi.conf.example delphi.conf<br>
         element.classList.add('active');
     }
 
+    function updateEpiprocGallery(element) {
+        const mainImg = document.getElementById('epiprocMainDisplay');
+        mainImg.style.opacity = '0';
+        setTimeout(() => { mainImg.src = element.src; mainImg.style.opacity = '1'; }, 150);
+        document.querySelectorAll('.thumbnail').forEach(t => {
+            if (t.onclick.toString().includes('updateEpiprocGallery')) t.classList.remove('active');
+        });
+        element.classList.add('active');
+    }
+
     if (window.location.hash === '#workstation') {
         showProject('workstation', document.querySelector('.tab-btn:nth-child(1)'));
     } else if (window.location.hash === '#extraction') {
         showProject('extraction', document.querySelector('.tab-btn:nth-child(2)'));
     } else if (window.location.hash === '#delphi') {
         showProject('delphi', document.querySelector('.tab-btn:nth-child(3)'));
+    } else if (window.location.hash === '#epiproc') {
+        showProject('epiproc', document.querySelector('.tab-btn:nth-child(4)'));
     }
 </script>
 
