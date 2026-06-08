@@ -319,11 +319,11 @@
         <p style="color:#777; font-size:0.88rem; margin: 0 0 1.2rem 0;">This page shows what I am working on at the moment.</p>
 
         <div class="tabs">
-            <button class="tab-btn" onclick="showProject('workstation', this)">Workstation Rig</button>
-            <button class="tab-btn" onclick="showProject('extraction', this)">Scientific PDF Extraction</button>
-            <button class="tab-btn" onclick="showProject('delphi', this)">Delphi Deploy</button>
-            <button class="tab-btn" onclick="showProject('epiproc', this)">Epiproc Atlas</button>
             <button class="tab-btn active" onclick="showProject('cv', this)">CV</button>
+            <button class="tab-btn" onclick="showProject('workstation', this)">Workstation Rig</button>
+            <button class="tab-btn" onclick="showProject('epiproc', this)">Epiproc Atlas</button>
+            <button class="tab-btn" onclick="showProject('delphi', this)">Delphi Deploy</button>
+            <button class="tab-btn" onclick="showProject('extraction', this)">Scientific PDF Extraction</button>
         </div>
 
         <!-- WORKSTATION -->
@@ -820,13 +820,13 @@ cp delphi.conf.example delphi.conf<br>
     }
 
     if (window.location.hash === '#workstation') {
-        showProject('workstation', document.querySelector('.tab-btn:nth-child(1)'));
+        showProject('workstation', document.querySelector('.tab-btn:nth-child(2)'));
     } else if (window.location.hash === '#extraction') {
-        showProject('extraction', document.querySelector('.tab-btn:nth-child(2)'));
+        showProject('extraction', document.querySelector('.tab-btn:nth-child(5)'));
     } else if (window.location.hash === '#delphi') {
-        showProject('delphi', document.querySelector('.tab-btn:nth-child(3)'));
+        showProject('delphi', document.querySelector('.tab-btn:nth-child(4)'));
     } else if (window.location.hash === '#epiproc') {
-        showProject('epiproc', document.querySelector('.tab-btn:nth-child(4)'));
+        showProject('epiproc', document.querySelector('.tab-btn:nth-child(3)'));
     }
 </script>
 
