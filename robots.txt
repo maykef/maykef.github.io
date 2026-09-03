@@ -1,0 +1,5 @@
+# https://maykef.info/
+User-agent: *
+Allow: /
+
+Sitemap: https://maykef.info/sitemap.xml
