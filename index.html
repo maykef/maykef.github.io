@@ -214,6 +214,32 @@
             line-height: 1.5;
         }
 
+        .trip-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin: 1.5rem 0;
+        }
+        .trip-item { margin: 0; }
+        .trip-item img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            background: #f9f9f9;
+            transition: opacity 0.2s;
+        }
+        .trip-item a:hover img { opacity: 0.85; }
+        .trip-cap {
+            font-size: 0.72rem;
+            color: #777;
+            line-height: 1.45;
+            margin-top: 6px;
+        }
+        .trip-cap-n { font-family: monospace; color: #aaa; margin-right: 4px; }
+
         /* ── CV STYLES ─────────────────────────────────────────────── */
         .cv-section { margin-bottom: 1.8rem; }
 
@@ -282,6 +308,7 @@
             .sidebar-divider { display: none; }
             .content { padding: 0 0 40px 0; }
             .component-grid { grid-template-columns: 1fr; }
+            .trip-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
         }
     </style>
 </head>
@@ -644,6 +671,123 @@ cp delphi.conf.example delphi.conf<br>
             <p>From Sardinia I travelled to the Netherlands, an awkward place to look for oaks, but if anything defines the modern Dutch landscape it is that this is the land of arborists and florists. The streets of any Dutch city are small arboretums, and simply walking through them reveals a majestic mixture of American red oaks and European white oaks. The Hortus Botanicus in Amsterdam has two jewels: a fine cork oak planted next to the shop, and a beautiful <em>Q.</em> &times; <em>turneri</em>. While I collected leaves the Breda Jazz Festival was in full swing, so the botany came enriched by classical and contemporary jazz, dotted with a good dose of salsa.</p>
 
             <p>Finally, the UK is a huge arboretum disguised as a country. Because gardens and wealth have lived together for so long on these islands, you get the best of both worlds: classical cottage gardens, and the monumental private collections of rare specimens in the stately homes. A visit to Wimpole Estate hands you <em>Q. ilex</em>, <em>Q. cerris</em> and <em>Q. petraea</em> (rare in East Anglia) on a silver plate. A visit to the University of Surrey campus rewards you with a superb <em>Q. pyrenaica</em>, one of perhaps three in the whole country. Walking the streets of Cambridge you find all sorts of treasures hidden in plain sight — a beautiful <em>Q. cerris</em> on the rugby grounds, two fine <em>Q. ilex</em> in the gardens of Greenwich House, not to mention the trove in the Botanic Garden.</p>
+
+
+            <div class="cv-section-title">Field notes</div>
+            <hr class="cv-rule">
+
+            <p>Eighteen photographs from the collecting trips. Click any image for the full-size version.</p>
+
+            <div class="trip-grid">
+                <figure class="trip-item">
+                    <a href="img/trip/trip-01.jpg">
+                        <img src="img/trip/trip-01-thumb.jpg" loading="lazy" alt="A beautiful Q. ilex in one of the public parks in Alghero">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">1</span>A beautiful <em>Q. ilex</em> in one of the public parks in Alghero</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-02.jpg">
+                        <img src="img/trip/trip-02-thumb.jpg" loading="lazy" alt="Q. ilex and Q. pubescens from a public park in Alghero">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">2</span><em>Q. ilex</em> and <em>Q. pubescens</em> from a public park in Alghero</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-03.jpg">
+                        <img src="img/trip/trip-03-thumb.jpg" loading="lazy" alt="Q. ilex near Alghero">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">3</span><em>Q. ilex</em> near Alghero</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-04.jpg">
+                        <img src="img/trip/trip-04-thumb.jpg" loading="lazy" alt="Q. coccifera bush. Collected mid-way on the climb to Monte Timidone. Parco Naturale Regionale di Porto Conte">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">4</span><em>Q. coccifera</em> bush. Collected mid-way on the climb to Monte Timidone. Parco Naturale Regionale di Porto Conte</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-05.jpg">
+                        <img src="img/trip/trip-05-thumb.jpg" loading="lazy" alt="The author standing next to a superb Q. suber in the road towards Villanova Monteleone">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">5</span>The author standing next to a superb <em>Q. suber</em> in the road towards Villanova Monteleone</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-06.jpg">
+                        <img src="img/trip/trip-06-thumb.jpg" loading="lazy" alt="Collecting Q. pubescens in Parco Archeologico Nuraghe Appiu">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">6</span>Collecting <em>Q. pubescens</em> in Parco Archeologico Nuraghe Appiu</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-07.jpg">
+                        <img src="img/trip/trip-07-thumb.jpg" loading="lazy" alt="The author in Monte Timidone. Near the summit.">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">7</span>The author in Monte Timidone. Near the summit.</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-08.jpg">
+                        <img src="img/trip/trip-08-thumb.jpg" loading="lazy" alt="The Maquis in the lower areas of Parco Naturale Regionale di Porto Conte">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">8</span>The Maquis in the lower areas of Parco Naturale Regionale di Porto Conte</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-09.jpg">
+                        <img src="img/trip/trip-09-thumb.jpg" loading="lazy" alt="A beautiful Q. robur in Wimpole Estate">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">9</span>A beautiful <em>Q. robur</em> in Wimpole Estate</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-10.jpg">
+                        <img src="img/trip/trip-10-thumb.jpg" loading="lazy" alt="Q. petraea. Wimpole Estate">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">10</span><em>Q. petraea</em>. Wimpole Estate</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-11.jpg">
+                        <img src="img/trip/trip-11-thumb.jpg" loading="lazy" alt="Some Q. robur acorns collected in Ely, Cambridgeshire">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">11</span>Some <em>Q. robur</em> acorns collected in Ely, Cambridgeshire</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-12.jpg">
+                        <img src="img/trip/trip-12-thumb.jpg" loading="lazy" alt="Q. cerris. Grange road rugby stadium. Cambridge">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">12</span><em>Q. cerris</em>. Grange road rugby stadium. Cambridge</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-13.jpg">
+                        <img src="img/trip/trip-13-thumb.jpg" loading="lazy" alt="The author standing outside the Ethnographical Museum of Plovdiv">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">13</span>The author standing outside the Ethnographical Museum of Plovdiv</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-14.jpg">
+                        <img src="img/trip/trip-14-thumb.jpg" loading="lazy" alt="The author with Georgi Merev. Veliko Tarnovo during the Giro d’Italia">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">14</span>The author with Georgi Merev. Veliko Tarnovo during the Giro d’Italia</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-15.jpg">
+                        <img src="img/trip/trip-15-thumb.jpg" loading="lazy" alt="The majestic Q. × turneri of the Hortus Botanicus. Amsterdam">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">15</span>The majestic <em>Q.</em> &times; <em>turneri</em> of the Hortus Botanicus. Amsterdam</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-16.jpg">
+                        <img src="img/trip/trip-16-thumb.jpg" loading="lazy" alt="Q. suber. Hortus Botanicus. Amsterdam">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">16</span><em>Q. suber</em>. Hortus Botanicus. Amsterdam</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-17.jpg">
+                        <img src="img/trip/trip-17-thumb.jpg" loading="lazy" alt="The author cycling along Porto Conte. In the background Capo Caccia">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">17</span>The author cycling along Porto Conte. In the background Capo Caccia</figcaption>
+                </figure>
+                <figure class="trip-item">
+                    <a href="img/trip/trip-18.jpg">
+                        <img src="img/trip/trip-18-thumb.jpg" loading="lazy" alt="Down Monte Timidone. Alghero.">
+                    </a>
+                    <figcaption class="trip-cap"><span class="trip-cap-n">18</span>Down Monte Timidone. Alghero.</figcaption>
+                </figure>
+            </div>
 
             <div class="cv-section-title">Arrangement</div>
             <hr class="cv-rule">
